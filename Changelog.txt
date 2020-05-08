@@ -1,0 +1,8 @@
+# Changelog
+All changes/ updates for the application will be documented in this file
+
+05/08/2020
+Create the project
+First commit to Github
+Create overall structure (folders: activities, data, helpers, models)
+Add the simple login, register and main activity
