@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.amiele.myfutureme.R;
+import com.amiele.myfutureme.activities.authentication.register.RegisterActivity;
 import com.amiele.myfutureme.activities.main.MainActivity;
 
 public class LoginActivity extends AppCompatActivity {
@@ -21,5 +22,11 @@ public class LoginActivity extends AppCompatActivity {
     {
         Intent mainActivity = new Intent(this, MainActivity.class);
         startActivity(mainActivity);
+    }
+
+    public void onRegisterBtnClicked(View view)
+    {
+        Intent registerActivity = new Intent(this, RegisterActivity.class);
+        startActivity(registerActivity);
     }
 }
