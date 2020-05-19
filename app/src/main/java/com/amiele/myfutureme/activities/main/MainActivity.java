@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.amiele.myfutureme.R;
+import com.amiele.myfutureme.activities.work.WorkActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,7 +19,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void onTodoActionClicked(View view)
     {
-
+        Intent workActivity = new Intent(this, WorkActivity.class);
+        startActivity(workActivity);
     }
 
     public void onLifeStyleActionClicked(View view)
