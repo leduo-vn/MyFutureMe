@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/work_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="70dp">
+
+            <TextView
+                android:id="@+id/txt_work_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentBottom="false"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_toLeftOf="@+id/layoutProgressBar"
+                android:maxWidth="300dp"
+                android:text="Name Of Task"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <RelativeLayout
+                android:id="@+id/layoutProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="false"
+                android:layout_gravity="bottom|clip_horizontal"
+                android:layout_marginStart="0.5dp"
+                android:layout_marginLeft="0.5dp"
+                android:layout_marginTop="0.5dp"
+                android:layout_marginEnd="0.5dp"
+                android:layout_marginRight="0.5dp"
+                android:layout_marginBottom="0.5dp"
+                android:layout_toLeftOf="@id/imageView">
+
+
+                <ProgressBar
+                    android:id="@+id/progressBar1"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerInParent="true"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:progress="100"
+                    android:progressDrawable="@drawable/circle_progress"
+                    android:secondaryProgress="50" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar2"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:progress="100"
+                    android:progressDrawable="@drawable/circle_progress"
+                    android:secondaryProgress="50" />
+
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/imageView2"-->
+                <!--                    android:layout_width="80dp"-->
+                <!--                    android:layout_height="80dp"-->
+                <!--                    android:layout_centerInParent="true"-->
+                <!--                    android:layout_centerVertical="true"-->
+                <!--                    android:adjustViewBounds="true"-->
+                <!--                    app:srcCompat="@drawable/splashscreen_temp" />-->
+
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="15dp"
+                android:adjustViewBounds="true"
+                android:background="#000000"
+                android:contentDescription="image"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                tools:srcCompat="@android:drawable/arrow_down_float" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/detail_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/txt_work_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Description: fInish the SIT 378" />
+
+            <TextView
+                android:id="@+id/txt_work_overview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="There are 8 tasks and 7 has been finished" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

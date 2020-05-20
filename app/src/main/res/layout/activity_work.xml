@@ -8,6 +8,7 @@
 
 
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -15,66 +16,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <RelativeLayout
-            android:id="@+id/layoutProgressBar"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/work_task_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="0.5dp"
-            >
-
-
-            <ProgressBar
-                android:id="@+id/progressBar1"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_centerInParent="true"
-                android:layout_centerVertical="true"
-                android:indeterminate="false"
-                android:max="100"
-                android:progress="100"
-                android:secondaryProgress="50"
-                android:progressDrawable="@drawable/circle_progress" />
-
-            <ProgressBar
-                android:id="@+id/progressBar2"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_centerInParent="true"
-                android:layout_centerVertical="true"
-                android:indeterminate="false"
-                android:max="100"
-                android:progress="100"
-                android:secondaryProgress="50"
-                android:progressDrawable="@drawable/circle_progress"  />
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_centerInParent="true"
-                android:layout_centerVertical="true"
-                android:adjustViewBounds="true"
-                app:srcCompat="@drawable/splashscreen_temp" />
-
-<!--            <ProgressBar-->
-<!--                android:id="@+id/progressBar3"-->
-<!--                style="?android:attr/progressBarStyleHorizontal"-->
-<!--                android:layout_width="150dp"-->
-<!--                android:layout_height="150dp"-->
-<!--                android:layout_centerInParent="true"-->
-<!--                android:background="@drawable/rounded_button"-->
-<!--                android:indeterminate="false"-->
-<!--                android:max="100"-->
-<!--                android:progress="56"-->
-<!--                android:progressDrawable="@drawable/rounded_button" />-->
-
-
-
-        </RelativeLayout>
-
-
+            android:layout_alignParentTop="true"
+            android:scrollbars="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/button"
@@ -88,14 +38,57 @@
             android:background="@drawable/rounded_button"
             android:text="Add" />
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" />
-        </ScrollView>
     </RelativeLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--        <RelativeLayout-->
+    <!--            android:id="@+id/layoutProgressBar"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:layout_margin="0.5dp"-->
+    <!--            >-->
+
+
+    <!--            <ProgressBar-->
+    <!--                android:id="@+id/progressBar1"-->
+    <!--                style="?android:attr/progressBarStyleHorizontal"-->
+    <!--                android:layout_width="200dp"-->
+    <!--                android:layout_height="200dp"-->
+    <!--                android:layout_centerInParent="true"-->
+    <!--                android:layout_centerVertical="true"-->
+    <!--                android:indeterminate="false"-->
+    <!--                android:max="100"-->
+    <!--                android:progress="100"-->
+    <!--                android:secondaryProgress="50"-->
+    <!--                android:progressDrawable="@drawable/circle_progress" />-->
+
+    <!--            <ProgressBar-->
+    <!--                android:id="@+id/progressBar2"-->
+    <!--                style="?android:attr/progressBarStyleHorizontal"-->
+    <!--                android:layout_width="150dp"-->
+    <!--                android:layout_height="150dp"-->
+    <!--                android:layout_centerInParent="true"-->
+    <!--                android:layout_centerVertical="true"-->
+    <!--                android:indeterminate="false"-->
+    <!--                android:max="100"-->
+    <!--                android:progress="100"-->
+    <!--                android:secondaryProgress="50"-->
+    <!--                android:progressDrawable="@drawable/circle_progress"  />-->
+
+    <!--            <ImageView-->
+    <!--                android:id="@+id/imageView2"-->
+    <!--                android:layout_width="80dp"-->
+    <!--                android:layout_height="80dp"-->
+    <!--                android:layout_centerInParent="true"-->
+    <!--                android:layout_centerVertical="true"-->
+    <!--                android:adjustViewBounds="true"-->
+    <!--                app:srcCompat="@drawable/splashscreen_temp" />-->
+
+
+
+
+
+    <!--        </RelativeLayout>-->
