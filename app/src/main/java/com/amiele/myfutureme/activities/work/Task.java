@@ -4,6 +4,15 @@ import java.util.ArrayList;
 
 public class Task {
     int id;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     String description;
     ArrayList<SubTask> subTasksList;
     boolean isComplete;

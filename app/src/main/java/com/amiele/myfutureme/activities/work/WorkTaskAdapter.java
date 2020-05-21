@@ -1,5 +1,6 @@
 package com.amiele.myfutureme.activities.work;
 
+import android.app.Activity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.amiele.myfutureme.R;
@@ -19,7 +21,8 @@ import java.util.ArrayList;
 
 public class WorkTaskAdapter extends RecyclerView.Adapter<WorkTaskAdapter.WorkTaskViewHolder> {
     private ArrayList<WorkTask> workTaskList;
-    private OnItemClickListener listener;
+    private static OnItemClickListener listener;
+    private Activity activity;
     private int mExpandedPosition = -1;
 
     public interface OnItemClickListener {
@@ -33,12 +36,12 @@ public class WorkTaskAdapter extends RecyclerView.Adapter<WorkTaskAdapter.WorkTa
 
 
     public static class WorkTaskViewHolder extends RecyclerView.ViewHolder {
-        private int DetailVisibility;
         public TextView tvName;
         public TextView tvDescription;
         public TextView tvOverview;
         public LinearLayout llDetail;
         public ImageView imageView;
+        public RecyclerView taskRecycleView;
 
         public  WorkTaskViewHolder(View view) {
             super(view);
@@ -47,31 +50,30 @@ public class WorkTaskAdapter extends RecyclerView.Adapter<WorkTaskAdapter.WorkTa
             tvOverview = itemView.findViewById(R.id.txt_work_overview);
             imageView = itemView.findViewById(R.id.imageView);
             llDetail = itemView.findViewById(R.id.detail_layout);
+            taskRecycleView = itemView. findViewById(R.id.task_recycler_view);
 
-
-//            // Set onClick Event
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (listener != null) {
-//                        int position = getAdapterPosition();
-//                        if (position != RecyclerView.NO_POSITION) {
-//                            listener.onItemClick(position);
-////                            if (DetailVisibility == View.VISIBLE)
-////                                    llDetail.setVisibility(View.GONE);
-////                            else llDetail.setVisibility(View.VISIBLE);
+            // Set onClick Event
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(position);
 //
-//                        }
-//                    }
-//                }
-//            });
+
+                        }
+                    }
+                }
+            });
         }
 
 
     }
 
-    public WorkTaskAdapter(ArrayList<WorkTask> workTaskList) {
+    public WorkTaskAdapter(Activity activity,ArrayList<WorkTask> workTaskList) {
         this.workTaskList = workTaskList;
+        this.activity = activity;
     }
 
 
@@ -85,10 +87,27 @@ public class WorkTaskAdapter extends RecyclerView.Adapter<WorkTaskAdapter.WorkTa
 
 
     @Override
-    public void onBindViewHolder(@NonNull WorkTaskViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final WorkTaskViewHolder holder, final int position) {
         WorkTask currentWorkTask = workTaskList.get(position);
 
         // Assign values for image resource and text of layout
+        holder.taskRecycleView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activity);
+        final TaskAdapter adapter = new TaskAdapter(currentWorkTask.getTaskList());
+        holder.taskRecycleView.setLayoutManager(layoutManager);
+        holder.taskRecycleView.setAdapter(adapter);
+        adapter.setOnItemClickListener(
+                new TaskAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        adapter.notifyItemChanged(position);
+                        Log.i("info","here here");
+
+                        holder.itemView.performClick();
+                    }
+                }
+        );
+
         holder.tvName.setText(currentWorkTask.getName());
         holder.tvDescription.setText(currentWorkTask.getDescription());
         final boolean isExpanded = position==mExpandedPosition;

@@ -24,6 +24,15 @@ public class WorkTask {
     String name;
     String description;
     String dueDate;
+
+    public ArrayList<Task> getTaskList() {
+        return taskList;
+    }
+
+    public void setTaskList(ArrayList<Task> taskList) {
+        this.taskList = taskList;
+    }
+
     ArrayList<Task> taskList;
 
     public WorkTask(String name, String description)
@@ -38,6 +47,14 @@ public class WorkTask {
     {
         this.taskList = new ArrayList<>();
 
+    }
+
+    public void addTaskList(ArrayList<Task> taskList)
+    {
+        for (Task task:taskList)
+        {
+            this.taskList.add(new Task(task.description));
+        }
     }
 
     public void addTask(String description)
