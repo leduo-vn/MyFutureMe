@@ -9,12 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.work.WorkActivity"></activity>
+        <activity android:name=".activities.work.AddWorkTask"></activity>
+        <activity android:name=".activities.work.WorkActivity" />
         <activity
             android:name=".activities.authentication.register.RegisterActivity"
-            android:label="@string/title_activity_register">
-
-        </activity>
+            android:label="@string/title_activity_register"></activity>
         <activity
             android:name=".activities.authentication.login.LoginActivity"
             android:label="@string/title_activity_login">
@@ -29,7 +28,7 @@
             android:label="@string/title_activity_login" />
         <activity
             android:name=".activities.main.MainActivity"
-            android:label="@string/title_activity_main"></activity>
+            android:label="@string/title_activity_main" />
     </application>
 
 </manifest>

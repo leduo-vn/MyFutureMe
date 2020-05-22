@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 public class WorkTask {
     int id;
+    String name;
+    String description;
+    String dueDate;
+    ArrayList<Task> taskList;
 
     public String getName() {
         return name;
@@ -21,26 +25,15 @@ public class WorkTask {
         this.description = description;
     }
 
-    String name;
-    String description;
-    String dueDate;
-
     public ArrayList<Task> getTaskList() {
         return taskList;
     }
 
     public void setTaskList(ArrayList<Task> taskList) {
-        this.taskList = taskList;
-    }
-
-    ArrayList<Task> taskList;
-
-    public WorkTask(String name, String description)
-    {
-        this.name = name;
-        this.description =description;
-     //   this.dueDate = dueDate;
-        this.taskList = new ArrayList<>();
+        for (Task task:taskList)
+        {
+            this.taskList.add(new Task(task.description));
+        }
     }
 
     public WorkTask()
@@ -49,12 +42,11 @@ public class WorkTask {
 
     }
 
-    public void addTaskList(ArrayList<Task> taskList)
+    public WorkTask(String name, String description)
     {
-        for (Task task:taskList)
-        {
-            this.taskList.add(new Task(task.description));
-        }
+        this.name = name;
+        this.description =description;
+        this.taskList = new ArrayList<>();
     }
 
     public void addTask(String description)

@@ -8,7 +8,9 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,13 +23,16 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center_vertical"
             android:text="Task Name" />
 
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="100dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:indeterminate="false"
             android:max="100"
             android:progress="100"
@@ -36,14 +41,14 @@
 
         <ImageView
             android:id="@+id/imageView1"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:adjustViewBounds="true"
             android:background="#000000"
             android:contentDescription="image"
             android:padding="5dp"
             android:scaleType="fitCenter"
-            tools:srcCompat="@android:drawable/arrow_down_float" />
+            app:srcCompat="@android:drawable/ic_menu_edit" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

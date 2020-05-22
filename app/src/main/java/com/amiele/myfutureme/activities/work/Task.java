@@ -3,7 +3,11 @@ package com.amiele.myfutureme.activities.work;
 import java.util.ArrayList;
 
 public class Task {
+
     int id;
+    String description;
+    boolean isComplete;
+    ArrayList<SubTask> subTasksList;
 
     public String getDescription() {
         return description;
@@ -13,28 +17,22 @@ public class Task {
         this.description = description;
     }
 
-    String description;
-    ArrayList<SubTask> subTasksList;
-    boolean isComplete;
-
     class SubTask{
+
         int id;
         String description;
         double hour;
 
         public SubTask( String description){
-//            this.id = id;
             this.description = description;
             this.hour = 0;
         }
     }
 
     public Task( String description){
-//        this.id = id;
         this.description = description;
         this.subTasksList = new ArrayList<>();
         this.isComplete = false;
-
     }
 
     public void addSubTasks(String description)

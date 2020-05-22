@@ -1,6 +1,7 @@
 package com.amiele.myfutureme.activities.work;
 
 import android.app.Activity;
+import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +41,7 @@ public class WorkTaskAdapter extends RecyclerView.Adapter<WorkTaskAdapter.WorkTa
         public TextView tvDescription;
         public TextView tvOverview;
         public LinearLayout llDetail;
-        public ImageView imageView;
+        public ImageButton expandedButton;
         public RecyclerView taskRecycleView;
 
         public  WorkTaskViewHolder(View view) {
@@ -48,7 +49,7 @@ public class WorkTaskAdapter extends RecyclerView.Adapter<WorkTaskAdapter.WorkTa
             tvName = itemView.findViewById(R.id.txt_work_name);
             tvDescription = itemView.findViewById(R.id.txt_work_description);
             tvOverview = itemView.findViewById(R.id.txt_work_overview);
-            imageView = itemView.findViewById(R.id.imageView);
+            expandedButton = itemView.findViewById(R.id.expanded_icon);
             llDetail = itemView.findViewById(R.id.detail_layout);
             taskRecycleView = itemView. findViewById(R.id.task_recycler_view);
 
@@ -60,8 +61,6 @@ public class WorkTaskAdapter extends RecyclerView.Adapter<WorkTaskAdapter.WorkTa
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
                             listener.onItemClick(position);
-//
-
                         }
                     }
                 }
@@ -75,8 +74,6 @@ public class WorkTaskAdapter extends RecyclerView.Adapter<WorkTaskAdapter.WorkTa
         this.workTaskList = workTaskList;
         this.activity = activity;
     }
-
-
 
     @NonNull
     @Override
@@ -102,7 +99,6 @@ public class WorkTaskAdapter extends RecyclerView.Adapter<WorkTaskAdapter.WorkTa
                     public void onItemClick(int position) {
                         adapter.notifyItemChanged(position);
                         Log.i("info","here here");
-
                         holder.itemView.performClick();
                     }
                 }
@@ -111,15 +107,24 @@ public class WorkTaskAdapter extends RecyclerView.Adapter<WorkTaskAdapter.WorkTa
         holder.tvName.setText(currentWorkTask.getName());
         holder.tvDescription.setText(currentWorkTask.getDescription());
         final boolean isExpanded = position==mExpandedPosition;
-        holder.llDetail.setVisibility(isExpanded?View.VISIBLE:View.GONE);
+        if (isExpanded)
+        {
+            holder.llDetail.setVisibility(View.VISIBLE);
+            holder.expandedButton.setImageResource(android.R.drawable.arrow_up_float);
+        }
+        else
+        {
+            holder.llDetail.setVisibility(View.GONE);
+            holder.expandedButton.setImageResource(android.R.drawable.arrow_down_float);
 
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
+        }
+//        holder.llDetail.setVisibility(isExpanded?View.VISIBLE:View.GONE);
+
+        holder. itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              //  mExpandedPosition = isExpanded ? -1:position;
                 mExpandedPosition = isExpanded ? -1:position;
                 Log.i("info","clicked");
-
                 notifyItemChanged(position);
             }
         });

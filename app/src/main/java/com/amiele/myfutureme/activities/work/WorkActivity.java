@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.amiele.myfutureme.R;
 
@@ -21,18 +20,18 @@ public class WorkActivity extends AppCompatActivity {
 
         ArrayList<WorkTask> workTaskList = new ArrayList<>();
         ArrayList<Task> tasklist = new ArrayList<>();
-        tasklist.add(new Task("abc"));
-        tasklist.add(new Task("abcc"));
-        tasklist.add(new Task("abccc"));
+        tasklist.add(new Task("Task 1"));
+        tasklist.add(new Task("Task 2"));
+        tasklist.add(new Task("Task 3"));
 
-        workTaskList.add(new WorkTask("Name 1"," descripption 1 "));
-        workTaskList.add(new WorkTask("Name 11"," descripption 11 "));
-        workTaskList.add(new WorkTask("Name 111"," descripption 111 "));
-        workTaskList.add(new WorkTask("Name 1111"," descripption 1111 "));
-        workTaskList.get(0).addTaskList(tasklist);
-        workTaskList.get(1).addTaskList(tasklist);
-        workTaskList.get(2).addTaskList(tasklist);
-        workTaskList.get(3).addTaskList(tasklist);
+        workTaskList.add(new WorkTask("Work Task Name","Task description"));
+        workTaskList.add(new WorkTask("Work Task Name 1","Task description 1"));
+        workTaskList.add(new WorkTask("Work Task Name 2","Task description 2"));
+        workTaskList.add(new WorkTask("Work Task Name 3","Task description 3"));
+        workTaskList.get(0).setTaskList(tasklist);
+        workTaskList.get(1).setTaskList(tasklist);
+        workTaskList.get(2).setTaskList(tasklist);
+        workTaskList.get(3).setTaskList(tasklist);
 
 
         RecyclerView recyclerView = findViewById(R.id.work_task_recycler_view);
@@ -52,9 +51,7 @@ public class WorkActivity extends AppCompatActivity {
                 Log.i("info", String.valueOf(position));
             }
         });
-//        ProgressBar progressBar = findViewById(R.id.progressBar1);
-//        progressBar.setSecondaryProgress(50);
-//        progressBar.setProgress(100);
+
 
     }
 }
