@@ -6,6 +6,7 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
+        android:id="@+id/task_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -44,11 +45,20 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:adjustViewBounds="true"
-            android:background="#000000"
+            android:background="@android:color/transparent"
             android:contentDescription="image"
             android:padding="5dp"
             android:scaleType="fitCenter"
             app:srcCompat="@android:drawable/ic_menu_edit" />
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="10dp"
+        android:background="#9788BE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/task_layout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

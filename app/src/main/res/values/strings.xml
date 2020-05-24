@@ -18,4 +18,9 @@
     <string name="action_life_style">LifeStyle</string>
     <string name="action_motivation">Motivation</string>
     <string name="action_summary">Summary</string>
+
+    <string name="txt_work_task_description">Description: </string>
+    <string name="txt_work_task_overview">Overview: </string>
+
+
 </resources>

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.amiele.myfutureme.R;
+import com.amiele.myfutureme.activities.motivation.MotivationActivity;
 import com.amiele.myfutureme.activities.work.WorkActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void onMotivationActionClicked(View view)
     {
-
+        Intent motivationActivity = new Intent(this, MotivationActivity.class);
+        startActivity(motivationActivity);
     }
 
     public void onSummaryActionClicked(View view)

@@ -9,8 +9,8 @@
 
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/gridLayout"
-        android:layout_width="330dp"
-        android:layout_height="330dp"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
         android:layout_marginTop="8dp"
         android:padding="5dp"
         app:columnCount="2"
@@ -77,8 +77,7 @@
                 android:singleLine="true"
                 android:text="@string/action_life_style"
                 android:textSize="14sp"
-                android:textStyle="bold"
-                 />
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout

@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:id="@+id/work_layout"
-        android:layout_width="0dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
@@ -15,131 +15,274 @@
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/rounded_border"
-        android:orientation="vertical"
-        android:padding="4dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5dp"
+
+        app:cardPreventCornerOverlap="false"
+        app:contentPadding="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_purple_border"
-            android:gravity="center_vertical"
-            android:minHeight="90dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/txt_work_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="4"
-                android:maxWidth="300dp"
-                android:padding="10dp"
-                android:text="Name Of Task"
-                android:textColor="@android:color/black"
-                android:textSize="20sp" />
-
-            <RelativeLayout
-                android:id="@+id/layoutProgressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="0.5dp"
-                android:layout_marginEnd="0.5dp"
-                android:layout_weight="1">
-
-
-                <ProgressBar
-                    android:id="@+id/progressBar1"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_centerInParent="true"
-                    android:indeterminate="false"
-                    android:max="100"
-                    android:progress="100"
-                    android:progressDrawable="@drawable/circle_progress"
-                    android:secondaryProgress="50" />
-
-                <ProgressBar
-                    android:id="@+id/progressBar2"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_centerInParent="true"
-                    android:indeterminate="false"
-                    android:max="100"
-                    android:progress="100"
-                    android:progressDrawable="@drawable/circle_progress"
-                    android:secondaryProgress="50" />
-
-                <!--                <ImageView-->
-                <!--                    android:id="@+id/imageView2"-->
-                <!--                    android:layout_width="80dp"-->
-                <!--                    android:layout_height="80dp"-->
-                <!--                    android:layout_centerInParent="true"-->
-                <!--                    android:layout_centerVertical="true"-->
-                <!--                    android:adjustViewBounds="true"-->
-                <!--                    app:srcCompat="@drawable/splashscreen_temp" />-->
-
-
-            </RelativeLayout>
-
-            <ImageButton
-                android:id="@+id/expanded_icon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:adjustViewBounds="true"
-                android:background="#000000"
-                android:contentDescription="image"
-                android:padding="5dp"
-                android:scaleType="fitCenter"
-                app:srcCompat="@android:drawable/arrow_down_float" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/detail_layout"
+            android:id="@+id/work_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#C9A5BB"
+
+
+            android:background="@drawable/purple_gradient"
             android:orientation="vertical"
-            android:padding="15dp"
-            android:visibility="visible">
+            android:padding="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-
-            <TextView
-                android:id="@+id/txt_work_description"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Description: fInish the SIT 378" />
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:minHeight="90dp"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/txt_work_overview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="There are 8 tasks and 7 has been finished" />
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="70dp"
+                    android:layout_height="10dp"
+                    android:layout_marginLeft="-20dp"
+                    android:layout_marginRight="-15dp"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:progress="100"
+                    android:progressDrawable="@drawable/horizonal_bar_progress"
+                    android:rotation="-90"
+                    android:secondaryProgress="50" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="#673AB7" />
+                <TextView
+                    android:id="@+id/txt_work_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="8"
+                    android:maxWidth="300dp"
+                    android:padding="10dp"
+                    android:text="Name Of Task"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:fontFamily="@font/lemonada" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/task_recycler_view"
+
+                <ImageButton
+                    android:id="@+id/expanded_icon"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="10dp"
+
+                    android:adjustViewBounds="true"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="image"
+                    android:padding="5dp"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@android:drawable/arrow_down_float" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/detail_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+
+                android:background="#B2A5CF"
+                android:orientation="vertical"
+                android:padding="15dp"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@string/txt_work_task_description"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txt_work_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@string/txt_work_task_overview"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txt_work_overview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="" />
+                </LinearLayout>
+
+
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/task_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded_gray_button"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <ImageButton
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginRight="10dp"
+
+                            android:adjustViewBounds="true"
+                            android:background="@android:color/transparent"
+                            android:contentDescription="image"
+                            android:padding="5dp"
+                            android:scaleType="fitCenter"
+                            app:srcCompat="@android:drawable/ic_menu_edit" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Edit Goal"
+                            android:textColor="?android:attr/colorBackground"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded_gray_button"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <ImageButton
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginRight="10dp"
+
+                            android:adjustViewBounds="true"
+                            android:background="@android:color/transparent"
+                            android:contentDescription="image"
+                            android:padding="5dp"
+                            android:scaleType="fitCenter"
+                            app:srcCompat="@android:drawable/arrow_down_float" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Add Task"
+                            android:textColor="?android:attr/colorBackground"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--<RelativeLayout-->
+<!--android:id="@+id/layoutProgressBar"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_gravity="center_vertical"-->
+<!--android:layout_marginStart="0.5dp"-->
+<!--android:layout_marginEnd="0.5dp"-->
+<!--android:layout_weight="1">-->
+
+
+<!--<ProgressBar-->
+<!--    android:id="@+id/progressBar1"-->
+<!--    style="?android:attr/progressBarStyleHorizontal"-->
+<!--    android:layout_width="70dp"-->
+<!--    android:layout_height="70dp"-->
+<!--    android:layout_centerInParent="true"-->
+<!--    android:indeterminate="false"-->
+<!--    android:max="100"-->
+<!--    android:progress="100"-->
+<!--    android:progressDrawable="@drawable/circle_progress"-->
+<!--    android:secondaryProgress="50" />-->
+
+<!--<ProgressBar-->
+<!--    android:id="@+id/progressBar2"-->
+<!--    style="?android:attr/progressBarStyleHorizontal"-->
+<!--    android:layout_width="50dp"-->
+<!--    android:layout_height="50dp"-->
+<!--    android:layout_centerInParent="true"-->
+<!--    android:indeterminate="false"-->
+<!--    android:max="100"-->
+<!--    android:progress="100"-->
+<!--    android:progressDrawable="@drawable/circle_progress"-->
+<!--    android:secondaryProgress="50" />-->
+
+<!--&lt;!&ndash;                <ImageView&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:id="@+id/imageView2"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_width="80dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_height="80dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_centerInParent="true"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_centerVertical="true"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:adjustViewBounds="true"&ndash;&gt;-->
+<!--&lt;!&ndash;                    app:srcCompat="@drawable/splashscreen_temp" />&ndash;&gt;-->
+
+
+<!--</RelativeLayout>-->
