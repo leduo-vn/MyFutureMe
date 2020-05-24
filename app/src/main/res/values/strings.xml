@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyFutureMe</string>
+    <string name="app_name">My Future Me</string>
     <string name="title_activity_login">Login</string>
     <string name="title_activity_register">Register</string>
     <string name="title_activity_main">My Future Me</string>

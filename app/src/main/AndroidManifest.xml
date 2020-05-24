@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.motivation.MotivationActivity"></activity>
-        <activity android:name=".activities.work.AddWorkTask" />
+        <activity android:name=".activities.work.AddWorkTaskActivity" />
         <activity android:name=".activities.work.WorkActivity" />
         <activity
             android:name=".activities.authentication.register.RegisterActivity"

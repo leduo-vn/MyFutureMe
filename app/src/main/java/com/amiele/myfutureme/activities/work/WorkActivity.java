@@ -4,14 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.amiele.myfutureme.R;
 import com.amiele.myfutureme.activities.motivation.JsonPlaceHolderApi;
+import com.amiele.myfutureme.activities.motivation.MotivationActivity;
 import com.amiele.myfutureme.activities.motivation.Quote;
 
 import java.util.ArrayList;
@@ -67,7 +70,11 @@ public class WorkActivity extends AppCompatActivity {
 
     }
 
-
+    public void onAddWorkTaskClicked(View view)
+    {
+        Intent addWorkTaskActivity = new Intent(this, AddWorkTaskActivity.class);
+        startActivity(addWorkTaskActivity);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
