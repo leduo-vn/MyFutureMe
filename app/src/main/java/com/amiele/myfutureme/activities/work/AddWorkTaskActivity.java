@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.amiele.myfutureme.R;
 
@@ -32,11 +34,40 @@ public class AddWorkTaskActivity extends AppCompatActivity {
         adapter = new TaskAdapter(taskList);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new TaskAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Task task) {
+                // adapter.notifyItemChanged;
+                //  Log.i("info", String.valueOf(task.getDescription()));
+                //Toast.makeText(, task.getDescription(),Toast.LENGTH_SHORT).show();
+                DisplayToast(task.getDescription());
+            }
+        });
     }
 
+    private  void DisplayToast(String text)
+    {
+        Toast.makeText(this,text,Toast.LENGTH_SHORT).show();
+    }
     public void onAddTaskClicked(View view)
     {
         taskList.add(new Task("new task"));
         adapter.notifyDataSetChanged();
+    }
+
+
+    public void onCancelClicked(View view)
+    {
+        Intent workActivity = new Intent(this, WorkActivity.class);
+        startActivity(workActivity);
+        finish();
+    }
+
+    public void onAddGoalClicked(View view)
+    {
+        Intent workActivity = new Intent(this, WorkActivity.class);
+        startActivity(workActivity);
+        finish();
     }
 }

@@ -6,11 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.amiele.myfutureme.R;
@@ -19,12 +17,13 @@ import java.util.ArrayList;
 
 public class TaskAdapter  extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     private ArrayList<Task> taskList;
-    private static TaskAdapter.OnItemClickListener listener;
+    private static TaskAdapter.OnItemClickListener listener= null;
+    private static WorkTaskAdapter.OnItemClickListener workTaskListener= null;
 
 
 
     public interface OnItemClickListener {
-        void onItemClick(int position);
+        void onItemClick(Task task);
     }
 
     public void setOnItemClickListener(TaskAdapter.OnItemClickListener listener) {
@@ -42,19 +41,21 @@ public class TaskAdapter  extends RecyclerView.Adapter<TaskAdapter.TaskViewHolde
             tvDescription = itemView.findViewById(R.id.txt_task_description);
             imageView = itemView.findViewById((R.id.imageView1));
 
-            // Set onClick Event
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(position);
-                            Log.i("info","here");
-                        }
-                    }
-                }
-            });
+//            // Set onClick Event
+//            imageView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (listener != null) {
+//                        int position = getAdapterPosition();
+//                        if (position != RecyclerView.NO_POSITION) {
+//                            listener.onItemClick(position);
+//                            Log.i("info","here");
+//                        }
+//                    }
+//                }
+//            });
+
+
 
         }
 
@@ -63,6 +64,13 @@ public class TaskAdapter  extends RecyclerView.Adapter<TaskAdapter.TaskViewHolde
 
     public TaskAdapter(ArrayList<Task> taskList) {
         this.taskList = taskList;
+    }
+
+    public TaskAdapter(ArrayList<Task> taskList, WorkTaskAdapter.OnItemClickListener workTaskListener)
+    {
+        this.taskList = taskList;
+        this.workTaskListener = workTaskListener;
+
     }
 
 
@@ -83,7 +91,18 @@ public class TaskAdapter  extends RecyclerView.Adapter<TaskAdapter.TaskViewHolde
         Task currentTask = taskList.get(position);
         holder.tvDescription.setText(currentTask.getDescription());
 
+        // Set onClick Event
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentTask!=null && workTaskListener!=null)
+                        workTaskListener.onItemClick(currentTask);
 
+                else
+                    if (currentTask!=null && listener !=null)
+                       listener.onItemClick(currentTask);
+            }
+        });
 
     }
 

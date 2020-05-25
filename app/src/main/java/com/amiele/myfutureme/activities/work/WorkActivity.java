@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amiele.myfutureme.R;
 import com.amiele.myfutureme.activities.motivation.JsonPlaceHolderApi;
@@ -70,10 +71,12 @@ public class WorkActivity extends AppCompatActivity {
 
     }
 
+    // Consider the startActivityForResult
     public void onAddWorkTaskClicked(View view)
     {
         Intent addWorkTaskActivity = new Intent(this, AddWorkTaskActivity.class);
         startActivity(addWorkTaskActivity);
+        finish();
     }
 
     @Override
@@ -114,12 +117,19 @@ public class WorkActivity extends AppCompatActivity {
         // When item clicked, open the fragment of chosen category
         adapter.setOnItemClickListener(new WorkTaskAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int position) {
-                adapter.notifyItemChanged(position);
-                Log.i("info", String.valueOf(position));
+            public void onItemClick(Task task) {
+               // adapter.notifyItemChanged;
+              //  Log.i("info", String.valueOf(task.getDescription()));
+                //Toast.makeText(, task.getDescription(),Toast.LENGTH_SHORT).show();
+                DisplayToast(task.getDescription());
             }
         });
 
 
+    }
+
+    private  void DisplayToast(String text)
+    {
+        Toast.makeText(this,text,Toast.LENGTH_SHORT).show();
     }
 }
