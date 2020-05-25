@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/txt_task_description"
+            android:id="@+id/txt_subtask_description"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"

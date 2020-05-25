@@ -41,7 +41,7 @@ public class AddWorkTaskActivity extends AppCompatActivity {
                 // adapter.notifyItemChanged;
                 //  Log.i("info", String.valueOf(task.getDescription()));
                 //Toast.makeText(, task.getDescription(),Toast.LENGTH_SHORT).show();
-                DisplayToast(task.getDescription());
+                DisplayToast(task.getName());
             }
         });
     }

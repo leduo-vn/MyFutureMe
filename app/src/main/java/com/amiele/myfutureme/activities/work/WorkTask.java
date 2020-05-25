@@ -32,7 +32,7 @@ public class WorkTask {
     public void setTaskList(ArrayList<Task> taskList) {
         for (Task task:taskList)
         {
-            this.taskList.add(new Task(task.description));
+            this.taskList.add(new Task(task.name));
         }
     }
 

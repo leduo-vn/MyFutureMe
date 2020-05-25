@@ -6,16 +6,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amiele.myfutureme.R;
 import com.amiele.myfutureme.activities.motivation.JsonPlaceHolderApi;
-import com.amiele.myfutureme.activities.motivation.MotivationActivity;
 import com.amiele.myfutureme.activities.motivation.Quote;
 
 import java.util.ArrayList;
@@ -121,7 +117,7 @@ public class WorkActivity extends AppCompatActivity {
                // adapter.notifyItemChanged;
               //  Log.i("info", String.valueOf(task.getDescription()));
                 //Toast.makeText(, task.getDescription(),Toast.LENGTH_SHORT).show();
-                DisplayToast(task.getDescription());
+                DisplayToast(task.getName());
             }
         });
 
@@ -130,6 +126,9 @@ public class WorkActivity extends AppCompatActivity {
 
     private  void DisplayToast(String text)
     {
+
+        Intent updateTaskActivity = new Intent(this, UpdateTaskActivity.class);
+        startActivity(updateTaskActivity);
         Toast.makeText(this,text,Toast.LENGTH_SHORT).show();
     }
 }

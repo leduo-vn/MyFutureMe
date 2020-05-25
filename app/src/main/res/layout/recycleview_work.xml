@@ -45,6 +45,7 @@
                 android:minHeight="90dp"
                 android:orientation="horizontal">
 
+
                 <ProgressBar
                     android:id="@+id/progressBar"
                     style="@style/Widget.AppCompat.ProgressBar.Horizontal"

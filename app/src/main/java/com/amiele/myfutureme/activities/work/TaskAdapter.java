@@ -1,7 +1,5 @@
 package com.amiele.myfutureme.activities.work;
 
-import android.app.Activity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +36,7 @@ public class TaskAdapter  extends RecyclerView.Adapter<TaskAdapter.TaskViewHolde
 
         public  TaskViewHolder(View view) {
             super(view);
-            tvDescription = itemView.findViewById(R.id.txt_task_description);
+            tvDescription = itemView.findViewById(R.id.txt_subtask_description);
             imageView = itemView.findViewById((R.id.imageView1));
 
 //            // Set onClick Event
@@ -89,7 +87,7 @@ public class TaskAdapter  extends RecyclerView.Adapter<TaskAdapter.TaskViewHolde
     @Override
     public void onBindViewHolder(@NonNull TaskAdapter.TaskViewHolder holder, final int position) {
         Task currentTask = taskList.get(position);
-        holder.tvDescription.setText(currentTask.getDescription());
+        holder.tvDescription.setText(currentTask.getName());
 
         // Set onClick Event
         holder.imageView.setOnClickListener(new View.OnClickListener() {
