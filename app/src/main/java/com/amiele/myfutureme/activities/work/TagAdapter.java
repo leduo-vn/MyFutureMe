@@ -67,7 +67,7 @@ public class TagAdapter  extends RecyclerView.Adapter<TagAdapter.TagViewHolder> 
 
        //set value
         holder.tvName.setText(currentTag.getName());
-        holder.tvName.setBackgroundColor(Color.parseColor(currentTag.getColor()));
+        holder.tvName.setBackgroundColor(currentTag.getColor());
     }
 
     /**

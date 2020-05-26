@@ -19,8 +19,67 @@
             android:id="@+id/tag_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:scrollbars="vertical" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+
+            <EditText
+                android:id="@+id/txt_tag_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:ems="10"
+                android:text="Tag name"
+                android:textSize="10sp" />
+
+            <ImageButton
+                android:id="@+id/action_choose_tag_color"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:adjustViewBounds="true"
+                android:background="@android:color/transparent"
+                android:contentDescription="image"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@android:drawable/ic_input_add" />
+
+            <LinearLayout
+                android:id="@+id/action_add_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_gray_button"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <ImageButton
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+
+                    android:adjustViewBounds="true"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="image"
+                    android:padding="5dp"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@android:drawable/arrow_down_float" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add Tag"
+                    android:textColor="?android:attr/colorBackground"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 

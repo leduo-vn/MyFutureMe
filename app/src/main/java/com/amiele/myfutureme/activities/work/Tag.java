@@ -2,9 +2,9 @@ package com.amiele.myfutureme.activities.work;
 
 public class Tag {
     private String name;
-    private String color;
+    private int color;
 
-    public Tag(String name, String color)
+    public Tag(String name, int color)
     {
         this.name = name;
         this.color = color;
@@ -18,11 +18,11 @@ public class Tag {
         this.name = name;
     }
 
-    public String getColor() {
+    public int getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(int color) {
         this.color = color;
     }
 }

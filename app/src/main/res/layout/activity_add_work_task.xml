@@ -114,33 +114,33 @@
                     android:scaleType="fitCenter"
                     app:srcCompat="@android:drawable/ic_input_add" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:gravity="center"-->
+<!--                    android:orientation="horizontal">-->
 
 
-                    <EditText
-                        android:id="@+id/txt_tag_name"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:text="Tag name"
-                        android:textSize="10sp" />
+<!--                    <EditText-->
+<!--                        android:id="@+id/txt_tag_name"-->
+<!--                        android:layout_width="100dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:ems="10"-->
+<!--                        android:text="Tag name"-->
+<!--                        android:textSize="10sp" />-->
 
-                    <ImageButton
-                        android:id="@+id/action_choose_tag_color"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:adjustViewBounds="true"
-                        android:background="@android:color/transparent"
-                        android:contentDescription="image"
-                        android:padding="5dp"
-                        android:scaleType="fitCenter"
-                        app:srcCompat="@android:drawable/ic_input_add" />
+<!--                    <ImageButton-->
+<!--                        android:id="@+id/action_choose_tag_color"-->
+<!--                        android:layout_width="30dp"-->
+<!--                        android:layout_height="30dp"-->
+<!--                        android:adjustViewBounds="true"-->
+<!--                        android:background="@android:color/transparent"-->
+<!--                        android:contentDescription="image"-->
+<!--                        android:padding="5dp"-->
+<!--                        android:scaleType="fitCenter"-->
+<!--                        app:srcCompat="@android:drawable/ic_input_add" />-->
 
-                </LinearLayout>
+<!--                </LinearLayout>-->
 
 
             </LinearLayout>

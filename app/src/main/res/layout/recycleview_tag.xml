@@ -35,7 +35,7 @@
             android:contentDescription="image"
             android:padding="5dp"
             android:scaleType="fitCenter"
-            app:srcCompat="@android:drawable/ic_menu_edit" />
+            app:srcCompat="@android:drawable/checkbox_on_background" />
 
     </LinearLayout>
 
