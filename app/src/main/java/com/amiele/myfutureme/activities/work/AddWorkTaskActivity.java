@@ -1,11 +1,15 @@
 package com.amiele.myfutureme.activities.work;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -57,17 +61,38 @@ public class AddWorkTaskActivity extends AppCompatActivity {
     }
 
 
-    public void onCancelClicked(View view)
-    {
-        Intent workActivity = new Intent(this, WorkActivity.class);
-        startActivity(workActivity);
-        finish();
+//    public void onCancelClicked(View view)
+//    {
+//        Intent workActivity = new Intent(this, WorkActivity.class);
+//        startActivity(workActivity);
+//        finish();
+//    }
+//
+//    public void onAddGoalClicked(View view)
+//    {
+//        Intent workActivity = new Intent(this, WorkActivity.class);
+//        startActivity(workActivity);
+//        finish();
+//    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.add_goal_menu,menu);
+        return true;
     }
 
-    public void onAddGoalClicked(View view)
-    {
-        Intent workActivity = new Intent(this, WorkActivity.class);
-        startActivity(workActivity);
-        finish();
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_done:
+                Toast.makeText(this, "Done selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_cancel:
+                Toast.makeText(this, "Cancel selected", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

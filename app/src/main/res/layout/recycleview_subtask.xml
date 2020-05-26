@@ -16,6 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/txt_et_sub_task_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
@@ -36,32 +37,71 @@
                 android:textSize="12sp" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/txt_hour"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/rounded_blue_button"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="Hour" />
 
-        <TextView
-            android:id="@+id/txt_sub_task_description"
+        <ViewSwitcher
+            android:id="@+id/hour_sub_task_switch_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="2"
+            android:inAnimation="@android:anim/slide_in_left">
+
+            <TextView
+                android:id="@+id/txt_sub_task_hour"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/rounded_blue_button"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Hour" />
+
+            <EditText
+                android:id="@+id/et_sub_task_hour"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/rounded_blue_button"
+                android:ems="10"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Hour" />
+        </ViewSwitcher>
+
+
+        <ViewSwitcher
+            android:id="@+id/description_sub_task_switch_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:text="SubTask Description" />
+            android:inAnimation="@android:anim/slide_in_left">
+
+            <TextView
+                android:id="@+id/txt_sub_task_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="SubTask Description" />
+
+            <EditText
+                android:id="@+id/et_sub_task_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/colorBackground"
+                android:ems="10"
+                android:inputType="textMultiLine|text"
+                android:maxLines="3"
+                android:singleLine="false" />
+        </ViewSwitcher>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/imageView1"
+            <ImageButton
+                android:id="@+id/action_update_sub_task"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:adjustViewBounds="true"
@@ -72,6 +112,7 @@
                 app:srcCompat="@android:drawable/ic_menu_edit" />
 
             <ImageView
+                android:id="@+id/action_delete_sub_task"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:adjustViewBounds="true"

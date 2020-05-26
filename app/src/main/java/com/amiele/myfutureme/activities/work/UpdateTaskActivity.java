@@ -1,19 +1,25 @@
 package com.amiele.myfutureme.activities.work;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import com.amiele.myfutureme.R;
 
@@ -27,7 +33,6 @@ public class UpdateTaskActivity extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener mDateSetListener;
     SubTaskAdapter adapter;
     Task task;
-    ProgressBar mprogressBar;
     SeekBar seekBar;
 
 
@@ -44,7 +49,7 @@ public class UpdateTaskActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        adapter = new SubTaskAdapter(task.getSubTasksList());
+        adapter = new SubTaskAdapter(this,task.getSubTasksList());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
@@ -85,16 +90,14 @@ public class UpdateTaskActivity extends AppCompatActivity {
         };
 
         TextView textView = findViewById(R.id.txt_progress);
-        mprogressBar = findViewById(R.id.update_progress_bar);
-        mprogressBar.setSecondaryProgress(30);
         seekBar = findViewById(R.id.seekBar);
+        ImageButton btn_progress_update = findViewById(R.id.action_update_progress);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-             //   progressBar.setSecondaryProgress(progress);
                 textView.setText("" + Integer.toString(progress) + "%");
-
+                btn_progress_update.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -105,6 +108,33 @@ public class UpdateTaskActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
+            }
+        });
+
+
+        btn_progress_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Store
+                btn_progress_update.setVisibility(View.INVISIBLE);
+            }
+        });
+
+
+        ViewSwitcher viewSwitcher = findViewById(R.id.name_view_switcher);
+        TextView nameTextView =  findViewById(R.id.txt_task_name);
+        EditText nameEditText = findViewById(R.id.et_task_name);
+        ImageButton btnUpdateTaskName = findViewById(R.id.action_update_name);
+        btnUpdateTaskName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                if (viewSwitcher.getCurrentView() != nameEditText){
+                    viewSwitcher.showNext();
+                    btnUpdateTaskName.setImageResource(android.R.drawable.checkbox_on_background);
+                } else if (viewSwitcher.getCurrentView() != nameTextView){
+                    btnUpdateTaskName.setImageResource((android.R.drawable.ic_menu_edit));
+                    viewSwitcher.showPrevious();
+                }
             }
         });
     }
@@ -149,5 +179,24 @@ public class UpdateTaskActivity extends AppCompatActivity {
         return date;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.update_task_menu,menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_done:
+                Toast.makeText(this, "Done selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_delete:
+                Toast.makeText(this, "Delete selected", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }
