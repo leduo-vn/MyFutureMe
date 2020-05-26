@@ -17,6 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amiele.myfutureme.R;
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 
 import java.util.ArrayList;
 
@@ -27,6 +31,7 @@ public class AddWorkTaskActivity extends AppCompatActivity {
     ArrayList<Tag> tagList = new ArrayList<>();
     TextView tvTagName;
     TaskAdapter adapter;
+    TagAdapter tagAdapter;
 
 
     @Override
@@ -34,7 +39,9 @@ public class AddWorkTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_work_task);
 
-
+        tagList.add(new Tag("Friend",Color.parseColor("#EEDBAA")));
+        tagList.add(new Tag("LifeStyle",Color.parseColor("#BDEEAA")));
+        tagList.add(new Tag("Job",Color.parseColor("#86EED1")));
 
         taskList.add(new Task("Task 1"));
         taskList.add(new Task("Task 2"));
@@ -59,7 +66,16 @@ public class AddWorkTaskActivity extends AppCompatActivity {
         });
 
 
+        RecyclerView tagRecyclerView = findViewById(R.id.tag_recycler_view);
+        recyclerView.setHasFixedSize(true);
 
+//        FlexboxLayoutManager tagLayoutManager = new FlexboxLayoutManager(this);
+//        tagLayoutManager.setFlexDirection(FlexDirection.ROW);
+//        tagLayoutManager.setJustifyContent(JustifyContent.FLEX_START);
+//        tagLayoutManager.setFlexWrap(FlexWrap.WRAP);
+//        tagAdapter = new TagAdapter(tagList);
+//        tagRecyclerView.setLayoutManager(tagLayoutManager);
+//        tagRecyclerView.setAdapter(tagAdapter);
 
     }
 
