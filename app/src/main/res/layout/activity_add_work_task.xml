@@ -109,6 +109,7 @@
                     android:adjustViewBounds="true"
                     android:background="@android:color/transparent"
                     android:contentDescription="image"
+                    android:onClick="onAddTagBtnClicked"
                     android:padding="5dp"
                     android:scaleType="fitCenter"
                     app:srcCompat="@android:drawable/ic_input_add" />
@@ -121,6 +122,7 @@
 
 
                     <EditText
+                        android:id="@+id/txt_tag_name"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:ems="10"
