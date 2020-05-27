@@ -254,7 +254,7 @@
                         android:layout_weight="1">
 
                         <EditText
-                            android:id="@+id/et_goal_due_date"
+                            android:id="@+id/add_goal_et_goal_due_date"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -263,9 +263,9 @@
                             android:inputType="none" />
 
                         <ImageButton
-                            android:id="@+id/action_date_picker"
-                            android:layout_width="30dp"
+                            android:id="@+id/add_goal_ibtn_date_pick"
 
+                            android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:adjustViewBounds="true"
                             android:background="@android:color/transparent"
@@ -347,7 +347,7 @@
                     </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/task_recycler_view"
+                        android:id="@+id/add_goal_rv_task"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scrollbars="vertical"

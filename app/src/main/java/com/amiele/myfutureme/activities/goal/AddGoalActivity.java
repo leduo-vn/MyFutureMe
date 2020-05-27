@@ -32,22 +32,21 @@ public class AddGoalActivity extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private TaskAdapter mAdapter;
 
-    private RecyclerView recyclerView;
-    private ImageButton datePickerBtn;
-    private EditText et_date;
+    private RecyclerView mRvTask;
+    private ImageButton mIBtnDatePick;
+    private EditText mEtGoalDueDate;
 
     private void InitializeView()
     {
-        recyclerView = findViewById(R.id.task_recycler_view);
-        datePickerBtn = findViewById(R.id.action_date_picker);
-        et_date = findViewById(R.id.et_goal_due_date);
-
+        mRvTask = findViewById(R.id.add_goal_rv_task);
+        mIBtnDatePick = findViewById(R.id.add_goal_ibtn_date_pick);
+        mEtGoalDueDate = findViewById(R.id.add_goal_et_goal_due_date);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_work_task);
+        setContentView(R.layout.activity_add_goal);
 
         InitializeView();
 
@@ -61,17 +60,16 @@ public class AddGoalActivity extends AppCompatActivity {
         mTaskList.add(new Task("Task 2"));
         mTaskList.add(new Task("Task 3"));
 
-        recyclerView.setHasFixedSize(true);
+        mRvTask.setHasFixedSize(true);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mAdapter = new TaskAdapter(mTaskList);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(mAdapter);
+        mRvTask.setLayoutManager(layoutManager);
+        mRvTask.setAdapter(mAdapter);
 
         mAdapter.setOnItemClickListener(task -> DisplayToast(task.getName()));
 
-
-        datePickerBtn.setOnClickListener(v -> {
+        mIBtnDatePick.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
@@ -85,7 +83,7 @@ public class AddGoalActivity extends AppCompatActivity {
         mDateSetListener = (view, year, month, dayOfMonth) -> {
             Date date = DateConverter.ConvertFromYearMonthDayToDate(year,month,dayOfMonth);
             String stDate = DateConverter.GetDayOfWeekFromDate(date)+", " + DateConverter.GetDayMonthYearFromDate(date);
-            et_date.setText(stDate);
+            mEtGoalDueDate.setText(stDate);
         };
 
 
