@@ -1,4 +1,4 @@
-package com.amiele.myfutureme.activities.work;
+package com.amiele.myfutureme.activities.goal;
 
 import java.util.ArrayList;
 
@@ -6,6 +6,8 @@ public class Task {
 
     int id;
     String name;
+    int progress;
+
     boolean isComplete;
 
     public int getProgress() {
@@ -16,7 +18,7 @@ public class Task {
         this.progress = progress;
     }
 
-    int progress;
+
 
     public ArrayList<SubTask> getSubTasksList() {
         return subTasksList;

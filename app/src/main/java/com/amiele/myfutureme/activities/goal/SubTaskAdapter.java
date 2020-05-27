@@ -1,4 +1,4 @@
-package com.amiele.myfutureme.activities.work;
+package com.amiele.myfutureme.activities.goal;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -20,7 +20,6 @@ import com.amiele.myfutureme.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class SubTaskAdapter  extends RecyclerView.Adapter<SubTaskAdapter.SubTaskViewHolder> {
     private ArrayList<SubTask> subTaskList;

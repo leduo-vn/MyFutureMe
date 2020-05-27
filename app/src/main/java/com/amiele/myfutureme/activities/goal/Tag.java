@@ -1,4 +1,4 @@
-package com.amiele.myfutureme.activities.work;
+package com.amiele.myfutureme.activities.goal;
 
 public class Tag {
     private String name;

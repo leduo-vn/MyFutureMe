@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.amiele.myfutureme.R;
 import com.amiele.myfutureme.activities.motivation.MotivationActivity;
-import com.amiele.myfutureme.activities.work.WorkActivity;
+import com.amiele.myfutureme.activities.goal.WorkActivity;
 
 public class MainActivity extends AppCompatActivity {
 

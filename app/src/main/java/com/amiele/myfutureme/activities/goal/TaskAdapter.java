@@ -1,4 +1,4 @@
-package com.amiele.myfutureme.activities.work;
+package com.amiele.myfutureme.activities.goal;
 
 import android.view.LayoutInflater;
 import android.view.View;

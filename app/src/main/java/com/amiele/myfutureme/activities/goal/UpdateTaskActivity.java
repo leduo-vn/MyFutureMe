@@ -1,4 +1,4 @@
-package com.amiele.myfutureme.activities.work;
+package com.amiele.myfutureme.activities.goal;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

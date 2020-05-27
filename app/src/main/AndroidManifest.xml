@@ -11,11 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.work.AddTagActivity"></activity>
-        <activity android:name=".activities.work.UpdateTaskActivity" />
+        <activity android:name=".activities.goal.AddTagActivity"></activity>
+        <activity android:name=".activities.goal.UpdateTaskActivity" />
         <activity android:name=".activities.motivation.MotivationActivity" />
-        <activity android:name=".activities.work.AddWorkTaskActivity" />
-        <activity android:name=".activities.work.WorkActivity" />
+        <activity android:name=".activities.goal.AddWorkTaskActivity" />
+        <activity android:name=".activities.goal.WorkActivity" />
         <activity
             android:name=".activities.authentication.register.RegisterActivity"
             android:label="@string/title_activity_register" />
