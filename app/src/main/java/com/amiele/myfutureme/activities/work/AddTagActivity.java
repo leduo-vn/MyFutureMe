@@ -3,7 +3,6 @@ package com.amiele.myfutureme.activities.work;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,49 +26,46 @@ import java.util.ArrayList;
 import petrov.kristiyan.colorpicker.ColorPicker;
 
 public class AddTagActivity extends AppCompatActivity {
-    ArrayList<Tag> tagList = new ArrayList<>();
-    TagAdapter adapter;
-    TextView tvTagName;
-    LinearLayout llAddTag;
+    ArrayList<Tag> tagList;
+    
+    private TagAdapter mAdapter;
+    private RecyclerView mRvTag;
+    private TextView mTvTagName;
+    private LinearLayout mLlAddTag;
+    private LinearLayout mLlTagAdd;
+    private ImageButton mIBtnColorPick;
 
+    private void InitializeView()
+    {
+        mLlAddTag = findViewById(R.id.add_tag_ll_add_tag);
+        mRvTag = findViewById(R.id.add_tag_rv_tag);
+        mTvTagName = findViewById(R.id.add_tag_tv_tag_name);
+        mIBtnColorPick = findViewById(R.id.add_tag_ibtn_color_pick);
+        mLlTagAdd = findViewById(R.id.add_tag_ll_tag_add);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_tag);
 
-        llAddTag = findViewById(R.id.add_tag_layout);
+        InitializeView();
 
+        tagList = new ArrayList<>();
         tagList.add(new Tag("Friend",Color.parseColor("#EEDBAA")));
         tagList.add(new Tag("LifeStyle",Color.parseColor("#BDEEAA")));
         tagList.add(new Tag("Job",Color.parseColor("#86EED1")));
 
-        RecyclerView recyclerView = findViewById(R.id.tag_recycler_view);
-        recyclerView.setHasFixedSize(true);
+        mRvTag.setHasFixedSize(true);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        adapter = new TagAdapter(tagList);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        mAdapter = new TagAdapter(tagList);
+        mRvTag.setLayoutManager(layoutManager);
+        mRvTag.setAdapter(mAdapter);
 
-        ImageButton btnColorPicker = findViewById(R.id.action_choose_tag_color);
+        mIBtnColorPick.setOnClickListener(v -> OpenColorPicker());
 
-        tvTagName = findViewById(R.id.txt_tag_name);
-        btnColorPicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                OpenColorPicker();
-            }
-        });
-
-        LinearLayout actionAddTag = findViewById(R.id.action_add_tag);
-        actionAddTag.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AddTag();
-            }
-        });
-
+        mLlTagAdd.setOnClickListener(v -> AddTag());
 
     }
 
@@ -94,7 +90,7 @@ public class AddTagActivity extends AppCompatActivity {
         colorPicker.setOnChooseColorListener(new ColorPicker.OnChooseColorListener() {
             @Override
             public void onChooseColor(int position,int color) {
-                tvTagName.setBackgroundColor(color);
+                mTvTagName.setBackgroundColor(color);
                 DisplayToast(Integer.toString(color));
             }
 
@@ -109,12 +105,11 @@ public class AddTagActivity extends AppCompatActivity {
 
     private void AddTag()
     {
-        String name = tvTagName.getText().toString();
-        ColorDrawable color = (ColorDrawable) tvTagName.getBackground();
+        String name = mTvTagName.getText().toString();
+        ColorDrawable color = (ColorDrawable) mTvTagName.getBackground();
         tagList.add(new Tag(name,color.getColor()));
-//        adapter.notifyItemInserted(tagList.size()-1);
-        adapter.setTagList(tagList);
-        adapter.notifyDataSetChanged();
+        mAdapter.setTagList(tagList);
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -132,7 +127,7 @@ public class AddTagActivity extends AppCompatActivity {
             }
             @Override
             public boolean onQueryTextChange(String filteredText) {
-                adapter.getFilter().filter(filteredText);
+                mAdapter.getFilter().filter(filteredText);
                 return false;
             }
         });
@@ -140,33 +135,32 @@ public class AddTagActivity extends AppCompatActivity {
         searchItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
-                llAddTag.setVisibility(View.GONE);
+                mLlAddTag.setVisibility(View.GONE);
                 doneItem.setVisible(false);
                 return true;
             }
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                llAddTag.setVisibility(View.VISIBLE);
+                mLlAddTag.setVisibility(View.VISIBLE);
                 doneItem.setVisible(true);
                 invalidateOptionsMenu();
                 return true;
             }
         });
-
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_done:
-                Toast.makeText(this, "Done selected", Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId()==R.id.action_done)
+        {
+            Toast.makeText(this, "Done selected", Toast.LENGTH_SHORT).show();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
+    
     private  void DisplayToast(String text)
     {
         Toast.makeText(this,text,Toast.LENGTH_SHORT).show();

@@ -16,14 +16,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/tag_recycler_view"
+            android:id="@+id/add_tag_rv_tag"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:scrollbars="vertical" />
 
         <LinearLayout
-            android:id="@+id/add_tag_layout"
+            android:id="@+id/add_tag_ll_add_tag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -32,7 +32,7 @@
 
 
             <EditText
-                android:id="@+id/txt_tag_name"
+                android:id="@+id/add_tag_tv_tag_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -42,7 +42,7 @@
                 android:textSize="10sp" />
 
             <ImageButton
-                android:id="@+id/action_choose_tag_color"
+                android:id="@+id/add_tag_ibtn_color_pick"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:adjustViewBounds="true"
@@ -53,7 +53,7 @@
                 app:srcCompat="@android:drawable/ic_input_add" />
 
             <LinearLayout
-                android:id="@+id/action_add_tag"
+                android:id="@+id/add_tag_ll_tag_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_gray_button"
