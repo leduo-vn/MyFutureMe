@@ -63,19 +63,7 @@ public class WorkTaskAdapter extends RecyclerView.Adapter<WorkTaskAdapter.WorkTa
             addTaskLayout = itemView.findViewById(R.id.add_task_layout);
             cancelAddTaskButton = itemView.findViewById(R.id.action_cancel_add_task);
             finishAddTaskButton = itemView.findViewById(R.id.action_finish_add_task);
-
-//            // Set onClick Event
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (listener != null) {
-//                        int position = getAdapterPosition();
-//                        if (position != RecyclerView.NO_POSITION) {
-//                            listener.onItemClick(position);
-//                        }
-//                    }
-//                }
-//            });
+            
         }
 
 

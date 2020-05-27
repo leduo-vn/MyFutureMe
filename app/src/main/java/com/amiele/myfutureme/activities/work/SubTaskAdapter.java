@@ -23,7 +23,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class SubTaskAdapter  extends RecyclerView.Adapter<SubTaskAdapter.SubTaskViewHolder> {
-    private ArrayList<Task.SubTask> subTaskList;
+    private ArrayList<SubTask> subTaskList;
     private static TaskAdapter.OnItemClickListener listener= null;
     Activity activity;
     private int mEditModePosition = -1;
@@ -88,7 +88,7 @@ public class SubTaskAdapter  extends RecyclerView.Adapter<SubTaskAdapter.SubTask
 
     }
 
-    public SubTaskAdapter(Activity activity ,ArrayList<Task.SubTask> subTaskList) {
+    public SubTaskAdapter(Activity activity ,ArrayList<SubTask> subTaskList) {
         this.activity = activity;
         this.subTaskList = subTaskList;
     }
@@ -105,7 +105,7 @@ public class SubTaskAdapter  extends RecyclerView.Adapter<SubTaskAdapter.SubTask
 
     @Override
     public void onBindViewHolder(@NonNull SubTaskViewHolder holder, int position) {
-        Task.SubTask currentSubTask = subTaskList.get(position);
+        SubTask currentSubTask = subTaskList.get(position);
         holder.tvDescription.setText(currentSubTask.getDescription());
 //        holder.tvDate.setText(currentSubTask.getDate());
 
