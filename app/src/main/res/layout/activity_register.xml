@@ -16,6 +16,31 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/linear_layout_register_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_email" />
+
+            <AutoCompleteTextView
+                android:id="@+id/et_register_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="UserName"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:selectAllOnFocus="true" />
+        </LinearLayout>
+
+
+
+        <LinearLayout
             android:id="@+id/linear_layout_register_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,9 +53,9 @@
                 android:text="@string/label_email" />
 
             <AutoCompleteTextView
+                android:id="@+id/et_register_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/txt_username"
                 android:ems="10"
                 android:hint="@string/prompt_email"
                 android:imeOptions="actionNext"
@@ -61,7 +86,7 @@
                 android:selectAllOnFocus="true">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_password"
+                    android:id="@+id/et_register_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_password"

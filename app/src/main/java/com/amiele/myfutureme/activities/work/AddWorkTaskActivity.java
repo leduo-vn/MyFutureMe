@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,7 +13,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,13 +26,18 @@ import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import petrov.kristiyan.colorpicker.ColorPicker;
 
 public class AddWorkTaskActivity extends AppCompatActivity {
     ArrayList<Task> taskList = new ArrayList<>();
     ArrayList<Tag> tagList = new ArrayList<>();
+    DatePickerDialog.OnDateSetListener mDateSetListener;
     TextView tvTagName;
     TaskAdapter adapter;
     TagAdapter tagAdapter;
@@ -66,8 +75,39 @@ public class AddWorkTaskActivity extends AppCompatActivity {
         });
 
 
-        RecyclerView tagRecyclerView = findViewById(R.id.tag_recycler_view);
-        recyclerView.setHasFixedSize(true);
+        ImageButton datePickerBtn = findViewById(R.id.action_date_picker);
+        datePickerBtn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        AddWorkTaskActivity.this, android.R.style.Theme_DeviceDefault_Dialog_NoActionBar_MinWidth, mDateSetListener,year,month,day);
+                //   datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                datePickerDialog.show();
+            }
+        });
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                String text= Integer.toString(year)+"-"+ Integer.toString(month+1)+"-"+Integer.toString(dayOfMonth);
+                DisplayToast(text);
+                Date date = ConvertFromStringToDate(text);
+                EditText et_date = findViewById(R.id.et_goal_due_date);
+                String stDate = getTheDOW(date)+", " + getTheDate(date);
+                et_date.setText(stDate);
+
+            }
+        };
+
+//
+//        RecyclerView tagRecyclerView = findViewById(R.id.tag_recycler_view);
+//        recyclerView.setHasFixedSize(true);
 
 //        FlexboxLayoutManager tagLayoutManager = new FlexboxLayoutManager(this);
 //        tagLayoutManager.setFlexDirection(FlexDirection.ROW);
@@ -77,6 +117,31 @@ public class AddWorkTaskActivity extends AppCompatActivity {
 //        tagRecyclerView.setLayoutManager(tagLayoutManager);
 //        tagRecyclerView.setAdapter(tagAdapter);
 
+    }
+
+
+    private String getTheDOW(Date date)
+    {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EE");
+        return dateFormat.format(date);
+    }
+
+    private String getTheDate(Date date)
+    {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yy");
+        return dateFormat.format(date);
+    }
+
+    private Date ConvertFromStringToDate(String text)
+    {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = format.parse(text);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 
     public void onAddTagBtnClicked(View view)
