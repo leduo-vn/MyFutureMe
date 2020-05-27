@@ -18,6 +18,8 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.amiele.myfutureme.R;
+import com.amiele.myfutureme.database.entity.Tag;
+import com.amiele.myfutureme.database.entity.Task;
 import com.amiele.myfutureme.helpers.DateConverter;
 
 import java.util.ArrayList;

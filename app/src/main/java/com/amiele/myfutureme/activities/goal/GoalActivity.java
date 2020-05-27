@@ -13,6 +13,8 @@ import android.widget.Toast;
 import com.amiele.myfutureme.R;
 import com.amiele.myfutureme.activities.motivation.JsonPlaceHolderApi;
 import com.amiele.myfutureme.activities.motivation.Quote;
+import com.amiele.myfutureme.database.entity.Goal;
+import com.amiele.myfutureme.database.entity.Task;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,7 @@
 package com.amiele.myfutureme.database.entity;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -8,46 +9,50 @@ import androidx.room.PrimaryKey;
 public class User {
 
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    @ColumnInfo(name = "id")
+    private int mId;
 
-    private String username;
+    @ColumnInfo(name = "username")
+    private String mUsername;
 
-    private String email;
+    @ColumnInfo(name = "email")
+    private String mEmail;
 
-    private String password;
+    @ColumnInfo(name = "password")
+    private String mPassword;
 
     public User(@NonNull String username, @NonNull String email, @NonNull String password)
     {
-        this.username = username;
-        this.email = email;
-        this.password = password;
+        mUsername = username;
+        mEmail = email;
+        mPassword = password;
     }
 
     public int getId() {
-        return id;
+        return mId;
     }
 
     public String getUsername() {
-        return username;
+        return mUsername;
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.mUsername = username;
     }
 
     public String getEmail() {
-        return email;
+        return mEmail;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.mEmail = email;
     }
 
     public String getPassword() {
-        return password;
+        return mPassword;
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.mPassword = password;
     }
 }

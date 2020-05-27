@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amiele.myfutureme.R;
+import com.amiele.myfutureme.database.entity.Tag;
 
 import java.util.ArrayList;
 

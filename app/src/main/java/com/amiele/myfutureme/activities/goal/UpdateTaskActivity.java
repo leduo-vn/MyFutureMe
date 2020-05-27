@@ -20,6 +20,7 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.amiele.myfutureme.R;
+import com.amiele.myfutureme.database.entity.Task;
 import com.amiele.myfutureme.helpers.DateConverter;
 
 import java.util.Calendar;

@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.amiele.myfutureme.R;
+import com.amiele.myfutureme.database.entity.SubTask;
 
 import java.util.ArrayList;
 import java.util.Calendar;

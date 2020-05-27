@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.amiele.myfutureme.R;
+import com.amiele.myfutureme.database.entity.Task;
 
 import java.util.ArrayList;
 

@@ -1,5 +1,8 @@
-package com.amiele.myfutureme.activities.goal;
+package com.amiele.myfutureme.database.entity;
 
+import androidx.room.Entity;
+
+@Entity(tableName = "tags")
 public class Tag {
 
     private int mId;
