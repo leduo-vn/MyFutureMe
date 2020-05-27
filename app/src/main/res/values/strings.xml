@@ -22,5 +22,9 @@
     <string name="txt_work_task_description">Description: </string>
     <string name="txt_work_task_overview">Overview: </string>
 
+    <!-- Update Task Activity -->
+    <string name="update_task_progress_value"> %1$d%% </string>
+    <!-- End Update Task Activity -->
+
 
 </resources>

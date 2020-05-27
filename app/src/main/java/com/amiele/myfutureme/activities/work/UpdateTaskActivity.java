@@ -11,93 +11,85 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.amiele.myfutureme.R;
+import com.amiele.myfutureme.helpers.DateConverter;
 
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 public class UpdateTaskActivity extends AppCompatActivity {
-    DatePickerDialog.OnDateSetListener mDateSetListener;
-    SubTaskAdapter adapter;
-    Task task;
-    SeekBar seekBar;
 
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+    private SubTaskAdapter mAdapter;
+
+    private SeekBar mSeekBar;
+    private TextView mTvSubTaskDow;
+    private TextView mTvSubTaskDate;
+    private EditText mEtSubTaskHour;
+    private EditText mEtSubTaskDescription;
+    private ViewSwitcher mVsTaskName;
+    private TextView mTvTaskName;
+    private EditText mEtTaskName;
+    private ImageButton mIBtnTaskNameUpdate;
+    private LinearLayout mLlSubTaskAdd;
+    private LinearLayout mLlSubTaskDatePick;
+    private TextView mTvTaskProgress;
+    private ImageButton mIBtnTaskProgressUpdate;
+    private RecyclerView mRvSubTask;
+
+    private Task mTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_task);
 
-        task = new Task("Task Name");
-        task.addSubTask("today is a good day","SUN-09 APR 20",2);
-        task.addSubTask("i have worked out and talked with my friend","SUN-09 APR 20",3);
+        InitializeView();
 
-        RecyclerView recyclerView = findViewById(R.id.sub_task_recycler_view);
-        recyclerView.setHasFixedSize(true);
+        mTask = new Task("Task Name");
+        mTask.addSubTask("today is a good day","SUN-09 APR 20",2);
+        mTask.addSubTask("i have worked out and talked with my friend","SUN-09 APR 20",3);
 
+
+        mRvSubTask.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        adapter = new SubTaskAdapter(this,task.getSubTasksList());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        mAdapter = new SubTaskAdapter(this, mTask.getSubTasksList());
+        mRvSubTask.setLayoutManager(layoutManager);
+        mRvSubTask.setAdapter(mAdapter);
 
-        LinearLayout llAddSubTask = findViewById(R.id.action_add_sub_task);
-        llAddSubTask.setOnClickListener(new View.OnClickListener(){
+        mLlSubTaskAdd.setOnClickListener(v -> AddSubTask());
 
-            @Override
-            public void onClick(View v) {
-                AddSubTask();
-            }
+        mLlSubTaskDatePick.setOnClickListener(v -> {
+            Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(
+                    UpdateTaskActivity.this, android.R.style.Theme_DeviceDefault_Dialog_NoActionBar_MinWidth, mDateSetListener,year,month,day);
+            datePickerDialog.show();
         });
 
-
-        LinearLayout datePickerBtn = findViewById(R.id.action_date_picker);
-        datePickerBtn.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        UpdateTaskActivity.this, android.R.style.Theme_DeviceDefault_Dialog_NoActionBar_MinWidth, mDateSetListener,year,month,day);
-             //   datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                datePickerDialog.show();
-            }
-        });
-
-        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                String text= Integer.toString(year)+"-"+ Integer.toString(month+1)+"-"+Integer.toString(dayOfMonth);
-                Date date = ConvertFromStringToDate(text);
-                AddSubTask();
-            }
+        mDateSetListener = (view, year, month, dayOfMonth) -> {
+            Date date = DateConverter.ConvertFromYearMonthDayToDate(year,month,dayOfMonth);
+            mTvSubTaskDow.setText(DateConverter.GetDayOfWeekFromDate(date));
+            mTvSubTaskDate.setText(DateConverter.GetDayMonthYearFromDate(date));
+            AddSubTask();
         };
 
-        TextView textView = findViewById(R.id.txt_progress);
-        seekBar = findViewById(R.id.seekBar);
-        ImageButton btn_progress_update = findViewById(R.id.action_update_progress);
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
+        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                textView.setText("" + Integer.toString(progress) + "%");
-                btn_progress_update.setVisibility(View.VISIBLE);
+                mTvTaskProgress.setText(getString(R.string.update_task_progress_value,progress));
+                mIBtnTaskProgressUpdate.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -111,72 +103,21 @@ public class UpdateTaskActivity extends AppCompatActivity {
             }
         });
 
-
-        btn_progress_update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Store
-                btn_progress_update.setVisibility(View.INVISIBLE);
-            }
+        mIBtnTaskProgressUpdate.setOnClickListener(v -> {
+            //Store
+            mIBtnTaskProgressUpdate.setVisibility(View.INVISIBLE);
         });
 
 
-        ViewSwitcher viewSwitcher = findViewById(R.id.name_view_switcher);
-        TextView nameTextView =  findViewById(R.id.txt_task_name);
-        EditText nameEditText = findViewById(R.id.et_task_name);
-        ImageButton btnUpdateTaskName = findViewById(R.id.action_update_name);
-        btnUpdateTaskName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                if (viewSwitcher.getCurrentView() != nameEditText){
-                    viewSwitcher.showNext();
-                    btnUpdateTaskName.setImageResource(android.R.drawable.checkbox_on_background);
-                } else if (viewSwitcher.getCurrentView() != nameTextView){
-                    btnUpdateTaskName.setImageResource((android.R.drawable.ic_menu_edit));
-                    viewSwitcher.showPrevious();
-                }
+        mIBtnTaskNameUpdate.setOnClickListener(arg0 -> {
+            if (mVsTaskName.getCurrentView() != mEtTaskName){
+                mVsTaskName.showNext();
+                mIBtnTaskNameUpdate.setImageResource(android.R.drawable.checkbox_on_background);
+            } else if (mVsTaskName.getCurrentView() != mTvTaskName){
+                mIBtnTaskNameUpdate.setImageResource((android.R.drawable.ic_menu_edit));
+                mVsTaskName.showPrevious();
             }
         });
-    }
-
-
-    private void AddSubTask()
-    {
-        TextView etDOW = findViewById(R.id.et_dow);
-        TextView etDate = findViewById(R.id.et_date);
-        EditText etHour = findViewById(R.id.et_hour);
-        EditText etDescription = findViewById(R.id.et_sub_task_description);
-        task.addSubTask(etDescription.getText().toString(), etDOW.getText().toString()+"-"+etDate.getText().toString(),Integer.parseInt(etHour.getText().toString()));
-
-        adapter.notifyDataSetChanged();
-    }
-
-    private String getTheDOW(Date date)
-    {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EE");
-        return dateFormat.format(date);
-    }
-
-    private String getTheDate(Date date)
-    {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yy");
-        return dateFormat.format(date);
-    }
-
-    private Date ConvertFromStringToDate(String text)
-    {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-        try {
-            date = format.parse(text);
-            TextView etDOW = findViewById(R.id.et_dow);
-            etDOW.setText(getTheDOW(date));
-            TextView etDate = findViewById(R.id.et_date);
-            etDate.setText(getTheDate(date));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date;
     }
 
     @Override
@@ -198,5 +139,30 @@ public class UpdateTaskActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+
+    private void InitializeView()
+    {
+        mTvSubTaskDow = findViewById(R.id.update_task_et_sub_task_dow);
+        mTvSubTaskDate = findViewById(R.id.update_task_et_sub_task_date);
+        mEtSubTaskHour = findViewById(R.id.update_task_et_sub_task_hour);
+        mEtSubTaskDescription = findViewById(R.id.update_task_et_sub_task_description);
+        mVsTaskName = findViewById(R.id.update_task_vs_task_name);
+        mSeekBar = findViewById(R.id.update_task_seekBar);
+        mTvTaskName =  findViewById(R.id.update_task_tv_task_name);
+        mEtTaskName = findViewById(R.id.update_task_et_task_name);
+        mIBtnTaskNameUpdate = findViewById(R.id.update_task_ibtn_task_name_update);
+        mLlSubTaskAdd = findViewById(R.id.update_task_ll_sub_task_add);
+        mTvTaskProgress = findViewById(R.id.update_task_tv_progress);
+        mIBtnTaskProgressUpdate = findViewById(R.id.update_task_ibtn_progress_update);
+        mLlSubTaskDatePick = findViewById(R.id.update_task_ll_date_pick);
+        mRvSubTask = findViewById(R.id.update_task_rv_sub_task);
+    }
+
+    private void AddSubTask()
+    {
+        mTask.addSubTask(mEtSubTaskDescription.getText().toString(), mTvSubTaskDow.getText().toString()+"-"+ mTvSubTaskDate.getText().toString(),Integer.parseInt(mEtSubTaskHour.getText().toString()));
+        mAdapter.notifyDataSetChanged();
     }
 }

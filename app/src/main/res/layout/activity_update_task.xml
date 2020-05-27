@@ -31,7 +31,7 @@
 
 
             <SeekBar
-                android:id="@+id/seekBar"
+                android:id="@+id/update_task_seekBar"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -39,13 +39,13 @@
                 android:max="100" />
 
             <TextView
-                android:id="@+id/txt_progress"
+                android:id="@+id/update_task_tv_progress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="" />
 
             <ImageButton
-                android:id="@+id/action_update_progress"
+                android:id="@+id/update_task_ibtn_progress_update"
                 android:layout_width="30dp"
 
                 android:layout_height="30dp"
@@ -108,27 +108,28 @@
                     android:textStyle="bold" />
 
                 <ViewSwitcher
-                    android:id="@+id/name_view_switcher"
+                    android:id="@+id/update_task_vs_task_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:inAnimation="@android:anim/slide_in_left" >
-                                    <TextView
-                                        android:id="@+id/txt_task_name"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:text="Task Name" />
+                    android:inAnimation="@android:anim/slide_in_left">
 
-                                    <EditText
-                                        android:id="@+id/et_task_name"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:background="?android:attr/colorBackground"
-                                        android:ems="10"
-                                        android:inputType="textMultiLine|text"
-                                        android:maxLines="1"
-                                        android:singleLine="false" />
+                    <TextView
+                        android:id="@+id/update_task_tv_task_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Task Name" />
+
+                    <EditText
+                        android:id="@+id/update_task_et_task_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:attr/colorBackground"
+                        android:ems="10"
+                        android:inputType="textMultiLine|text"
+                        android:maxLines="1"
+                        android:singleLine="false" />
                 </ViewSwitcher>
 
 <!--                <TextView-->
@@ -148,7 +149,7 @@
 <!--                    android:singleLine="false" />-->
 
                 <ImageButton
-                    android:id="@+id/action_update_name"
+                    android:id="@+id/update_task_ibtn_task_name_update"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:adjustViewBounds="true"
@@ -207,7 +208,7 @@
 
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/sub_task_recycler_view"
+                    android:id="@+id/update_task_rv_sub_task"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scrollbars="vertical"
@@ -228,27 +229,27 @@
             android:paddingBottom="15dp">
 
             <LinearLayout
-                android:id="@+id/action_date_picker"
+                android:id="@+id/update_task_ll_date_pick"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/et_dow"
+                    android:id="@+id/update_task_et_sub_task_dow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Sunday" />
 
                 <TextView
-                    android:id="@+id/et_date"
+                    android:id="@+id/update_task_et_sub_task_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="09 APR 20" />
             </LinearLayout>
 
             <EditText
-                android:id="@+id/et_hour"
+                android:id="@+id/update_task_et_sub_task_hour"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -260,7 +261,7 @@
                 android:textSize="14sp" />
 
             <EditText
-                android:id="@+id/et_sub_task_description"
+                android:id="@+id/update_task_et_sub_task_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
@@ -271,7 +272,7 @@
                 android:textSize="14sp" />
 
             <LinearLayout
-                android:id="@+id/action_add_sub_task"
+                android:id="@+id/update_task_ll_sub_task_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
