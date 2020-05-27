@@ -1,25 +1,56 @@
 package com.amiele.myfutureme.database.entity;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
+
 import java.util.ArrayList;
 
+@Entity(tableName = "goals",
+        foreignKeys = {
+                @ForeignKey(entity = User.class,
+                        parentColumns = "id",
+                        childColumns = "user_id",
+                        onDelete = ForeignKey.CASCADE)},
+        indices = {@Index(value = "user_id")
+        })
 public class Goal {
 
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "goal_id")
     private int mId;
+
+    @ColumnInfo(name = "user_id")
+    private int mUserId;
+
+    @ColumnInfo(name = "name")
     private String mName;
+
+    @ColumnInfo(name = "description")
     private String mDescription;
+
+    @ColumnInfo(name = "due_date")
     private String mDueDate;
-    private ArrayList<Task> mTaskList;
 
+    @ColumnInfo(name = "color")
     private int mColor;
-
-    private ArrayList<Tag> mTagList;
 
     public Goal()
     {
-        this.mTaskList = new ArrayList<>();
-
     }
 
+    @Ignore
+    private ArrayList<Task> mTaskList;
+
+    @Ignore
+    private ArrayList<Tag> mTagList;
+
+
+
+    @Ignore
     public Goal(String name, String description)
     {
         mName = name;

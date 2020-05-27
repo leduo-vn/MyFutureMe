@@ -3,13 +3,14 @@ package com.amiele.myfutureme.database.entity;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "users")
 public class User {
 
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
+    @ColumnInfo(name = "user_id")
     private int mId;
 
     @ColumnInfo(name = "username")
@@ -21,6 +22,12 @@ public class User {
     @ColumnInfo(name = "password")
     private String mPassword;
 
+    public User()
+    {
+
+    }
+
+    @Ignore
     public User(@NonNull String username, @NonNull String email, @NonNull String password)
     {
         mUsername = username;
