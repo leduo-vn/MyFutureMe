@@ -23,14 +23,14 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txt_dow"
+                android:id="@+id/sub_task_recycle_view_tv_dow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sun, 20/01"
                 android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/txt_date"
+                android:id="@+id/sub_task_recycle_view_tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2020"
@@ -47,7 +47,7 @@
             android:inAnimation="@android:anim/slide_in_left">
 
             <TextView
-                android:id="@+id/txt_sub_task_hour"
+                android:id="@+id/sub_task_recycle_view_tv_minute"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -78,7 +78,7 @@
             android:inAnimation="@android:anim/slide_in_left">
 
             <TextView
-                android:id="@+id/txt_sub_task_description"
+                android:id="@+id/sub_task_recycle_view_tv_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

@@ -4,61 +4,45 @@ import java.util.ArrayList;
 
 public class Task {
 
-    int id;
-    String name;
-    int progress;
+    private int mId;
+    private String mName;
+    private int mProgress;
+    private ArrayList<SubTask> mSubTasksList;
 
-    boolean isComplete;
+    public Task( String name){
+        mName = name;
+        mSubTasksList = new ArrayList<>();
+        mProgress = 0;
 
-    public int getProgress() {
-        return progress;
     }
-
-    public void setProgress(int progress) {
-        this.progress = progress;
-    }
-
-
 
     public ArrayList<SubTask> getSubTasksList() {
-        return subTasksList;
+        return mSubTasksList;
     }
 
     public void setSubTasksList(ArrayList<SubTask> subTasksList) {
-        this.subTasksList = subTasksList;
+        this.mSubTasksList = subTasksList;
     }
 
-    ArrayList<SubTask> subTasksList;
-
     public String getName() {
-        return name;
+        return mName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.mName = name;
     }
 
 
-    public Task( String description){
-        this.name = description;
-        this.subTasksList = new ArrayList<>();
-        this.isComplete = false;
-        this.progress = 0;
-
-    }
-
-    public void addSubTask(String description)
-    {
-        subTasksList.add(new SubTask(description));
-    }
     public void addSubTask(String description, String date, int hour)
     {
-        subTasksList.add(new SubTask(description,date,hour));
+        mSubTasksList.add(new SubTask(description,date,hour));
     }
 
-    public void setIsComplete(boolean isCompleteValue)
-    {
-        this.isComplete = isCompleteValue;
+    public int getProgress() {
+        return mProgress;
     }
 
+    public void setProgress(int progress) {
+        this.mProgress = progress;
+    }
 }

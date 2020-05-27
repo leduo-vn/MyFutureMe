@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/txt_subtask_description"
+            android:id="@+id/recycle_view_task_tv_description"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -28,7 +28,7 @@
             android:text="Task Name" />
 
         <ProgressBar
-            android:id="@+id/progressBar"
+            android:id="@+id/recycle_view_pb_progress"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="100dp"
             android:layout_height="25dp"
@@ -40,8 +40,8 @@
             android:progressDrawable="@drawable/horizonal_bar_progress"
             android:secondaryProgress="50" />
 
-        <ImageView
-            android:id="@+id/imageView1"
+        <ImageButton
+            android:id="@+id/recycle_view_task_ibtn_edit"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:adjustViewBounds="true"

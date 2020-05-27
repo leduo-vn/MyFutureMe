@@ -23,13 +23,15 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GoalActivity extends AppCompatActivity {
+    private Quote mQuote;
 
-    TextView mTv_quote;
-    Quote quote;
+    private TextView mTvQuote;
+    private RecyclerView mRvGoal;
 
-    private void InitializedVariables()
+    private void InitializeView()
     {
-        mTv_quote = findViewById(R.id.txt_quote);
+        mRvGoal = findViewById(R.id.goal_rv_goal);
+        mTvQuote = findViewById(R.id.goal_tv_quote);
     }
 
     private void DisplayQuoteContentFromAPI()
@@ -48,20 +50,21 @@ public class GoalActivity extends AppCompatActivity {
             public void onResponse(Call<Quote> call, Response<Quote> response) {
 
                 if (!response.isSuccessful()){
-                    mTv_quote.setText("Code: " + response.code());
+                    mTvQuote.setText("Code: " + response.code());
                     return;
                 }
 
-                quote = response.body();
+                mQuote = response.body();
 
-                String body=quote.getDetail().getBody() ;
-                String author= quote.getDetail().getAuthor();
-                mTv_quote.setText(body+" (" + author +")");
+                assert mQuote != null;
+                String body= mQuote.getDetail().getBody() ;
+                String author= mQuote.getDetail().getAuthor();
+                mTvQuote.setText(getString(R.string.text_quote,body,author));
             }
 
             @Override
             public void onFailure(Call<Quote> call, Throwable t) {
-                mTv_quote.setText(t.getMessage());
+                mTvQuote.setText(t.getMessage());
             }
         });
 
@@ -80,55 +83,53 @@ public class GoalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal);
 
-        InitializedVariables();
+        InitializeView();
         DisplayQuoteContentFromAPI();
-//        mTv_quote.startAnimation((Animation) AnimationUtils.loadAnimation(this,R.anim.quote_animation));
-        mTv_quote.setSelected(true);
 
-        ArrayList<Goal> goalList = new ArrayList<>();
-        ArrayList<Task> tasklist = new ArrayList<>();
-        tasklist.add(new Task("Task 1"));
-        tasklist.add(new Task("Task 2"));
-        tasklist.add(new Task("Task 3"));
+        mTvQuote.setSelected(true);
 
-        goalList.add(new Goal("Work Task Name","Task description"));
-        goalList.add(new Goal("Work Task Name 1","Task description 1"));
-        goalList.add(new Goal("Work Task Name 2","Task description 2"));
-        goalList.add(new Goal("Work Task Name 3","Task description 3"));
-        goalList.get(0).setTaskList(tasklist);
-        goalList.get(1).setTaskList(tasklist);
-        goalList.get(2).setTaskList(tasklist);
-        goalList.get(3).setTaskList(tasklist);
+        ArrayList<Goal> mGoalList = new ArrayList<>();
+        ArrayList<Task> mTasklist = new ArrayList<>();
+
+        mTasklist.add(new Task("Task 1"));
+        mTasklist.add(new Task("Task 2"));
+        mTasklist.add(new Task("Task 3"));
+
+        mGoalList.add(new Goal("Work Task Name","Task description"));
+        mGoalList.add(new Goal("Work Task Name 1","Task description 1"));
+        mGoalList.add(new Goal("Work Task Name 2","Task description 2"));
+        mGoalList.add(new Goal("Work Task Name 3","Task description 3"));
+
+        mGoalList.get(0).setTaskList(mTasklist);
+        mGoalList.get(1).setTaskList(mTasklist);
+        mGoalList.get(2).setTaskList(mTasklist);
+        mGoalList.get(3).setTaskList(mTasklist);
 
 
-        RecyclerView recyclerView = findViewById(R.id.work_task_recycler_view);
-        recyclerView.setHasFixedSize(true);
+        mRvGoal.setHasFixedSize(true);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        final WorkTaskAdapter adapter = new WorkTaskAdapter(this, goalList);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        final GoalAdapter adapter = new GoalAdapter(this, mGoalList);
+        mRvGoal.setLayoutManager(layoutManager);
+        mRvGoal.setAdapter(adapter);
 
         // Set onClick for Adapter
-        // When item clicked, open the fragment of chosen category
-        adapter.setOnItemClickListener(new WorkTaskAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Task task) {
-               // adapter.notifyItemChanged;
-              //  Log.i("info", String.valueOf(task.getDescription()));
-                //Toast.makeText(, task.getDescription(),Toast.LENGTH_SHORT).show();
-                DisplayToast(task.getName());
-            }
+        adapter.setOnItemClickListener(task -> {
+            DisplayToast(task.getName());
+            GoToUpdateTaskActivity();
         });
 
 
     }
 
-    private  void DisplayToast(String text)
+    private void GoToUpdateTaskActivity()
     {
-
         Intent updateTaskActivity = new Intent(this, UpdateTaskActivity.class);
         startActivity(updateTaskActivity);
+    }
+
+    private  void DisplayToast(String text)
+    {
         Toast.makeText(this,text,Toast.LENGTH_SHORT).show();
     }
 }

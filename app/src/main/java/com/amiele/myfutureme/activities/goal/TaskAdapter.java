@@ -3,7 +3,8 @@ package com.amiele.myfutureme.activities.goal;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,92 +15,64 @@ import com.amiele.myfutureme.R;
 import java.util.ArrayList;
 
 public class TaskAdapter  extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
-    private ArrayList<Task> taskList;
-    private static TaskAdapter.OnItemClickListener listener= null;
-    private static WorkTaskAdapter.OnItemClickListener workTaskListener= null;
-
-
+    private ArrayList<Task> mTaskList;
+    private static TaskAdapter.OnItemClickListener mListener = null;
+    private static GoalAdapter.OnItemClickListener mGoalListener = null;
 
     public interface OnItemClickListener {
         void onItemClick(Task task);
     }
 
     public void setOnItemClickListener(TaskAdapter.OnItemClickListener listener) {
-        this.listener = listener;
+        this.mListener = listener;
     }
 
-
-
     public static class TaskViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvDescription;
-        public ImageView imageView;
+        public TextView tvName;
+        public ImageButton iBtnEdit;
+        public ProgressBar pbProgress;
 
         public  TaskViewHolder(View view) {
             super(view);
-            tvDescription = itemView.findViewById(R.id.txt_subtask_description);
-            imageView = itemView.findViewById((R.id.imageView1));
-
-//            // Set onClick Event
-//            imageView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (listener != null) {
-//                        int position = getAdapterPosition();
-//                        if (position != RecyclerView.NO_POSITION) {
-//                            listener.onItemClick(position);
-//                            Log.i("info","here");
-//                        }
-//                    }
-//                }
-//            });
-
-
+            tvName = itemView.findViewById(R.id.recycle_view_task_tv_description);
+            iBtnEdit = itemView.findViewById((R.id.recycle_view_task_ibtn_edit));
+            pbProgress = itemView.findViewById(R.id.recycle_view_pb_progress);
 
         }
-
 
     }
 
     public TaskAdapter(ArrayList<Task> taskList) {
-        this.taskList = taskList;
+        mTaskList = taskList;
     }
 
-    public TaskAdapter(ArrayList<Task> taskList, WorkTaskAdapter.OnItemClickListener workTaskListener)
+    public TaskAdapter(ArrayList<Task> taskList, GoalAdapter.OnItemClickListener goalListener)
     {
-        this.taskList = taskList;
-        this.workTaskListener = workTaskListener;
-
+        mTaskList = taskList;
+        mGoalListener = goalListener;
     }
-
-
 
     @NonNull
     @Override
     public TaskAdapter.TaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycleview_task, parent, false);
-
-
-
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycle_view_task, parent, false);
         return new TaskAdapter.TaskViewHolder(view);
     }
 
 
     @Override
     public void onBindViewHolder(@NonNull TaskAdapter.TaskViewHolder holder, final int position) {
-        Task currentTask = taskList.get(position);
-        holder.tvDescription.setText(currentTask.getName());
+        Task currentTask = mTaskList.get(position);
+        holder.tvName.setText(currentTask.getName());
 
         // Set onClick Event
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (currentTask!=null && workTaskListener!=null)
-                        workTaskListener.onItemClick(currentTask);
+        holder.iBtnEdit.setOnClickListener(v -> {
+            if (currentTask!=null && mGoalListener !=null)
+                    mGoalListener.onItemClick(currentTask);
 
-                else
-                    if (currentTask!=null && listener !=null)
-                       listener.onItemClick(currentTask);
-            }
+            else
+                if (currentTask!=null && mListener !=null)
+                   mListener.onItemClick(currentTask);
         });
 
     }
@@ -110,7 +83,7 @@ public class TaskAdapter  extends RecyclerView.Adapter<TaskAdapter.TaskViewHolde
      */
     @Override
     public int getItemCount() {
-        return taskList.size();
+        return mTaskList.size();
     }
 
 }

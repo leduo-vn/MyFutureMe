@@ -26,5 +26,6 @@
     <string name="update_task_progress_value"> %1$d%% </string>
     <!-- End Update Task Activity -->
 
+    <string name="text_quote"> %1$s (%2$s) </string>
 
 </resources>

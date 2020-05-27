@@ -97,7 +97,7 @@
 <!--                    android:secondaryProgress="50" />-->
 
                 <TextView
-                    android:id="@+id/txt_work_name"
+                    android:id="@+id/recycle_view_goal_tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -124,12 +124,12 @@
                     app:srcCompat="@android:drawable/ic_menu_edit" />
 
                 <ImageButton
-                    android:id="@+id/expanded_icon"
+                    android:id="@+id/recycle_view_goal_ibtn_detail_expand"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginRight="10dp"
 
+                    android:layout_marginRight="10dp"
                     android:adjustViewBounds="true"
                     android:background="@android:color/transparent"
                     android:contentDescription="image"
@@ -140,10 +140,10 @@
 
 
             <LinearLayout
-                android:id="@+id/detail_layout"
+                android:id="@+id/recycle_view_goal_ll_detail"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
 
+                android:layout_height="wrap_content"
                 android:background="#B2A5CF"
                 android:orientation="vertical"
                 android:padding="15dp"
@@ -162,7 +162,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/txt_work_description"
+                        android:id="@+id/recycle_view_goal_tv_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -183,7 +183,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/txt_work_overview"
+                        android:id="@+id/recycle_view_goal_tv_overview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -192,7 +192,7 @@
 
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/task_recycler_view"
+                    android:id="@+id/recycle_view_goal_rv_task"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_weight="1"
@@ -203,7 +203,7 @@
 
 
                 <LinearLayout
-                    android:id="@+id/add_task_layout"
+                    android:id="@+id/recycle_view_goal_ll_add_task"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
@@ -235,7 +235,7 @@
                         android:singleLine="false" />
 
                     <ImageButton
-                        android:id="@+id/action_finish_add_task"
+                        android:id="@+id/recycle_view_goal_ibtn_add_task_done"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:adjustViewBounds="true"
@@ -246,7 +246,7 @@
                         app:srcCompat="@android:drawable/checkbox_on_background" />
 
                     <ImageButton
-                        android:id="@+id/action_cancel_add_task"
+                        android:id="@+id/recycle_view_goal_ibtn_add_task_cancel"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:adjustViewBounds="true"
@@ -258,10 +258,10 @@
                 </LinearLayout>
 
                 <ImageButton
-                    android:id="@+id/action_add_task"
+                    android:id="@+id/recycle_view_goal_ibtn_task_add"
                     android:layout_width="50dp"
-                    android:layout_height="50dp"
 
+                    android:layout_height="50dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="15dp"
                     android:layout_marginRight="10dp"

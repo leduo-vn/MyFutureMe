@@ -1,28 +1,30 @@
 package com.amiele.myfutureme.activities.goal;
 
 public class Tag {
-    private String name;
-    private int color;
+
+    private int mId;
+    private String mName;
+    private int mColor;
 
     public Tag(String name, int color)
     {
-        this.name = name;
-        this.color = color;
+        mName = name;
+        mColor = color;
     }
 
     public String getName() {
-        return name;
+        return mName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.mName = name;
     }
 
     public int getColor() {
-        return color;
+        return mColor;
     }
 
     public void setColor(int color) {
-        this.color = color;
+        this.mColor = color;
     }
 }

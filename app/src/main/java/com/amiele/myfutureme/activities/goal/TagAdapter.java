@@ -17,9 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TagAdapter  extends RecyclerView.Adapter<TagAdapter.TagViewHolder> implements Filterable {
-    private ArrayList<Tag> tagListOriginal;
-    private ArrayList<Tag> tagList;
-    private static TagAdapter.OnItemClickListener listener= null;
+    private ArrayList<Tag> mTagListOriginal;
+    private ArrayList<Tag> mTagList;
+//    private static TagAdapter.OnItemClickListener listener= null;
 
     @Override
     public Filter getFilter() {
@@ -34,14 +34,14 @@ public class TagAdapter  extends RecyclerView.Adapter<TagAdapter.TagViewHolder> 
 
             if (constraint==null|| constraint.length()==0)
             {
-                filteredTagList.addAll(tagListOriginal);
+                filteredTagList.addAll(mTagListOriginal);
             }
             else
             {
                 String pattern = constraint.toString();
                 pattern.toLowerCase().trim();
 
-                for (Tag tag:tagListOriginal)
+                for (Tag tag: mTagListOriginal)
                 {
                     if (tag.getName().toLowerCase().trim().contains(pattern)) filteredTagList.add(tag);
                 }
@@ -53,16 +53,16 @@ public class TagAdapter  extends RecyclerView.Adapter<TagAdapter.TagViewHolder> 
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            tagList.clear();
-            tagList.addAll((List) results.values);
+            mTagList.clear();
+            mTagList.addAll((List) results.values);
             notifyDataSetChanged();
         }
     };
 
-    public interface OnItemClickListener {
-        void onItemClick(Task task);
-    }
-//
+//    public interface OnItemClickListener {
+//        void onItemClick(Tag tag);
+//    }
+
 //    public void setOnItemClickListener(TaskAdapter.OnItemClickListener listener) {
 //        this.listener = listener;
 //    }
@@ -71,38 +71,37 @@ public class TagAdapter  extends RecyclerView.Adapter<TagAdapter.TagViewHolder> 
 
     public static class TagViewHolder extends RecyclerView.ViewHolder {
         public TextView tvName;
-        public ImageButton btnDeleteTag;
+        public ImageButton iBtnTagDelete;
 
         public  TagViewHolder(View view) {
             super(view);
 
-            tvName = itemView.findViewById(R.id.txt_tag_name);
-          //  btnDeleteTag = itemView.findViewById(R.id.action_delete_tag);
-           // tvDescription = itemView.findViewById(R.id.txt_sub_task_description);
+            tvName = itemView.findViewById(R.id.tag_recycle_view_name);
+            iBtnTagDelete = itemView.findViewById(R.id.tag_recycle_view_delete);
         }
     }
 
     public TagAdapter(ArrayList<Tag> tagList) {
-        this.tagListOriginal = tagList;
-        this.tagList = new ArrayList<>(tagList);
+        mTagListOriginal = tagList;
+        mTagList = new ArrayList<>(tagList);
     }
 
     public void setTagList(ArrayList<Tag> tagList)
     {
-        this.tagListOriginal = tagList;
-        this.tagList = new ArrayList<>(tagList);
+        mTagListOriginal = tagList;
+        mTagList = new ArrayList<>(tagList);
     }
 
     @NonNull
     @Override
     public TagAdapter.TagViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycleview_tag, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycle_view_tag, parent, false);
         return new TagAdapter.TagViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TagViewHolder holder, int position) {
-        Tag currentTag = tagList.get(position);
+        Tag currentTag = mTagList.get(position);
 
        //set value
         holder.tvName.setText(currentTag.getName());
@@ -115,7 +114,7 @@ public class TagAdapter  extends RecyclerView.Adapter<TagAdapter.TagViewHolder> 
      */
     @Override
     public int getItemCount() {
-        return tagList.size();
+        return mTagList.size();
     }
 
 }

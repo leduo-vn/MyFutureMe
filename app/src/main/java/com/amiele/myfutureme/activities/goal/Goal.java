@@ -3,55 +3,65 @@ package com.amiele.myfutureme.activities.goal;
 import java.util.ArrayList;
 
 public class Goal {
-    int id;
-    String name;
-    String description;
-    String dueDate;
-    ArrayList<Task> taskList;
 
-    public String getName() {
-        return name;
-    }
+    private int mId;
+    private String mName;
+    private String mDescription;
+    private String mDueDate;
+    private ArrayList<Task> mTaskList;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    private int mColor;
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public ArrayList<Task> getTaskList() {
-        return taskList;
-    }
-
-    public void setTaskList(ArrayList<Task> taskList) {
-        for (Task task:taskList)
-        {
-            this.taskList.add(new Task(task.name));
-        }
-    }
+    private ArrayList<Tag> mTagList;
 
     public Goal()
     {
-        this.taskList = new ArrayList<>();
+        this.mTaskList = new ArrayList<>();
 
     }
 
     public Goal(String name, String description)
     {
-        this.name = name;
-        this.description =description;
-        this.taskList = new ArrayList<>();
+        mName = name;
+        mDescription = description;
+        mTaskList = new ArrayList<>();
+        mTagList = new ArrayList<>();
     }
 
-    public void addTask(String description)
+    public String getName() {
+        return mName;
+    }
+
+    public String getDescription() {
+        return mDescription;
+    }
+
+    public ArrayList<Task> getTaskList() {
+        return mTaskList;
+    }
+
+    public void setTaskList(ArrayList<Task> taskList) {
+        this.mTaskList = taskList;
+    }
+
+    public void addTask(String name)
     {
-        taskList.add(new Task(description));
+        mTaskList.add(new Task(name));
     }
 
+    public ArrayList<Tag> getTagList() {
+        return mTagList;
+    }
+
+    public void setTagList(ArrayList<Tag> tagList) {
+        this.mTagList = tagList;
+    }
+
+    public int getColor() {
+        return mColor;
+    }
+
+    public void setColor(int Color) {
+        this.mColor = mColor;
+    }
 }

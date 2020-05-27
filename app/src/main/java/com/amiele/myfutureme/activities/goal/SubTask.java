@@ -1,59 +1,43 @@
 package com.amiele.myfutureme.activities.goal;
 
 public class SubTask {
-    int id;
-    String description;
-    int hour;
-    String date;
+
+    private int mId;
+    private String mDescription;
+    private int mMinute;
+    private String mDate;
+
+    private static final String DATE_SEPARATOR ="-";
 
     public SubTask( String description){
-        this.description = description;
-        this.hour = 0;
-        this.date="";
+        mDescription = description;
+        mMinute = 0;
+        mDate ="";
     }
 
-    public SubTask(String description, String date, int hour)
+    public SubTask(String description, String date, int minute)
     {
-        this.description= description;
-        this.date = date;
-        this.hour = hour;
+        mDescription = description;
+        mDate = date;
+        mMinute = minute;
     }
 
     public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setHour(int hour) {
-        this.hour = hour;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
+        return mDescription;
     }
 
     public String getDate_DOW(){
-        String[] items = date.split("-");
+        String[] items = mDate.split(DATE_SEPARATOR);
         return items[0];
     }
 
     public String getDate_Date(){
-        String[] items = date.split("-");
+        String[] items = mDate.split(DATE_SEPARATOR);
         return items[1];
     }
 
-
-    public int getHour() {
-        return hour;
+    public int getMinute() {
+        return mMinute;
     }
-
-    public String getDate() {
-        return date;
-    }
-
-
 
 }
