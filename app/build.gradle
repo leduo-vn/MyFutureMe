@@ -29,6 +29,9 @@ android {
             res {
                 srcDirs 'src/main/res', 'src/main/res/animation'
             }
+            java {
+                srcDirs 'src/main/java', 'src/main/java/database'
+            }
         }
     }
 
@@ -50,6 +53,11 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'petrov.kristiyan:colorpicker-library:1.1.10'
     implementation 'com.google.android:flexbox:2.0.1'
+
+    def room_version = "2.2.5"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
