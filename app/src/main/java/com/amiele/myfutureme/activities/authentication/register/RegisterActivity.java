@@ -12,6 +12,8 @@ import com.amiele.myfutureme.activities.main.MainActivity;
 
 public class RegisterActivity extends AppCompatActivity {
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +22,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void onRegisterBtnClicked(View view)
     {
+
+
         Intent loginActivity = new Intent(this, LoginActivity.class);
         startActivity(loginActivity);
     }

@@ -13,7 +13,6 @@ public class Task {
         mName = name;
         mSubTasksList = new ArrayList<>();
         mProgress = 0;
-
     }
 
     public ArrayList<SubTask> getSubTasksList() {
