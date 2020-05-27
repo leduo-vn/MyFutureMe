@@ -25,7 +25,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-public class AddWorkTaskActivity extends AppCompatActivity {
+public class AddGoalActivity extends AppCompatActivity {
     private ArrayList<Task> mTaskList;
     private ArrayList<Tag> mTagList;
 
@@ -78,7 +78,7 @@ public class AddWorkTaskActivity extends AppCompatActivity {
             int day = calendar.get(Calendar.DAY_OF_MONTH);
 
             DatePickerDialog datePickerDialog = new DatePickerDialog(
-                    AddWorkTaskActivity.this, android.R.style.Theme_DeviceDefault_Dialog_NoActionBar_MinWidth, mDateSetListener,year,month,day);
+                    AddGoalActivity.this, android.R.style.Theme_DeviceDefault_Dialog_NoActionBar_MinWidth, mDateSetListener,year,month,day);
             datePickerDialog.show();
         });
 

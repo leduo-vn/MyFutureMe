@@ -2,7 +2,7 @@ package com.amiele.myfutureme.activities.goal;
 
 import java.util.ArrayList;
 
-public class WorkTask {
+public class Goal {
     int id;
     String name;
     String description;
@@ -36,13 +36,13 @@ public class WorkTask {
         }
     }
 
-    public WorkTask()
+    public Goal()
     {
         this.taskList = new ArrayList<>();
 
     }
 
-    public WorkTask(String name, String description)
+    public Goal(String name, String description)
     {
         this.name = name;
         this.description =description;

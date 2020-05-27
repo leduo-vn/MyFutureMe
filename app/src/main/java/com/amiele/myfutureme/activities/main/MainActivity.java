@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.amiele.myfutureme.R;
 import com.amiele.myfutureme.activities.motivation.MotivationActivity;
-import com.amiele.myfutureme.activities.goal.WorkActivity;
+import com.amiele.myfutureme.activities.goal.GoalActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onTodoActionClicked(View view)
     {
-        Intent workActivity = new Intent(this, WorkActivity.class);
+        Intent workActivity = new Intent(this, GoalActivity.class);
         startActivity(workActivity);
     }
 

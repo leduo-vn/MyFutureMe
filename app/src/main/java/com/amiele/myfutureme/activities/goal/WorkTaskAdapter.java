@@ -18,7 +18,7 @@ import com.amiele.myfutureme.R;
 import java.util.ArrayList;
 
 public class WorkTaskAdapter extends RecyclerView.Adapter<WorkTaskAdapter.WorkTaskViewHolder> {
-    private ArrayList<WorkTask> workTaskList;
+    private ArrayList<Goal> goalList;
     private static OnItemClickListener listener;
     private Activity activity;
     private int mExpandedPosition = -1;
@@ -64,8 +64,8 @@ public class WorkTaskAdapter extends RecyclerView.Adapter<WorkTaskAdapter.WorkTa
 
     }
 
-    public WorkTaskAdapter(Activity activity,ArrayList<WorkTask> workTaskList) {
-        this.workTaskList = workTaskList;
+    public WorkTaskAdapter(Activity activity,ArrayList<Goal> goalList) {
+        this.goalList = goalList;
         this.activity = activity;
     }
 
@@ -79,12 +79,12 @@ public class WorkTaskAdapter extends RecyclerView.Adapter<WorkTaskAdapter.WorkTa
 
     @Override
     public void onBindViewHolder(@NonNull final WorkTaskViewHolder holder, final int position) {
-        WorkTask currentWorkTask = workTaskList.get(position);
+        Goal currentGoal = goalList.get(position);
 
         // Assign values for image resource and text of layout
         holder.taskRecycleView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activity);
-        final TaskAdapter adapter = new TaskAdapter(currentWorkTask.getTaskList(),listener);
+        final TaskAdapter adapter = new TaskAdapter(currentGoal.getTaskList(),listener);
         holder.taskRecycleView.setLayoutManager(layoutManager);
         holder.taskRecycleView.setAdapter(adapter);
 
@@ -124,8 +124,8 @@ public class WorkTaskAdapter extends RecyclerView.Adapter<WorkTaskAdapter.WorkTa
         });
 
 
-        holder.tvName.setText(currentWorkTask.getName());
-        holder.tvDescription.setText(currentWorkTask.getDescription());
+        holder.tvName.setText(currentGoal.getName());
+        holder.tvDescription.setText(currentGoal.getDescription());
         final boolean isGoalDetailsExpanded = position==mExpandedPosition;
         if (isGoalDetailsExpanded)
         {
@@ -181,7 +181,7 @@ public class WorkTaskAdapter extends RecyclerView.Adapter<WorkTaskAdapter.WorkTa
 
             @Override
             public void onClick(View v) {
-                workTaskList.get(position).addTask("new Task");
+                goalList.get(position).addTask("new Task");
                 mAddTaskExpandedPosition = -1;
                 notifyItemChanged(position);
             }
@@ -196,7 +196,7 @@ public class WorkTaskAdapter extends RecyclerView.Adapter<WorkTaskAdapter.WorkTa
      */
     @Override
     public int getItemCount() {
-        return workTaskList.size();
+        return goalList.size();
     }
 
 
