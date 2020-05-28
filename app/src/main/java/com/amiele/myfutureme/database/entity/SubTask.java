@@ -9,8 +9,8 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "sub_tasks",
         foreignKeys = {
-                @ForeignKey(entity = User.class,
-                        parentColumns = "id",
+                @ForeignKey(entity = Task.class,
+                        parentColumns = "task_id",
                         childColumns = "task_id",
                         onDelete = ForeignKey.CASCADE)},
         indices = {@Index(value = "task_id")
@@ -18,19 +18,16 @@ import androidx.room.PrimaryKey;
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "sub_task_id")
-    private int mId;
+    private int id;
 
     @ColumnInfo(name = "task_id")
-    private int mTaskId;
+    private int taskId;
 
-    @ColumnInfo(name = "description")
-    private String mDescription;
+    private String description;
 
-    @ColumnInfo(name = "minute")
-    private int mMinute;
+    private int minute;
 
-    @ColumnInfo(name = "date")
-    private String mDate;
+    private String date;
 
     @Ignore
     private static final String DATE_SEPARATOR ="-";
@@ -41,35 +38,67 @@ import androidx.room.PrimaryKey;
 
     @Ignore
     public SubTask( String description){
-        mDescription = description;
-        mMinute = 0;
-        mDate ="";
+        this.description = description;
+        minute = 0;
+        date ="";
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setMinute(int minute) {
+        this.minute = minute;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     @Ignore
     public SubTask(String description, String date, int minute)
     {
-        mDescription = description;
-        mDate = date;
-        mMinute = minute;
+        this.description = description;
+        this.date = date;
+        this.minute = minute;
     }
 
     public String getDescription() {
-        return mDescription;
+        return description;
     }
 
     public String getDate_DOW(){
-        String[] items = mDate.split(DATE_SEPARATOR);
+        String[] items = date.split(DATE_SEPARATOR);
         return items[0];
     }
 
     public String getDate_Date(){
-        String[] items = mDate.split(DATE_SEPARATOR);
+        String[] items = date.split(DATE_SEPARATOR);
         return items[1];
     }
 
     public int getMinute() {
-        return mMinute;
+        return minute;
     }
 
 }

@@ -1,13 +1,17 @@
 package com.amiele.myfutureme.activities.goal;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,8 +22,10 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.amiele.myfutureme.R;
+import com.amiele.myfutureme.database.entity.Goal;
 import com.amiele.myfutureme.database.entity.Tag;
 import com.amiele.myfutureme.database.entity.Task;
+import com.amiele.myfutureme.database.entity.User;
 import com.amiele.myfutureme.helpers.DateConverter;
 
 import java.util.ArrayList;
@@ -30,6 +36,7 @@ import java.util.Date;
 public class AddGoalActivity extends AppCompatActivity {
     private ArrayList<Task> mTaskList;
     private ArrayList<Tag> mTagList;
+    private AddGoalViewModel mGoalViewModel;
 
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private TaskAdapter mAdapter;
@@ -45,10 +52,14 @@ public class AddGoalActivity extends AppCompatActivity {
         mEtGoalDueDate = findViewById(R.id.add_goal_et_goal_due_date);
     }
 
+    String userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_goal);
+
+        userId = getIntent().getStringExtra("id");
 
         InitializeView();
 
@@ -58,9 +69,9 @@ public class AddGoalActivity extends AppCompatActivity {
         mTagList.add(new Tag("Job",Color.parseColor("#86EED1")));
 
         mTaskList = new ArrayList<>();
-        mTaskList.add(new Task("Task 1"));
-        mTaskList.add(new Task("Task 2"));
-        mTaskList.add(new Task("Task 3"));
+//        mTaskList.add(new Task("Task 1"));
+//        mTaskList.add(new Task("Task 2"));
+//        mTaskList.add(new Task("Task 3"));
 
         mRvTask.setHasFixedSize(true);
 
@@ -88,6 +99,7 @@ public class AddGoalActivity extends AppCompatActivity {
             mEtGoalDueDate.setText(stDate);
         };
 
+        mGoalViewModel = new ViewModelProvider(this).get(AddGoalViewModel.class);
 
     }
 
@@ -102,6 +114,7 @@ public class AddGoalActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_done:
+                AddGoal();
                 Toast.makeText(this, "Done selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_cancel:
@@ -112,9 +125,37 @@ public class AddGoalActivity extends AppCompatActivity {
         }
     }
 
+    private void AddGoal()
+    {
+        Goal goal = new Goal(Integer.parseInt(userId),"task name","task description","Sun-21 Apr 20", android.R.color.holo_blue_light);
+        mGoalViewModel.addGoal(goal);
+
+        mGoalViewModel.getGoalIdResult().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                if (mTaskList.size()==0) return;
+                for (Task task: mTaskList)
+                {
+                    task.setGoalId(integer);
+                }
+                mGoalViewModel.addAllTasks(mTaskList);
+            }
+        }) ;
+
+            Intent returnIntent= new Intent();
+            setResult(RESULT_OK,returnIntent);
+            finish();
+
+
+
+
+
+
+    }
+
     public void onAddTaskClicked(View view)
     {
-        mTaskList.add(new Task("new task"));
+        mTaskList.add(new Task("new task",50));
         mAdapter.notifyDataSetChanged();
     }
 

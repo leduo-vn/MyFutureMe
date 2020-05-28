@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import com.amiele.myfutureme.database.entity.Goal;
 import com.amiele.myfutureme.database.entity.Task;
 
 import java.util.List;
@@ -13,12 +14,16 @@ import java.util.List;
 @Dao
 public interface TaskDao {
 
-    @Query("SELECT * FROM tags where goal_id = :goalId")
+    @Query("SELECT * FROM tasks where goal_id = :goalId")
     LiveData<List<Task>> loadTasks(int goalId);
 
-    @Query("SELECT * FROM tags where goal_id = :goalId")
+    @Query("SELECT * FROM tasks where goal_id = :goalId")
     List<Task> loadTasksSync(int goalId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(List<Task> tagList);
+    void insertAll(List<Task> taskList);
+
+    /* Throw the SQLiteConstraintException when user existed */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void addTask(Task task);
 }

@@ -14,6 +14,7 @@ import com.amiele.myfutureme.R;
 import com.amiele.myfutureme.database.entity.Task;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TaskAdapter  extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     private ArrayList<Task> mTaskList;
@@ -53,6 +54,11 @@ public class TaskAdapter  extends RecyclerView.Adapter<TaskAdapter.TaskViewHolde
         mGoalListener = goalListener;
     }
 
+    public void setTaskList(List<Task> taskList)
+    {
+        this.mTaskList = (ArrayList<Task>) taskList;
+    }
+
     @NonNull
     @Override
     public TaskAdapter.TaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -84,6 +90,7 @@ public class TaskAdapter  extends RecyclerView.Adapter<TaskAdapter.TaskViewHolde
      */
     @Override
     public int getItemCount() {
+        if (mTaskList == null) return 0;
         return mTaskList.size();
     }
 

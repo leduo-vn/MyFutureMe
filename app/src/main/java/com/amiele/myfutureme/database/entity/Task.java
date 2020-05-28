@@ -11,29 +11,27 @@ import java.util.ArrayList;
 
 @Entity(tableName = "tasks",
         foreignKeys = {
-                @ForeignKey(entity = User.class,
-                        parentColumns = "id",
-                        childColumns = "user_id",
+                @ForeignKey(entity = Goal.class,
+                        parentColumns = "goal_id",
+                        childColumns = "goal_id",
                         onDelete = ForeignKey.CASCADE)},
-        indices = {@Index(value = "user_id")
+        indices = {@Index(value = "goal_id")
         })
 public class Task {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "task_id")
-    private int mId;
+    private int id;
 
-    @ColumnInfo(name = "name")
-    private String mName;
+    private String name;
 
-    @ColumnInfo(name = "progress")
-    private int mProgress;
+    private int progress;
 
-    @ColumnInfo(name = "user_id")
-    private int mUserId;
+    @ColumnInfo(name = "goal_id")
+    private int goalId;
 
     @Ignore
-    private ArrayList<SubTask> mSubTasksList;
+    private ArrayList<SubTask> subTasksList;
 
     public Task()
     {
@@ -41,46 +39,71 @@ public class Task {
     }
 
     @Ignore
+    public Task(int goalId, String name, int progress)
+    {
+        this.goalId = goalId;
+        this.name = name;
+        this.progress = progress;
+    }
+
+
+
+    @Ignore
     public Task( String name, int progress){
-        mName = name;
-        mProgress = progress;
+        this.name = name;
+        this.progress = progress;
     }
 
     @Ignore
     public Task( String name){
-        mName = name;
-        mSubTasksList = new ArrayList<>();
-        mProgress = 0;
+        this.name = name;
+        subTasksList = new ArrayList<>();
+        progress = 0;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getGoalId() {
+        return goalId;
+    }
+
+    public void setGoalId(int goalId) {
+        this.goalId = goalId;
+    }
 
     public ArrayList<SubTask> getSubTasksList() {
-        return mSubTasksList;
+        return subTasksList;
     }
 
     public void setSubTasksList(ArrayList<SubTask> subTasksList) {
-        this.mSubTasksList = subTasksList;
+        this.subTasksList = subTasksList;
     }
 
     public String getName() {
-        return mName;
+        return name;
     }
 
     public void setName(String name) {
-        this.mName = name;
+        this.name = name;
     }
 
 
     public void addSubTask(String description, String date, int hour)
     {
-        mSubTasksList.add(new SubTask(description,date,hour));
+        subTasksList.add(new SubTask(description,date,hour));
     }
 
     public int getProgress() {
-        return mProgress;
+        return progress;
     }
 
     public void setProgress(int progress) {
-        this.mProgress = progress;
+        this.progress = progress;
     }
 }

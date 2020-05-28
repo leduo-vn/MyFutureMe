@@ -9,26 +9,24 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "tags",
         foreignKeys = {
-                @ForeignKey(entity = User.class,
-                        parentColumns = "id",
-                        childColumns = "user_id",
+                @ForeignKey(entity = Goal.class,
+                        parentColumns = "goal_id",
+                        childColumns = "goal_id",
                         onDelete = ForeignKey.CASCADE)},
-        indices = {@Index(value = "user_id")
+        indices = {@Index(value = "goal_id")
         })
 public class Tag {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "tag_id")
-    private int mId;
+    private int id;
 
-    @ColumnInfo(name = "name")
-    private String mName;
+    private String name;
 
-    @ColumnInfo(name = "color")
-    private int mColor;
+    private int color;
 
     @ColumnInfo(name = "goal_id")
-    private int mUserId;
+    private int goalId;
 
     public Tag()
     {
@@ -38,23 +36,39 @@ public class Tag {
     @Ignore
     public Tag(String name, int color)
     {
-        mName = name;
-        mColor = color;
+        this.name = name;
+        this.color = color;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getGoalId() {
+        return goalId;
+    }
+
+    public void setGoalId(int goalId) {
+        this.goalId = goalId;
     }
 
     public String getName() {
-        return mName;
+        return name;
     }
 
     public void setName(String name) {
-        this.mName = name;
+        this.name = name;
     }
 
     public int getColor() {
-        return mColor;
+        return color;
     }
 
     public void setColor(int color) {
-        this.mColor = color;
+        this.color = color;
     }
 }

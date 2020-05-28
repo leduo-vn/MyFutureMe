@@ -12,7 +12,7 @@ import java.util.ArrayList;
 @Entity(tableName = "goals",
         foreignKeys = {
                 @ForeignKey(entity = User.class,
-                        parentColumns = "id",
+                        parentColumns = "user_id",
                         childColumns = "user_id",
                         onDelete = ForeignKey.CASCADE)},
         indices = {@Index(value = "user_id")
@@ -21,78 +21,115 @@ public class Goal {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "goal_id")
-    private int mId;
+    private int id;
 
     @ColumnInfo(name = "user_id")
-    private int mUserId;
+    private int userId;
 
-    @ColumnInfo(name = "name")
-    private String mName;
+    private String name;
 
-    @ColumnInfo(name = "description")
-    private String mDescription;
+    private String description;
 
     @ColumnInfo(name = "due_date")
-    private String mDueDate;
+    private String dueDate;
 
-    @ColumnInfo(name = "color")
-    private int mColor;
+    private int color;
 
     public Goal()
     {
     }
 
     @Ignore
-    private ArrayList<Task> mTaskList;
+    private ArrayList<Task> taskList;
 
     @Ignore
-    private ArrayList<Tag> mTagList;
+    private ArrayList<Tag> tagList;
 
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
 
     @Ignore
     public Goal(String name, String description)
     {
-        mName = name;
-        mDescription = description;
-        mTaskList = new ArrayList<>();
-        mTagList = new ArrayList<>();
+        this.name = name;
+        this.description = description;
+        taskList = new ArrayList<>();
+        tagList = new ArrayList<>();
+    }
+
+    @Ignore
+    public Goal(int userId, String name, String description, String dueDate, int color)
+    {
+        this.userId = userId;
+        this.name= name;
+        this.description =description;
+        this.dueDate = dueDate;
+        this.color = color;
     }
 
     public String getName() {
-        return mName;
+        return name;
     }
 
     public String getDescription() {
-        return mDescription;
+        return description;
     }
 
     public ArrayList<Task> getTaskList() {
-        return mTaskList;
+        return taskList;
     }
 
     public void setTaskList(ArrayList<Task> taskList) {
-        this.mTaskList = taskList;
+        this.taskList = taskList;
     }
 
     public void addTask(String name)
     {
-        mTaskList.add(new Task(name));
+        taskList.add(new Task(name));
     }
 
     public ArrayList<Tag> getTagList() {
-        return mTagList;
+        return tagList;
     }
 
     public void setTagList(ArrayList<Tag> tagList) {
-        this.mTagList = tagList;
+        this.tagList = tagList;
     }
 
     public int getColor() {
-        return mColor;
+        return color;
     }
 
     public void setColor(int Color) {
-        this.mColor = mColor;
+        this.color = color;
     }
 }

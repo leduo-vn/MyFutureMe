@@ -11,16 +11,16 @@ public class User {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "user_id")
-    private int mId;
+    private int id;
 
-    @ColumnInfo(name = "username")
-    private String mUsername;
+    private String username;
 
-    @ColumnInfo(name = "email")
-    private String mEmail;
+    private String email;
 
-    @ColumnInfo(name = "password")
-    private String mPassword;
+    private String password;
+
+    @ColumnInfo(name = "is_signed_in")
+    private boolean isSignedIn;
 
     public User()
     {
@@ -30,36 +30,47 @@ public class User {
     @Ignore
     public User(@NonNull String username, @NonNull String email, @NonNull String password)
     {
-        mUsername = username;
-        mEmail = email;
-        mPassword = password;
+        this.username = username;
+        this.email = email;
+        this.password = password;
     }
 
+    public void setId(int mId) {
+        this.id = mId;
+    }
     public int getId() {
-        return mId;
+        return id;
+    }
+
+    public boolean isSignedIn() {
+        return isSignedIn;
+    }
+
+    public void setSignedIn(boolean signedIn) {
+        isSignedIn = signedIn;
     }
 
     public String getUsername() {
-        return mUsername;
+        return username;
     }
 
     public void setUsername(String username) {
-        this.mUsername = username;
+        this.username = username;
     }
 
     public String getEmail() {
-        return mEmail;
+        return email;
     }
 
     public void setEmail(String email) {
-        this.mEmail = email;
+        this.email = email;
     }
 
     public String getPassword() {
-        return mPassword;
+        return password;
     }
 
     public void setPassword(String password) {
-        this.mPassword = password;
+        this.password = password;
     }
 }

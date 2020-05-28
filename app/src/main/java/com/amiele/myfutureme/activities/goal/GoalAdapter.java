@@ -10,14 +10,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amiele.myfutureme.AppRepo;
 import com.amiele.myfutureme.R;
 import com.amiele.myfutureme.database.entity.Goal;
 import com.amiele.myfutureme.database.entity.Task;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHolder> {
     private ArrayList<Goal> mGoalList;
@@ -25,7 +30,8 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
     private Activity mActivity;
     private int mExpandedPosition = -1;
     private int mAddTaskExpandedPosition = -1;
-
+    AppRepo appRepo;
+    GoalViewModel goalViewModel;
 
     public interface OnItemClickListener {
         void onItemClick(Task position);
@@ -71,6 +77,12 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
         this.mActivity = activity;
     }
 
+
+    public void setGoalList(List<Goal> goals)
+    {
+        mGoalList = (ArrayList<Goal>) goals;
+    }
+
     @NonNull
     @Override
     public WorkTaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -112,6 +124,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
 
             }
         });
+
 
 
         holder.tvName.setText(currentGoal.getName());
@@ -157,9 +170,12 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
         });
 
         holder.iBtnAddTaskDone.setOnClickListener(v -> {
+
+            Task task = new Task(currentGoal.getId(), "task name", 70);
+          //  goalViewModel.addTask(task);
             mGoalList.get(position).addTask("new Task");
             mAddTaskExpandedPosition = -1;
-            notifyItemChanged(position);
+
         });
 
     }
@@ -170,7 +186,8 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
      */
     @Override
     public int getItemCount() {
-        return mGoalList.size();
+        if (mGoalList==null) return 0;
+            return mGoalList.size();
     }
 
 
