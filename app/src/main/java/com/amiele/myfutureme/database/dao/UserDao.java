@@ -12,7 +12,7 @@ import com.amiele.myfutureme.database.entity.User;
 public interface UserDao {
 
     /* Throw the SQLiteConstraintException when user existed */
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addUser(User user);
 
     @Query("select * from users where user_id = :userId")

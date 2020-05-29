@@ -1,6 +1,7 @@
 package com.amiele.myfutureme.activities.goal;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -37,6 +38,7 @@ public class AddGoalActivity extends AppCompatActivity {
     private ArrayList<Task> mTaskList;
     private ArrayList<Tag> mTagList;
     private AddGoalViewModel mGoalViewModel;
+    private int goalId;
 
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private TaskAdapter mAdapter;
@@ -100,8 +102,78 @@ public class AddGoalActivity extends AppCompatActivity {
         };
 
         mGoalViewModel = new ViewModelProvider(this).get(AddGoalViewModel.class);
+        Goal goal = new Goal(Integer.parseInt(userId),"Goal name","goal description","Sun-21 Apr 20", android.R.color.holo_blue_light);
+        mGoalViewModel.addGoal(goal);
+
+        mGoalViewModel.getGoalIdResult().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                goalId = integer;
+            }
+        }) ;
+    }
+
+    private void returnToParent()
+    {
+        Intent returnIntent= new Intent();
+        setResult(RESULT_OK,returnIntent);
+        finish();
+    }
+
+    private void AddTask()
+    {
+        if (mTaskList.size()!=0) {
+            for (Task task : mTaskList) {
+                task.setGoalId(goalId);
+            }
+            mGoalViewModel.addAllTasks(mTaskList);
+        }
+        returnToParent();
 
     }
+
+    private void DeleteGoal()
+    {
+        mGoalViewModel.deleteGoal(goalId);
+        returnToParent();
+    }
+
+    public void onAddTaskClicked(View view)
+    {
+        mTaskList.add(new Task("new task",50));
+        mAdapter.notifyDataSetChanged();
+    }
+    public static final int ADD_TAG_ACTIVITY_REQUEST_CODE = 1;
+
+    public void onAddTagBtnClicked(View view)
+    {
+        Intent addTagActivity = new Intent(this, AddTagActivity.class);
+        addTagActivity.putExtra("goal_id",goalId);
+        startActivityForResult(addTagActivity,ADD_TAG_ACTIVITY_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == ADD_TAG_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            UpdateTag();
+            DisplayToast("success!");
+        } else {
+            DisplayToast("error");
+        }
+    }
+
+    private void UpdateTag()
+    {
+
+    }
+
+    private  void DisplayToast(String text)
+    {
+        Toast.makeText(this,text,Toast.LENGTH_SHORT).show();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -114,60 +186,16 @@ public class AddGoalActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_done:
-                AddGoal();
+                AddTask();
                 Toast.makeText(this, "Done selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_cancel:
+                DeleteGoal();
                 Toast.makeText(this, "Cancel selected", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void AddGoal()
-    {
-        Goal goal = new Goal(Integer.parseInt(userId),"task name","task description","Sun-21 Apr 20", android.R.color.holo_blue_light);
-        mGoalViewModel.addGoal(goal);
-
-        mGoalViewModel.getGoalIdResult().observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                if (mTaskList.size()==0) return;
-                for (Task task: mTaskList)
-                {
-                    task.setGoalId(integer);
-                }
-                mGoalViewModel.addAllTasks(mTaskList);
-            }
-        }) ;
-
-            Intent returnIntent= new Intent();
-            setResult(RESULT_OK,returnIntent);
-            finish();
-
-
-
-
-
-
-    }
-
-    public void onAddTaskClicked(View view)
-    {
-        mTaskList.add(new Task("new task",50));
-        mAdapter.notifyDataSetChanged();
-    }
-
-    public void onAddTagBtnClicked(View view)
-    {
-        Intent addTagActivity = new Intent(this, AddTagActivity.class);
-        startActivity(addTagActivity);
-    }
-
-    private  void DisplayToast(String text)
-    {
-        Toast.makeText(this,text,Toast.LENGTH_SHORT).show();
     }
 
 }
