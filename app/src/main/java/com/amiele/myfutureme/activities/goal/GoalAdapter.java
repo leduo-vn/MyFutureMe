@@ -1,6 +1,8 @@
 package com.amiele.myfutureme.activities.goal;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -20,7 +23,11 @@ import com.amiele.myfutureme.AppRepo;
 import com.amiele.myfutureme.R;
 import com.amiele.myfutureme.database.entity.Goal;
 import com.amiele.myfutureme.database.entity.Task;
+import com.google.android.flexbox.FlexboxLayout;
 
+import org.w3c.dom.Text;
+
+import java.sql.Wrapper;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +61,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
         public LinearLayout llAddTask;
         public ImageButton iBtnAddTaskCancel;
         public ImageButton iBtnAddTaskDone;
+        public FlexboxLayout fblTag;
 
         public  WorkTaskViewHolder(View view) {
             super(view);
@@ -67,6 +75,8 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
             llAddTask = itemView.findViewById(R.id.recycle_view_goal_ll_add_task);
             iBtnAddTaskCancel = itemView.findViewById(R.id.recycle_view_goal_ibtn_add_task_cancel);
             iBtnAddTaskDone = itemView.findViewById(R.id.recycle_view_goal_ibtn_add_task_done);
+
+            fblTag = itemView.findViewById(R.id.recycle_view_goal_fl_tag);
         }
 
 
@@ -91,6 +101,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(@NonNull final WorkTaskViewHolder holder, final int position) {
         Goal currentGoal = mGoalList.get(position);
@@ -125,6 +136,18 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
             }
         });
 
+
+       for (int i = 0; i<15 ; i++)
+       {
+           TextView tv = new TextView(mActivity);
+           tv.setText("Friend " + i);
+           tv.setBackgroundColor(Color.GRAY);
+           tv.setBackground(mActivity.getDrawable(R.drawable.rounded_purple_border));
+           LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+           params.setMargins(10,10,10,10);
+           tv.setLayoutParams(params);
+           holder.fblTag.addView(tv);
+       }
 
 
         holder.tvName.setText(currentGoal.getName());

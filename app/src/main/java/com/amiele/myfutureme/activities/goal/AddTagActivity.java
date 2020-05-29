@@ -3,9 +3,12 @@ package com.amiele.myfutureme.activities.goal;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -21,20 +24,26 @@ import android.widget.Toast;
 
 import com.amiele.myfutureme.R;
 import com.amiele.myfutureme.database.entity.Tag;
+import com.amiele.myfutureme.database.entity.TagLibrary;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 import petrov.kristiyan.colorpicker.ColorPicker;
 
 public class AddTagActivity extends AppCompatActivity {
     private ArrayList<Tag> mTagList;
-    
+    private AddTagViewModel mAddTagViewModel;
+
     private TagAdapter mAdapter;
     private RecyclerView mRvTag;
     private TextView mTvTagName;
     private LinearLayout mLlAddTag;
     private LinearLayout mLlTagAdd;
     private ImageButton mIBtnColorPick;
+
+    private String goalId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +52,12 @@ public class AddTagActivity extends AppCompatActivity {
 
         InitializeView();
 
+        goalId = getIntent().getStringExtra("goal_id");
+
         mTagList = new ArrayList<>();
-        mTagList.add(new Tag("Friend",Color.parseColor("#EEDBAA")));
-        mTagList.add(new Tag("LifeStyle",Color.parseColor("#BDEEAA")));
-        mTagList.add(new Tag("Job",Color.parseColor("#86EED1")));
+//        mTagList.add(new TagLibrary("Friend",Color.parseColor("#EEDBAA")));
+//        mTagList.add(new TagLibrary("LifeStyle",Color.parseColor("#BDEEAA")));
+//        mTagList.add(new TagLibrary("Job",Color.parseColor("#86EED1")));
 
         mRvTag.setHasFixedSize(true);
 
@@ -59,6 +70,18 @@ public class AddTagActivity extends AppCompatActivity {
 
         mLlTagAdd.setOnClickListener(v -> AddTag());
 
+        mAddTagViewModel = new ViewModelProvider(this).get(AddTagViewModel.class);
+        mAddTagViewModel.getAllTags().observe(this, new Observer<List<TagLibrary>>() {
+            @Override
+            public void onChanged(List<TagLibrary> tagLibraries) {
+                    ArrayList<Tag> tags = new ArrayList<>();
+                    for (TagLibrary tagLibrary:tagLibraries)
+                            tags.add(new Tag(tagLibrary));
+
+                    mAdapter.setTagList(tags);
+                    mAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -105,6 +128,9 @@ public class AddTagActivity extends AppCompatActivity {
         if (item.getItemId()==R.id.action_done)
         {
             Toast.makeText(this, "Done selected", Toast.LENGTH_SHORT).show();
+            Intent returnIntent= new Intent();
+            setResult(RESULT_OK,returnIntent);
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -158,9 +184,10 @@ public class AddTagActivity extends AppCompatActivity {
     {
         String name = mTvTagName.getText().toString();
         ColorDrawable color = (ColorDrawable) mTvTagName.getBackground();
-        mTagList.add(new Tag(name,color.getColor()));
-        mAdapter.setTagList(mTagList);
-        mAdapter.notifyDataSetChanged();
+        mAddTagViewModel.addLibraryTag(new TagLibrary(name, color.getColor()));
+//        mTagList.add(new TagLibrary(name,color.getColor()));
+//        mAdapter.setTagList(mTagList);
+//        mAdapter.notifyDataSetChanged();
     }
 
     private  void DisplayToast(String text)

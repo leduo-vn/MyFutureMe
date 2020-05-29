@@ -1,4 +1,4 @@
-package com.amiele.myfutureme.activities.goal;
+package com.amiele.myfutureme.activities.authentication.login;
 
 import android.app.Application;
 import android.os.AsyncTask;
@@ -21,26 +21,51 @@ public class LoginViewModel extends AndroidViewModel {
     public LoginViewModel(@NonNull Application application) {
         super(application);
         mAppRepo = new AppRepo(application);
-
+        loginResult = new MutableLiveData<>();
+        loggedResult = new MutableLiveData<>();
+        loadSignedUser();
     }
 
-    private static MutableLiveData<String> loginResult = new MutableLiveData<>();
+    private static MutableLiveData<String> loginResult ;
     public LiveData<String> getLoginResult() {
         return loginResult;
     }
 
-    private static MutableLiveData<Boolean> updateUserStatusResult = new MutableLiveData<>();
-    public LiveData<Boolean> getUpdateUserStatusResult() {
-        return updateUserStatusResult;
+    private static MutableLiveData<String> loggedResult ;
+    public LiveData<String> getLoggedResult() {
+        return loggedResult;
     }
 
-    public static User login(String email,String password) {
+    private static void loadSignedUser() {
+        new AsyncTask<Void, Void, User>() {
+            @Override
+            protected User doInBackground(Void... voids) {
+                User user = mAppRepo.getSignedInUser();
+                return user;
+            }
+
+            @Override
+            protected void onPostExecute(User user) {
+                super.onPostExecute(user);
+
+                if (user!=null)
+                    loggedResult.setValue("logged");
+
+            }
+        }.execute();
+    }
+
+    public static void login(String email,String password) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
                 user = mAppRepo.getUserAsyncByEmail(email);
-                if (user != null && user.getPassword() == password)
+                if (user != null && user.getPassword().equals(password))
+                {
+                    user.setSignedIn(true);
                     mAppRepo.UpdateUserSignInStatus(user.getId(),true);
+                }
+
                 return null;
             }
 
@@ -57,11 +82,6 @@ public class LoginViewModel extends AndroidViewModel {
             }
         }.execute();
 
-        return user;
     }
 
-    public static void updateSignedInUser(boolean status)
-    {
-        mAppRepo.UpdateUserSignInStatus(user.getId(),status);
-    }
 }

@@ -11,9 +11,11 @@ import com.amiele.myfutureme.database.AppDatabase;
 import com.amiele.myfutureme.database.dao.GoalDao;
 import com.amiele.myfutureme.database.dao.SubTaskDao;
 import com.amiele.myfutureme.database.dao.TagDao;
+import com.amiele.myfutureme.database.dao.TagLibraryDao;
 import com.amiele.myfutureme.database.dao.TaskDao;
 import com.amiele.myfutureme.database.dao.UserDao;
 import com.amiele.myfutureme.database.entity.Goal;
+import com.amiele.myfutureme.database.entity.TagLibrary;
 import com.amiele.myfutureme.database.entity.Task;
 import com.amiele.myfutureme.database.entity.User;
 
@@ -27,6 +29,7 @@ public class AppRepo {
     private TaskDao mTaskDao;
     private TagDao mTagDao;
     private SubTaskDao mSubTaskDao;
+    private TagLibraryDao mtagLibraryDao;
 
 
     public  AppRepo(Application application)
@@ -37,6 +40,7 @@ public class AppRepo {
         mTaskDao = db.taskDao();
         mTagDao = db.tagDao();
         mSubTaskDao = db.subTaskDao();
+        mtagLibraryDao = db.tagLibraryDao();
     }
 
 //    public void addKeyword(Keyword keyword) {
@@ -107,9 +111,32 @@ public class AppRepo {
         return mTaskDao.loadTasks(goalId);
     }
 
+    public LiveData<List<Task>> loadTasks(List<Integer> goalIdList) {
+        return mTaskDao.loadTasks(goalIdList);
+    }
+
     public void addTask(Task task) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             mTaskDao.addTask(task);
+        });
+    }
+
+    public void deleteGoal(int goalId)
+    {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            mGoalDao.deleteGoal(goalId);
+        });
+    }
+
+    public LiveData<List<TagLibrary>> loadAllLibraryTag()
+    {
+        return mtagLibraryDao.loadTags();
+    }
+
+    public void addLibraryTag(TagLibrary tag)
+    {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            mtagLibraryDao.addTagLibrary(tag);
         });
     }
 }

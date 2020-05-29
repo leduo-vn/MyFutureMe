@@ -40,10 +40,10 @@ public class Goal {
     }
 
     @Ignore
-    private ArrayList<Task> taskList;
+    private ArrayList<Task> taskList = new ArrayList<>();
 
     @Ignore
-    private ArrayList<Tag> tagList;
+    private ArrayList<Tag> tagList = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -95,6 +95,21 @@ public class Goal {
         this.dueDate = dueDate;
         this.color = color;
     }
+
+    @Ignore
+    public Goal(Goal goal)
+    {
+        this.id = goal.getId();
+        this.userId = goal.getUserId();
+        this.name = goal.getName();
+        this.description = goal.getDescription();
+        this.dueDate = goal.getDueDate();
+        this.color = goal.color;
+        this.taskList = new ArrayList<>(goal.getTaskList());
+        this.tagList = new ArrayList<>(goal.getTagList());
+    }
+
+    public void addTask(Task task){ taskList.add(task);};
 
     public String getName() {
         return name;

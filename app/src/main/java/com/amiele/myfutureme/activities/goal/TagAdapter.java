@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.amiele.myfutureme.R;
 import com.amiele.myfutureme.database.entity.Tag;
+import com.amiele.myfutureme.database.entity.TagLibrary;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +60,8 @@ public class TagAdapter  extends RecyclerView.Adapter<TagAdapter.TagViewHolder> 
             notifyDataSetChanged();
         }
     };
+
+
 
 //    public interface OnItemClickListener {
 //        void onItemClick(Tag tag);

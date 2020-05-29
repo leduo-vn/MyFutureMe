@@ -17,6 +17,9 @@ public interface TaskDao {
     @Query("SELECT * FROM tasks where goal_id = :goalId")
     LiveData<List<Task>> loadTasks(int goalId);
 
+    @Query("SELECT * FROM tasks where goal_id IN (:goalIdList)")
+    LiveData<List<Task>> loadTasks(List<Integer> goalIdList);
+
     @Query("SELECT * FROM tasks where goal_id = :goalId")
     List<Task> loadTasksSync(int goalId);
 

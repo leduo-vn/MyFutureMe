@@ -116,7 +116,6 @@
             android:layout_margin="5dp"
             android:background="@drawable/rounded_purple_border"
             android:gravity="center"
-            android:onClick="onSummaryActionClicked"
             android:orientation="vertical"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1">

@@ -11,11 +11,13 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.amiele.myfutureme.database.dao.GoalDao;
 import com.amiele.myfutureme.database.dao.SubTaskDao;
 import com.amiele.myfutureme.database.dao.TagDao;
+import com.amiele.myfutureme.database.dao.TagLibraryDao;
 import com.amiele.myfutureme.database.dao.TaskDao;
 import com.amiele.myfutureme.database.dao.UserDao;
 import com.amiele.myfutureme.database.entity.Goal;
 import com.amiele.myfutureme.database.entity.SubTask;
 import com.amiele.myfutureme.database.entity.Tag;
+import com.amiele.myfutureme.database.entity.TagLibrary;
 import com.amiele.myfutureme.database.entity.Task;
 import com.amiele.myfutureme.database.entity.User;
 
@@ -23,7 +25,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
-@Database(entities = {User.class, Goal.class, Task.class, Tag.class, SubTask.class},version = 9, exportSchema = false)
+@Database(entities = {User.class, Goal.class, Task.class, Tag.class, SubTask.class, TagLibrary.class},version = 11, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "app_db";
@@ -33,6 +35,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract TaskDao taskDao();
     public abstract TagDao tagDao();
     public abstract SubTaskDao subTaskDao();
+    public abstract TagLibraryDao tagLibraryDao();
 
     private static volatile AppDatabase sINSTANCE;
     private static final int NUMBER_OF_THREADS = 4;

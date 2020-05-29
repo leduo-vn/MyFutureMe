@@ -2,23 +2,30 @@ package com.amiele.myfutureme.activities.goal;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.arch.core.util.Function;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.Transformations;
 
 import com.amiele.myfutureme.AppRepo;
 import com.amiele.myfutureme.database.entity.Goal;
 import com.amiele.myfutureme.database.entity.Task;
 import com.amiele.myfutureme.database.entity.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GoalViewModel extends AndroidViewModel {
 
     private static AppRepo mAppRepo;
     private static LiveData<List<Goal>> goals;
+    private static LiveData<List<Task>> tasks;
     private LiveData<User> ldCurrentUser;
     private int userId;
     private static User user;
@@ -29,6 +36,7 @@ public class GoalViewModel extends AndroidViewModel {
     public GoalViewModel(@NonNull Application application) {
         super(application);
         mAppRepo = new AppRepo(application);
+
         loadUser();
 
     }
@@ -38,19 +46,25 @@ public class GoalViewModel extends AndroidViewModel {
         return getUserResult;
     }
 
+
+    private static MutableLiveData<Boolean> getUserSignOutResult = new MutableLiveData<>();
+    public LiveData<Boolean> getUserSignOutResult() {
+        return getUserSignOutResult;
+    }
+
     private static void loadUser() {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
                 user = mAppRepo.getSignedInUser();
                 loadAllLoad(user.getId());
+
                 return null;
             }
 
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-
                 getUserResult.setValue(true);
             }
         }.execute();
@@ -73,12 +87,71 @@ public class GoalViewModel extends AndroidViewModel {
         return user.getId();
     }
 
-    public static void loadAllLoad(int userId)
+    public static void updateSignedInUser(boolean status)
     {
-        goals = mAppRepo.loadGoals(userId);
+        mAppRepo.UpdateUserSignInStatus(user.getId(),false);
     }
 
+    static ArrayList<Goal> goalList;
 
+    public static void loadAllLoad(int userId)
+    {
+       // goals = mAppRepo.loadGoals(userId);
+       LiveData<List<Integer>> goalIds = Transformations.map(mAppRepo.loadGoals(userId), new Function<List<Goal>, List<Integer>>() {
+
+            @Override
+            public List<Integer> apply(List<Goal> input) {
+                ArrayList<Integer> goalIds = new ArrayList<>();
+                for (Goal goal:input)
+                {
+                    goalIds.add(goal.getId());
+
+                }
+                goalList  = new ArrayList<>(input);
+                return goalIds;
+            }
+        });
+
+
+       LiveData<List<Task>> tasks = Transformations.switchMap(goalIds, new Function<List<Integer>, LiveData<List<Task>>>() {
+           @Override
+           public LiveData<List<Task>> apply(List<Integer> input) {
+               return mAppRepo.loadTasks(input);
+           }
+       });
+
+        LiveData<List<Goal>> finalGoal = Transformations.map(tasks, new Function<List<Task>, List<Goal>>() {
+            @Override
+            public List<Goal> apply(List<Task> input) {
+                ArrayList<Goal> goals = new ArrayList<>(goalList);
+
+                for (Task task:input)
+                {
+                    for (Goal goal: goals)
+                    {
+                        if (goal.getId() == task.getGoalId())
+                        {
+                            goal.addTask(task);
+                            break;
+                        }
+                    }
+                }
+
+                return goals;
+            }
+        });
+        goals = finalGoal;
+
+    }
+
+    static MediatorLiveData<List<Goal>> finalGoal = new MediatorLiveData<>();
+
+
+
+    public void loadAllTasksOfGoals(List<Integer> goalIds)
+    {
+        mAppRepo.loadTasks(goalIds);
+    }
     public LiveData<List<Task>> getTasks(int goalId) {
         return mAppRepo.loadTasks(goalId);
     }

@@ -50,6 +50,11 @@ public class AddGoalViewModel extends AndroidViewModel {
         return updateUserStatusResult;
     }
 
+    public void deleteGoal(int goalId)
+    {
+        mAppRepo.deleteGoal(goalId);
+    }
+
     public static void addGoal(Goal goal)
     {
         new AsyncTask<Void, Void, Long>() {

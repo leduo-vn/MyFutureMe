@@ -26,4 +26,7 @@ public interface GoalDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<Goal> goalList);
 
+    @Query("DELETE FROM goals WHERE goal_id = :goalId")
+    void deleteGoal(int goalId);
+
 }
