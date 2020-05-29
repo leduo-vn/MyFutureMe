@@ -4,24 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amiele.myfutureme.AppRepo;
 import com.amiele.myfutureme.R;
 import com.amiele.myfutureme.activities.authentication.register.RegisterActivity;
-import com.amiele.myfutureme.activities.goal.LoginViewModel;
-import com.amiele.myfutureme.activities.goal.UserViewModel;
+import com.amiele.myfutureme.activities.goal.GoalActivity;
 import com.amiele.myfutureme.activities.main.MainActivity;
-import com.amiele.myfutureme.database.entity.User;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class LoginActivity extends AppCompatActivity {
@@ -38,22 +31,33 @@ public class LoginActivity extends AppCompatActivity {
         usernameEditText = findViewById(R.id.txt_username);
         passwordEditText = findViewById(R.id.txt_password);
 
-        mLoginViewModel.getUpdateUserStatusResult().observe(this, new Observer<Boolean>() {
+
+        mLoginViewModel.getLoggedResult().observe(this, new Observer<String>() {
             @Override
-            public void onChanged(Boolean aBoolean) {
-                if (aBoolean){
+            public void onChanged(String s) {
+                if (s=="logged")
+                {
+                    finish();
+                    Intent goalActivity = new Intent(getApplication(), GoalActivity.class);
+                    startActivity(goalActivity);
                 }
                 else return;
             }
         });
-
         mLoginViewModel.getLoginResult().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 if (s == "success") {
-                    GotoMainActivity();
+                    DisplayToast("Login success");
+                    finish();
+                    Intent goalActivity = new Intent(getApplication(), GoalActivity.class);
+                    startActivity(goalActivity);
                 }
-                else return;
+                else
+                {
+                    DisplayToast(s);
+                    return;
+                }
             }
         });
 
@@ -65,40 +69,10 @@ public class LoginActivity extends AppCompatActivity {
                 String password = passwordEditText.getText().toString();
                 mLoginViewModel.login(email,password);
 
-               // ExecuteLogin(email,password);
-
-
             }
         });
     }
 
-    private void ExecuteLogin(String email,String password)
-    {
-//        User user =
-//        if (user == null) DisplayToast("null");
-//        else{
-//                if (!user.getPassword().equals(password))
-//                {
-//                    DisplayToast("Wrong Passowrd");
-//                }
-//                else {
-//                    mLoginViewModel.updateSignedInUser(user,true);
-//                    GotoMainActivity();
-//
-//               }
-//        }
-
-    }
-
-    private void GotoMainActivity()
-    {
-       DisplayToast("here");
-
-        Intent mainActivity = new Intent(this, MainActivity.class);
-        startActivity(mainActivity);
-
-
-    }
     private void DisplayToast(String text)
     {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
