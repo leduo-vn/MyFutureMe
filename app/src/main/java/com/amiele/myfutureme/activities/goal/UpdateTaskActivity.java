@@ -2,10 +2,13 @@ package com.amiele.myfutureme.activities.goal;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +23,7 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.amiele.myfutureme.R;
+import com.amiele.myfutureme.database.entity.SubTask;
 import com.amiele.myfutureme.database.entity.Task;
 import com.amiele.myfutureme.helpers.DateConverter;
 
@@ -30,6 +34,9 @@ public class UpdateTaskActivity extends AppCompatActivity {
 
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private SubTaskAdapter mAdapter;
+    int taskId;
+    private UpdateTaskViewModel mUpdateTaskViewModel;
+
 
     private SeekBar mSeekBar;
     private TextView mTvSubTaskDow;
@@ -54,10 +61,15 @@ public class UpdateTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_update_task);
 
         InitializeView();
+        taskId = Integer.parseInt(getIntent().getStringExtra("task_id"));
+
+
+
+
 
         mTask = new Task("Task Name");
-        mTask.addSubTask("today is a good day","SUN-09 APR 20",2);
-        mTask.addSubTask("i have worked out and talked with my friend","SUN-09 APR 20",3);
+//        mTask.addSubTask("today is a good day","SUN-09 APR 20",2);
+//        mTask.addSubTask("i have worked out and talked with my friend","SUN-09 APR 20",3);
 
 
         mRvSubTask.setHasFixedSize(true);
@@ -119,6 +131,20 @@ public class UpdateTaskActivity extends AppCompatActivity {
                 mVsTaskName.showPrevious();
             }
         });
+
+
+
+        mUpdateTaskViewModel = new ViewModelProvider(this).get(UpdateTaskViewModel.class);
+        mUpdateTaskViewModel.setTaskId(taskId);
+        mUpdateTaskViewModel.loadTask();
+        mUpdateTaskViewModel.getTask().observe(this, new Observer<Task>() {
+            @Override
+            public void onChanged(Task task) {
+                mAdapter.setSubTaskList(task.getSubTasksList());
+                mAdapter.notifyDataSetChanged();
+                // update all view
+            }
+        });
     }
 
     @Override
@@ -133,6 +159,9 @@ public class UpdateTaskActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_done:
                 Toast.makeText(this, "Done selected", Toast.LENGTH_SHORT).show();
+                Intent returnIntent= new Intent();
+                setResult(RESULT_OK,returnIntent);
+                finish();
                 return true;
             case R.id.action_delete:
                 Toast.makeText(this, "Delete selected", Toast.LENGTH_SHORT).show();
@@ -163,7 +192,7 @@ public class UpdateTaskActivity extends AppCompatActivity {
 
     private void AddSubTask()
     {
-        mTask.addSubTask(mEtSubTaskDescription.getText().toString(), mTvSubTaskDow.getText().toString()+"-"+ mTvSubTaskDate.getText().toString(),Integer.parseInt(mEtSubTaskHour.getText().toString()));
-        mAdapter.notifyDataSetChanged();
+        SubTask subTask = new SubTask(mEtSubTaskDescription.getText().toString(), mTvSubTaskDow.getText().toString()+"-"+ mTvSubTaskDate.getText().toString(),Integer.parseInt(mEtSubTaskHour.getText().toString()));
+        mUpdateTaskViewModel.addSubTask(subTask);
     }
 }

@@ -96,16 +96,21 @@ public class GoalActivity extends AppCompatActivity {
         startActivityForResult(addGoalActivity,ACTIVITY_REQUEST_CODE);
     }
     public static final int ACTIVITY_REQUEST_CODE = 1;
+    public static final int EDIT_TASK_ACTIVITY_REQUEST_CODE = 2;
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            DisplayToast("success!");
-        } else {
-           DisplayToast("error");
+            DisplayToast("add goal success!");
+        } else
+        if (requestCode == EDIT_TASK_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK)
+            {
+           DisplayToast("edit task success");
         }
+        else DisplayToast("error");
     }
 
     @Override
@@ -154,8 +159,9 @@ public class GoalActivity extends AppCompatActivity {
 
     private void GoToUpdateTaskActivity(Task task)
     {
-        Intent updateTaskActivity = new Intent(this, UpdateTaskActivity.class);
-        startActivity(updateTaskActivity);
+        Intent  updateTaskActivity= new Intent(this, UpdateTaskActivity.class);
+        updateTaskActivity.putExtra("task_id",Integer.toString(task.getId()));
+        startActivityForResult(updateTaskActivity,EDIT_TASK_ACTIVITY_REQUEST_CODE);
     }
 
     private  void DisplayToast(String text)

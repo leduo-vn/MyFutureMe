@@ -158,7 +158,7 @@ public class AddGoalActivity extends AppCompatActivity {
         setResult(RESULT_OK,returnIntent);
         finish();
     }
-    
+
 
     private void DeleteGoal()
     {
@@ -170,10 +170,10 @@ public class AddGoalActivity extends AppCompatActivity {
     {
         Task task = new Task("new task", 50);
         task.setGoalId(goalId);
-        mGoalViewModel.addTask(task);//  mTaskList.add(new Task("new task",50));
-       // mAdapter.notifyDataSetChanged();
+        mGoalViewModel.addTask(task);
     }
     public static final int ADD_TAG_ACTIVITY_REQUEST_CODE = 1;
+
 
     public void onAddTagBtnClicked(View view)
     {
