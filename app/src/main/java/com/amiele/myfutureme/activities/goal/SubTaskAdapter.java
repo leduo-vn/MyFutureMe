@@ -70,6 +70,11 @@ public class SubTaskAdapter  extends RecyclerView.Adapter<SubTaskAdapter.SubTask
         this.subTaskList = subTaskList;
     }
 
+    public void setSubTaskList(ArrayList<SubTask> subTaskList)
+    {
+        this.subTaskList = subTaskList;
+    }
+
     @NonNull
     @Override
     public SubTaskAdapter.SubTaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

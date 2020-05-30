@@ -15,6 +15,7 @@ import com.amiele.myfutureme.database.dao.TagLibraryDao;
 import com.amiele.myfutureme.database.dao.TaskDao;
 import com.amiele.myfutureme.database.dao.UserDao;
 import com.amiele.myfutureme.database.entity.Goal;
+import com.amiele.myfutureme.database.entity.SubTask;
 import com.amiele.myfutureme.database.entity.Tag;
 import com.amiele.myfutureme.database.entity.TagLibrary;
 import com.amiele.myfutureme.database.entity.Task;
@@ -125,6 +126,23 @@ public class AppRepo {
     public void addTask(Task task) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             mTaskDao.addTask(task);
+        });
+    }
+
+    public LiveData<Task> loadTask(int taskId)
+    {
+        return mTaskDao.loadTask(taskId);
+    }
+
+    public LiveData<List<SubTask>> loadSubTasks(int taskId)
+    {
+        return mSubTaskDao.loadSubTasks(taskId);
+    }
+
+    public void addSubTask(SubTask subTask)
+    {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            mSubTaskDao.addSubTask(subTask);
         });
     }
 
