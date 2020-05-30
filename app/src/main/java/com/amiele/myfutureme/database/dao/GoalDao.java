@@ -13,18 +13,11 @@ import java.util.List;
 @Dao
 public interface GoalDao {
 
-    /* Throw the SQLiteConstraintException when user existed */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Long addGoalAsync(Goal goal);
 
     @Query("SELECT * FROM goals where user_id = :userId")
     LiveData<List<Goal>> loadGoals(int userId);
-
-    @Query("SELECT * FROM goals where user_id = :userId")
-    List<Goal> loadGoalsSync(int userId);
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(List<Goal> goalList);
 
     @Query("DELETE FROM goals WHERE goal_id = :goalId")
     void deleteGoal(int goalId);

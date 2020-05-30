@@ -23,7 +23,6 @@ import com.amiele.myfutureme.database.entity.User;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 @Database(entities = {User.class, Goal.class, Task.class, Tag.class, SubTask.class, TagLibrary.class},version = 13, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
@@ -55,7 +54,6 @@ public abstract class AppDatabase extends RoomDatabase {
         }
         return sINSTANCE;
     }
-
     private static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback() {
         @Override
         public void onOpen(@NonNull SupportSQLiteDatabase db) {

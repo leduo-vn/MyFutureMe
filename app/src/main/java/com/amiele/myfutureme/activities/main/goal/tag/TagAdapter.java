@@ -131,6 +131,7 @@ public class TagAdapter  extends RecyclerView.Adapter<TagAdapter.TagViewHolder> 
      */
     @Override
     public int getItemCount() {
+        if (mTagList == null) return 0;
         return mTagList.size();
     }
 

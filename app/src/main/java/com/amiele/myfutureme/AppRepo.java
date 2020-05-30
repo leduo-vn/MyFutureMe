@@ -1,11 +1,8 @@
 package com.amiele.myfutureme;
 
 import android.app.Application;
-import android.database.sqlite.SQLiteConstraintException;
-import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.amiele.myfutureme.database.AppDatabase;
 import com.amiele.myfutureme.database.dao.GoalDao;
@@ -45,26 +42,12 @@ public class AppRepo {
         mtagLibraryDao = db.tagLibraryDao();
     }
 
-//    public void addKeyword(Keyword keyword) {
-//        new insertAsyncTask(keywordDao).doInBackground(keyword);
-//    }
-//
-//
-//    private static class getSignedInUserAsyncTask extends AsyncTask<User, Void, Void> {
-//        private UserDao mAsyncUserDao;
-//
-//        getSignedInUserAsyncTask(UserDao dao) {
-//            mAsyncUserDao = dao;
-//        }
-//
-//        @Override
-//        protected Void doInBackground(User... users) {
-//            return mAsyncUserDao.getUserSignedIn();
-////            return null;
-//        }
-//    }
 
+    //region User
 
+    public void addUser(User user) {
+        AppDatabase.databaseWriteExecutor.execute(() -> mUserDao.addUser(user));
+    }
 
     public LiveData<User> getUserByEmail(String email) {
         return mUserDao.getUser(email);
@@ -80,39 +63,57 @@ public class AppRepo {
 
     public void UpdateUserSignInStatus(int userId, boolean isSignedIn)
     {
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            mUserDao.updateLoginStatus(userId,isSignedIn);
-        });
+        AppDatabase.databaseWriteExecutor.execute(() -> mUserDao.updateLoginStatus(userId,isSignedIn));
     }
 
+    //endregion
 
-    public void addUser(User user) {
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            mUserDao.addUser(user);
-        });
+    //region LibraryTag
+
+    public void addLibraryTag(TagLibrary tag)
+    {
+        AppDatabase.databaseWriteExecutor.execute(() -> mtagLibraryDao.addTagLibrary(tag));
+    }
+
+    public LiveData<List<TagLibrary>> loadAllLibraryTag(int userId)
+    {
+        return mtagLibraryDao.loadTags(userId);
+    }
+
+    //endregion
+
+    //region Goal
+    public Long addGoal(Goal goal) {
+        return mGoalDao.addGoalAsync(goal);
     }
 
     public LiveData<List<Goal>> loadGoals(int userId) {
          return mGoalDao.loadGoals(userId);
-
     }
 
-    public Long addGoal(Goal goal) {
-         return mGoalDao.addGoalAsync(goal);
-
+    public void deleteGoal(int goalId)
+    {
+        AppDatabase.databaseWriteExecutor.execute(() -> mGoalDao.deleteGoal(goalId));
     }
+    //endregion goal
+
+    //region tag
 
     public void addTag(Tag tag) {
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            mTagDao.addTag(tag);
-        });
+        AppDatabase.databaseWriteExecutor.execute(() -> mTagDao.addTag(tag));
     }
 
-    public void addAllTasks(List<Task> taskList)
+    public void deleteTag(int tagId)
     {
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            mTaskDao.insertAll(taskList);
-        });
+        AppDatabase.databaseWriteExecutor.execute(() -> mTagDao.deleteTag(tagId));
+    }
+
+    //endregion
+
+    //region task
+
+    public void addTask(Task task) {
+        AppDatabase.databaseWriteExecutor.execute(() -> mTaskDao.addTask(task));
     }
 
     public LiveData<List<Task>> loadTasks(int goalId) {
@@ -123,15 +124,18 @@ public class AppRepo {
         return mTaskDao.loadTasks(goalIdList);
     }
 
-    public void addTask(Task task) {
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            mTaskDao.addTask(task);
-        });
-    }
-
     public LiveData<Task> loadTask(int taskId)
     {
         return mTaskDao.loadTask(taskId);
+    }
+
+    //endregion
+
+    //region sub-task
+
+    public void addSubTask(SubTask subTask)
+    {
+        AppDatabase.databaseWriteExecutor.execute(() -> mSubTaskDao.addSubTask(subTask));
     }
 
     public LiveData<List<SubTask>> loadSubTasks(int taskId)
@@ -139,39 +143,9 @@ public class AppRepo {
         return mSubTaskDao.loadSubTasks(taskId);
     }
 
-    public void addSubTask(SubTask subTask)
-    {
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            mSubTaskDao.addSubTask(subTask);
-        });
-    }
+    //endregion
 
-    public void deleteGoal(int goalId)
-    {
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            mGoalDao.deleteGoal(goalId);
-        });
-    }
-
-
-    public void deleteTag(int tagId)
-    {
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            mTagDao.deleteTag(tagId);
-        });
-    }
-
-    public LiveData<List<TagLibrary>> loadAllLibraryTag(int userId)
-    {
-        return mtagLibraryDao.loadTags(userId);
-    }
-
-    public void addLibraryTag(TagLibrary tag)
-    {
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            mtagLibraryDao.addTagLibrary(tag);
-        });
-    }
+    //region tag
 
     public LiveData<List<Tag>> loadTags(int goalId)
     {
@@ -182,4 +156,6 @@ public class AppRepo {
     {
         return mTagDao.loadTags(goalList);
     }
+
+    //endregion
 }

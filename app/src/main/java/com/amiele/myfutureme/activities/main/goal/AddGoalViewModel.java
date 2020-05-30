@@ -46,10 +46,6 @@ public class AddGoalViewModel extends AndroidViewModel {
 
     }
 
-    public LiveData<User> getUser(String email) {
-        return mAppRepo.getUserByEmail(email);
-    }
-
     private static MutableLiveData<Integer> goalIdResult = new MutableLiveData<>();
     public LiveData<Integer> getGoalIdResult() {
         return goalIdResult;
@@ -73,7 +69,6 @@ public class AddGoalViewModel extends AndroidViewModel {
                 goalId=Math.toIntExact(result);
                 loadAllLoad();
                 return result;
-                //return null;
             }
 
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -84,14 +79,9 @@ public class AddGoalViewModel extends AndroidViewModel {
                 goalIdResult.setValue(goalId);
             }
         }.execute();
-       // return mAppRepo.addGoal(goal);
 
     }
 
-    public void addAllTasks(List<Task> taskList)
-    {
-        mAppRepo.addAllTasks(taskList);
-    }
     public static void loadAllLoad()
     {
         tasks = mAppRepo.loadTasks(goalId);
