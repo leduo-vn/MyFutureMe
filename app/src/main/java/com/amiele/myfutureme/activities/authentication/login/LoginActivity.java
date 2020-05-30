@@ -13,8 +13,7 @@ import android.widget.Toast;
 
 import com.amiele.myfutureme.R;
 import com.amiele.myfutureme.activities.authentication.register.RegisterActivity;
-import com.amiele.myfutureme.activities.goal.GoalActivity;
-import com.amiele.myfutureme.activities.main.MainActivity;
+import com.amiele.myfutureme.activities.main.goal.GoalActivity;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class LoginActivity extends AppCompatActivity {

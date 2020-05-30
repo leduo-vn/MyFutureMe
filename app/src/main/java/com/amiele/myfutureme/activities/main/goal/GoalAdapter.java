@@ -1,7 +1,6 @@
-package com.amiele.myfutureme.activities.goal;
+package com.amiele.myfutureme.activities.main.goal;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -13,22 +12,17 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.amiele.myfutureme.AppRepo;
 import com.amiele.myfutureme.R;
+import com.amiele.myfutureme.activities.main.goal.task.TaskAdapter;
 import com.amiele.myfutureme.database.entity.Goal;
 import com.amiele.myfutureme.database.entity.Tag;
 import com.amiele.myfutureme.database.entity.Task;
 import com.google.android.flexbox.FlexboxLayout;
 
-import org.w3c.dom.Text;
-
-import java.sql.Wrapper;
 import java.util.ArrayList;
 import java.util.List;
 

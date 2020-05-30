@@ -1,8 +1,7 @@
-package com.amiele.myfutureme.activities.goal;
+package com.amiele.myfutureme.activities.main.goal;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.arch.core.util.Function;

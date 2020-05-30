@@ -1,8 +1,7 @@
-package com.amiele.myfutureme.activities.goal;
+package com.amiele.myfutureme.activities.main.goal;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -12,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,10 +24,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amiele.myfutureme.R;
+import com.amiele.myfutureme.activities.main.goal.tag.AddTagActivity;
+import com.amiele.myfutureme.activities.main.goal.task.TaskAdapter;
 import com.amiele.myfutureme.database.entity.Goal;
 import com.amiele.myfutureme.database.entity.Tag;
 import com.amiele.myfutureme.database.entity.Task;
-import com.amiele.myfutureme.database.entity.User;
 import com.amiele.myfutureme.helpers.DateConverter;
 import com.google.android.flexbox.FlexboxLayout;
 

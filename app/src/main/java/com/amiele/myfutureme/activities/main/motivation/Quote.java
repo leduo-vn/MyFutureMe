@@ -1,4 +1,4 @@
-package com.amiele.myfutureme.activities.motivation;
+package com.amiele.myfutureme.activities.main.motivation;
 
 import com.google.gson.annotations.SerializedName;
 

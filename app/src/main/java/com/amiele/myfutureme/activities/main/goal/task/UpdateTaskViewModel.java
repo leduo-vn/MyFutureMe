@@ -1,4 +1,4 @@
-package com.amiele.myfutureme.activities.goal;
+package com.amiele.myfutureme.activities.main.goal.task;
 
 import android.app.Application;
 
@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer;
 
 import com.amiele.myfutureme.AppRepo;
 import com.amiele.myfutureme.database.entity.SubTask;
-import com.amiele.myfutureme.database.entity.Tag;
 import com.amiele.myfutureme.database.entity.Task;
 
 import java.util.ArrayList;

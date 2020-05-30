@@ -1,17 +1,14 @@
-package com.amiele.myfutureme.activities.motivation;
+package com.amiele.myfutureme.activities.main.motivation;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amiele.myfutureme.R;
-
-import java.util.List;
+import com.amiele.myfutureme.activities.main.motivation.JsonPlaceHolderApi;
+import com.amiele.myfutureme.activities.main.motivation.Quote;
 
 import retrofit2.Call;
 import retrofit2.Callback;

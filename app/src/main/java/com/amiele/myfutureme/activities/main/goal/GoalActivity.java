@@ -1,17 +1,14 @@
-package com.amiele.myfutureme.activities.goal;
+package com.amiele.myfutureme.activities.main.goal;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,12 +19,11 @@ import android.widget.Toast;
 
 import com.amiele.myfutureme.R;
 import com.amiele.myfutureme.activities.authentication.login.LoginActivity;
-import com.amiele.myfutureme.activities.authentication.register.RegisterViewModel;
-import com.amiele.myfutureme.activities.motivation.JsonPlaceHolderApi;
-import com.amiele.myfutureme.activities.motivation.Quote;
+import com.amiele.myfutureme.activities.main.goal.task.UpdateTaskActivity;
+import com.amiele.myfutureme.activities.main.motivation.JsonPlaceHolderApi;
+import com.amiele.myfutureme.activities.main.motivation.Quote;
 import com.amiele.myfutureme.database.entity.Goal;
 import com.amiele.myfutureme.database.entity.Task;
-import com.amiele.myfutureme.database.entity.User;
 
 import java.util.ArrayList;
 

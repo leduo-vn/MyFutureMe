@@ -1,4 +1,4 @@
-package com.amiele.myfutureme.activities.goal;
+package com.amiele.myfutureme.activities.main.goal.tag;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +26,6 @@ import com.amiele.myfutureme.R;
 import com.amiele.myfutureme.database.entity.Tag;
 import com.amiele.myfutureme.database.entity.TagLibrary;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 

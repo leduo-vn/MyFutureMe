@@ -1,22 +1,18 @@
-package com.amiele.myfutureme.activities.goal;
+package com.amiele.myfutureme.activities.main.goal.tag;
 
 import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
-import androidx.arch.core.util.Function;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.Transformations;
 
 import com.amiele.myfutureme.AppRepo;
-import com.amiele.myfutureme.database.entity.Goal;
 import com.amiele.myfutureme.database.entity.Tag;
 import com.amiele.myfutureme.database.entity.TagLibrary;
-import com.amiele.myfutureme.database.entity.Task;
 import com.amiele.myfutureme.database.entity.User;
 
 import java.util.ArrayList;

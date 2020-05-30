@@ -1,4 +1,4 @@
-package com.amiele.myfutureme.activities.goal;
+package com.amiele.myfutureme.activities.main.goal.task;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.amiele.myfutureme.R;
+import com.amiele.myfutureme.activities.main.goal.GoalAdapter;
 import com.amiele.myfutureme.database.entity.Task;
 
 import java.util.ArrayList;

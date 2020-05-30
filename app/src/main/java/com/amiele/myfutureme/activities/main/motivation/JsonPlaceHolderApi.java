@@ -1,6 +1,6 @@
-package com.amiele.myfutureme.activities.motivation;
+package com.amiele.myfutureme.activities.main.motivation;
 
-import java.util.List;
+import com.amiele.myfutureme.activities.main.motivation.Quote;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

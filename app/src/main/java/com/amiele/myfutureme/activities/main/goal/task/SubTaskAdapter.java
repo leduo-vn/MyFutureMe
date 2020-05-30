@@ -1,4 +1,4 @@
-package com.amiele.myfutureme.activities.goal;
+package com.amiele.myfutureme.activities.main.goal.task;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
