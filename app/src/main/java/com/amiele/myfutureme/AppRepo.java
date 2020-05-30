@@ -83,6 +83,11 @@ public class AppRepo {
     //endregion
 
     //region Goal
+    public LiveData<Goal> loadGoal(int goalId)
+    {
+        return mGoalDao.loadGoal(goalId);
+    }
+
     public Long addGoal(Goal goal) {
         return mGoalDao.addGoalAsync(goal);
     }

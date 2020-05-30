@@ -35,6 +35,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GoalActivity extends AppCompatActivity {
     private GoalViewModel mGoalViewModel;
+    final String ACTION_ADD = "ADD";
+    final String ACTION_EDIT = "EDIT";
 
     private Quote mQuote;
     GoalAdapter adapter;
@@ -45,9 +47,6 @@ public class GoalActivity extends AppCompatActivity {
     {
         mRvGoal = findViewById(R.id.goal_rv_goal);
         mTvQuote = findViewById(R.id.goal_tv_quote);
-
-
-
     }
 
     private void DisplayQuoteContentFromAPI()
@@ -85,12 +84,16 @@ public class GoalActivity extends AppCompatActivity {
         });
 
     }
+
     public void onAddWorkTaskClicked(View view)
     {
         Intent addGoalActivity = new Intent(this, AddGoalActivity.class);
-        addGoalActivity.putExtra("id",Integer.toString(mGoalViewModel.getUserId()));
+        addGoalActivity.putExtra("user_id",Integer.toString(mGoalViewModel.getUserId()));
+        addGoalActivity.putExtra("action",ACTION_ADD);
+
         startActivityForResult(addGoalActivity,ACTIVITY_REQUEST_CODE);
     }
+
     public static final int ACTIVITY_REQUEST_CODE = 1;
     public static final int EDIT_TASK_ACTIVITY_REQUEST_CODE = 2;
 
@@ -136,11 +139,8 @@ public class GoalActivity extends AppCompatActivity {
             GoToUpdateTaskActivity(task);
         });
 
-        mGoalViewModel.getUserResult().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                if (aBoolean) GetGoals();
-            }
+        mGoalViewModel.getUserResult().observe(this, aBoolean -> {
+            if (aBoolean) GetGoals();
         });
     }
 
@@ -151,7 +151,6 @@ public class GoalActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
         } );
     }
-
 
     private void GoToUpdateTaskActivity(Task task)
     {
@@ -175,29 +174,14 @@ public class GoalActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_logout:
-                Toast.makeText(this, "Logout selected", Toast.LENGTH_SHORT).show();
                 mGoalViewModel.updateSignedInUser(false);
                 finish();
                 Intent loginActivity = new Intent(this, LoginActivity.class);
                 startActivity(loginActivity);
                 return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
 }
-//        mTasklist.add(new Task("Task 1"));
-//        mTasklist.add(new Task("Task 2"));
-//        mTasklist.add(new Task("Task 3"));
-//
-//        mGoalList.add(new Goal("Work Task Name","Task description"));
-//        mGoalList.add(new Goal("Work Task Name 1","Task description 1"));
-//        mGoalList.add(new Goal("Work Task Name 2","Task description 2"));
-//        mGoalList.add(new Goal("Work Task Name 3","Task description 3"));
-//
-//        mGoalList.get(0).setTaskList(mTasklist);
-//        mGoalList.get(1).setTaskList(mTasklist);
-//        mGoalList.get(2).setTaskList(mTasklist);
-//        mGoalList.get(3).setTaskList(mTasklist);

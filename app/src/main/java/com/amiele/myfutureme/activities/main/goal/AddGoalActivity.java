@@ -3,14 +3,12 @@ package com.amiele.myfutureme.activities.main.goal;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,7 +33,6 @@ import com.google.android.flexbox.FlexboxLayout;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 
 public class AddGoalActivity extends AppCompatActivity {
@@ -43,37 +40,47 @@ public class AddGoalActivity extends AppCompatActivity {
     private ArrayList<Tag> mTagList;
     private AddGoalViewModel mGoalViewModel;
     private int goalId =-1;
+    String userId;
+    String action;
+    public static final int ADD_TAG_ACTIVITY_REQUEST_CODE = 1;
+
 
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private TaskAdapter mAdapter;
-
+    FlexboxLayout fbTag;
     private RecyclerView mRvTask;
     private ImageButton mIBtnDatePick;
     private EditText mEtGoalDueDate;
+    EditText mEtGoalName;
+    EditText mEtGoalDescription;
 
     private void InitializeView()
     {
         mRvTask = findViewById(R.id.add_goal_rv_task);
         mIBtnDatePick = findViewById(R.id.add_goal_ibtn_date_pick);
         mEtGoalDueDate = findViewById(R.id.add_goal_et_goal_due_date);
+        mEtGoalDescription = findViewById(R.id.txt_description);
+        mEtGoalName =findViewById(R.id.txt_name);
+
+        fbTag = findViewById(R.id.add_goal_fl_tag);
+
     }
 
-    String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_goal);
 
-        userId = getIntent().getStringExtra("id");
+        userId = getIntent().getStringExtra("user_id");
+        action = getIntent().getStringExtra("action");
 
         InitializeView();
 
-        mTagList = new ArrayList<>();
-        mTagList.add(new Tag("Friend",Color.parseColor("#EEDBAA")));
-        mTagList.add(new Tag("LifeStyle",Color.parseColor("#BDEEAA")));
-        mTagList.add(new Tag("Job",Color.parseColor("#86EED1")));
+        if (action== "ADD")
+            InitializeAddView();
 
+        mTagList = new ArrayList<>();
         mTaskList = new ArrayList<>();
 
         mRvTask.setHasFixedSize(true);
@@ -98,60 +105,58 @@ public class AddGoalActivity extends AppCompatActivity {
 
         mDateSetListener = (view, year, month, dayOfMonth) -> {
             Date date = DateConverter.ConvertFromYearMonthDayToDate(year,month,dayOfMonth);
-            String stDate = DateConverter.GetDayOfWeekFromDate(date)+", " + DateConverter.GetDayMonthYearFromDate(date);
+            String stDate = DateConverter.GetDayOfWeekFromDate(date)+"-" + DateConverter.GetDayMonthYearFromDate(date);
             mEtGoalDueDate.setText(stDate);
         };
 
         mGoalViewModel = new ViewModelProvider(this).get(AddGoalViewModel.class);
         mGoalViewModel.setUserId(Integer.parseInt(userId));
+
+    }
+
+    private void InitializeAddView()
+    {
         Goal goal = new Goal(Integer.parseInt(userId),"Goal name","goal description","Sun-21 Apr 20", android.R.color.holo_blue_light);
         mGoalViewModel.addGoal(goal);
 
-        mGoalViewModel.getGoalIdResult().observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                goalId = integer;
-                getTag();
-            }
+        mGoalViewModel.getGoalIdResult().observe(this, integer -> {
+            goalId = integer;
+            DisplayGoal();
         }) ;
-
-
-
     }
 
-    private void getTag()
+
+
+    private void DisplayGoal()
     {
-        FlexboxLayout fbTag = findViewById(R.id.add_goal_fl_tag);
-
-
-        mGoalViewModel.getAllTags().observe(this, new Observer<List<Tag>>() {
-            @Override
-            public void onChanged(List<Tag> tags) {
-                if (fbTag.getChildCount() > 0)
-                    fbTag.removeAllViews();
-                for (Tag tag : tags) {
-                    TextView tv = new TextView(getApplication());
-                    tv.setText(tag.getName());
-                    tv.setBackgroundColor(tag.getColor());
-                    //tv.setBackground(mActivity.getDrawable(R.drawable.rounded_purple_border));
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    params.setMargins(10, 10, 10, 10);
-                    tv.setLayoutParams(params);
-                    fbTag.addView(tv);
-                }
+        mGoalViewModel.getAllTags().observe(this, tags -> {
+            if (fbTag.getChildCount() > 0)
+                fbTag.removeAllViews();
+            for (Tag tag : tags) {
+                TextView tv = new TextView(getApplication());
+                tv.setText(tag.getName());
+                tv.setBackgroundColor(tag.getColor());
+                //tv.setBackground(mActivity.getDrawable(R.drawable.rounded_purple_border));
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.setMargins(10, 10, 10, 10);
+                tv.setLayoutParams(params);
+                fbTag.addView(tv);
             }
         });
 
-        mGoalViewModel.getAllTasks().observe(this, new Observer<List<Task>>() {
-            @Override
-            public void onChanged(List<Task> taskList) {
-                mAdapter.setTaskList(taskList);
-                mAdapter.notifyDataSetChanged();
-            }
+        mGoalViewModel.getAllTasks().observe(this, taskList -> {
+            mAdapter.setTaskList(taskList);
+            mAdapter.notifyDataSetChanged();
+        });
+
+        mGoalViewModel.getGoal().observe(this, goal -> {
+            mEtGoalName.setText(goal.getName());
+            mEtGoalDescription.setText(goal.getDescription());
+            mEtGoalDueDate.setText(goal.getDueDate());
         });
     }
 
-    private void returnToParent()
+    private void finishActivity()
     {
         Intent returnIntent= new Intent();
         setResult(RESULT_OK,returnIntent);
@@ -161,8 +166,8 @@ public class AddGoalActivity extends AppCompatActivity {
 
     private void DeleteGoal()
     {
-        mGoalViewModel.deleteGoal(goalId);
-        returnToParent();
+        mGoalViewModel.deleteGoal();
+        finishActivity();
     }
 
     public void onAddTaskClicked(View view)
@@ -171,7 +176,6 @@ public class AddGoalActivity extends AppCompatActivity {
         task.setGoalId(goalId);
         mGoalViewModel.addTask(task);
     }
-    public static final int ADD_TAG_ACTIVITY_REQUEST_CODE = 1;
 
 
     public void onAddTagBtnClicked(View view)
@@ -186,16 +190,10 @@ public class AddGoalActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == ADD_TAG_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            UpdateTag();
             DisplayToast("success!");
         } else {
             DisplayToast("error");
         }
-    }
-
-    private void UpdateTag()
-    {
-
     }
 
     private  void DisplayToast(String text)
@@ -215,8 +213,7 @@ public class AddGoalActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_done:
-               // AddTaskandTag();
-                returnToParent();
+                finishActivity();
                 Toast.makeText(this, "Done selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_cancel:

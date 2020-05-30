@@ -31,9 +31,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
     private static OnItemClickListener mListener;
     private Activity mActivity;
     private int mExpandedPosition = -1;
-    private int mAddTaskExpandedPosition = -1;
-    AppRepo appRepo;
-    GoalViewModel goalViewModel;
+//    private int mAddTaskExpandedPosition = -1;
 
     public interface OnItemClickListener {
         void onItemClick(Task position);
@@ -52,10 +50,10 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
         public LinearLayout llDetail;
         public ImageButton iBtnDetailExpand;
         public RecyclerView rvTask;
-        public ImageButton iBtnTaskAdd;
-        public LinearLayout llAddTask;
-        public ImageButton iBtnAddTaskCancel;
-        public ImageButton iBtnAddTaskDone;
+//        public ImageButton iBtnTaskAdd;
+//        public LinearLayout llAddTask;
+//        public ImageButton iBtnAddTaskCancel;
+//        public ImageButton iBtnAddTaskDone;
         public FlexboxLayout fblTag;
 
         public  WorkTaskViewHolder(View view) {
@@ -66,22 +64,19 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
             iBtnDetailExpand = itemView.findViewById(R.id.recycle_view_goal_ibtn_detail_expand);
             llDetail = itemView.findViewById(R.id.recycle_view_goal_ll_detail);
             rvTask = itemView. findViewById(R.id.recycle_view_goal_rv_task);
-            iBtnTaskAdd = itemView.findViewById(R.id.recycle_view_goal_ibtn_task_add);
-            llAddTask = itemView.findViewById(R.id.recycle_view_goal_ll_add_task);
-            iBtnAddTaskCancel = itemView.findViewById(R.id.recycle_view_goal_ibtn_add_task_cancel);
-            iBtnAddTaskDone = itemView.findViewById(R.id.recycle_view_goal_ibtn_add_task_done);
+//            iBtnTaskAdd = itemView.findViewById(R.id.recycle_view_goal_ibtn_task_add);
+//            llAddTask = itemView.findViewById(R.id.recycle_view_goal_ll_add_task);
+//            iBtnAddTaskCancel = itemView.findViewById(R.id.recycle_view_goal_ibtn_add_task_cancel);
+//            iBtnAddTaskDone = itemView.findViewById(R.id.recycle_view_goal_ibtn_add_task_done);
 
             fblTag = itemView.findViewById(R.id.recycle_view_goal_fl_tag);
         }
-
-
     }
 
     public GoalAdapter(Activity activity, ArrayList<Goal> goalList) {
         this.mGoalList = goalList;
         this.mActivity = activity;
     }
-
 
     public void setGoalList(List<Goal> goals)
     {
@@ -101,7 +96,6 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
     public void onBindViewHolder(@NonNull final WorkTaskViewHolder holder, final int position) {
         Goal currentGoal = mGoalList.get(position);
 
-        // Assign values for image resource and text of layout
         holder.rvTask.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mActivity);
         final TaskAdapter adapter = new TaskAdapter(currentGoal.getTaskList(), mListener);
@@ -146,7 +140,6 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
            holder.fblTag.addView(tv);
         }
 
-
         holder.tvName.setText(currentGoal.getName());
         holder.tvDescription.setText(currentGoal.getDescription());
         final boolean isGoalDetailsExpanded = position==mExpandedPosition;
@@ -159,44 +152,14 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
         {
             holder.llDetail.setVisibility(View.GONE);
             holder.iBtnDetailExpand.setImageResource(android.R.drawable.arrow_down_float);
-
         }
 
-        final boolean isAddTaskLayoutExpanded = position==mAddTaskExpandedPosition;
-        if (isAddTaskLayoutExpanded)
-        {
-            holder.llAddTask.setVisibility(View.VISIBLE);
-            holder.iBtnTaskAdd.setVisibility(View.GONE);
-        }
-        else
-        {
-            holder.llAddTask.setVisibility(View.GONE);
-            holder.iBtnTaskAdd.setVisibility(View.VISIBLE);
-        }
 
         holder. itemView.setOnClickListener(v -> {
             mExpandedPosition = isGoalDetailsExpanded ? -1:position;
             notifyItemChanged(position);
         });
 
-        holder.iBtnTaskAdd.setOnClickListener(v -> {
-            mAddTaskExpandedPosition = position;
-            notifyItemChanged(position);
-        });
-
-        holder.iBtnAddTaskCancel.setOnClickListener(v -> {
-            mAddTaskExpandedPosition = -1;
-            notifyItemChanged(position);
-        });
-
-        holder.iBtnAddTaskDone.setOnClickListener(v -> {
-
-            Task task = new Task(currentGoal.getId(), "task name", 70);
-          //  goalViewModel.addTask(task);
-            mGoalList.get(position).addTask("new Task");
-            mAddTaskExpandedPosition = -1;
-
-        });
 
     }
 
@@ -212,3 +175,33 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
 
 
 }
+
+//        final boolean isAddTaskLayoutExpanded = position==mAddTaskExpandedPosition;
+//        if (isAddTaskLayoutExpanded)
+//        {
+//            holder.llAddTask.setVisibility(View.VISIBLE);
+//            holder.iBtnTaskAdd.setVisibility(View.GONE);
+//        }
+//        else
+//        {
+//            holder.llAddTask.setVisibility(View.GONE);
+//            holder.iBtnTaskAdd.setVisibility(View.VISIBLE);
+//        }
+
+//        holder.iBtnTaskAdd.setOnClickListener(v -> {
+//                mAddTaskExpandedPosition = position;
+//                notifyItemChanged(position);
+//                });
+//
+//                holder.iBtnAddTaskCancel.setOnClickListener(v -> {
+//                mAddTaskExpandedPosition = -1;
+//                notifyItemChanged(position);
+//                });
+//
+//                holder.iBtnAddTaskDone.setOnClickListener(v -> {
+//
+//                Task task = new Task(currentGoal.getId(), "task name", 70);
+//                mGoalList.get(position).addTask("new Task");
+//                mAddTaskExpandedPosition = -1;
+//
+//                });

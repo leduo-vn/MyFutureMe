@@ -242,76 +242,6 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
 
-                <LinearLayout
-                    android:id="@+id/recycle_view_goal_ll_add_task"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.51"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:visibility="gone">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:gravity="center_vertical"
-                        android:text="Name" />
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="?android:attr/colorBackground"
-                        android:ems="10"
-                        android:inputType="textMultiLine|text"
-                        android:maxLines="2"
-                        android:singleLine="false" />
-
-                    <ImageButton
-                        android:id="@+id/recycle_view_goal_ibtn_add_task_done"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:adjustViewBounds="true"
-                        android:background="@android:color/transparent"
-                        android:contentDescription="image"
-                        android:padding="5dp"
-                        android:scaleType="fitCenter"
-                        app:srcCompat="@android:drawable/checkbox_on_background" />
-
-                    <ImageButton
-                        android:id="@+id/recycle_view_goal_ibtn_add_task_cancel"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:adjustViewBounds="true"
-                        android:background="@android:color/transparent"
-                        android:contentDescription="image"
-                        android:padding="5dp"
-                        android:scaleType="fitCenter"
-                        app:srcCompat="@android:drawable/ic_delete" />
-                </LinearLayout>
-
-                <ImageButton
-                    android:id="@+id/recycle_view_goal_ibtn_task_add"
-                    android:layout_width="50dp"
-
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginRight="10dp"
-                    android:adjustViewBounds="true"
-                    android:background="@drawable/rounded_purple_border"
-                    android:contentDescription="image"
-                    android:padding="5dp"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@android:drawable/ic_menu_add" />
-
 
             </LinearLayout>
 
@@ -365,3 +295,75 @@
 
 
 <!--</RelativeLayout>-->
+
+
+
+<!--<LinearLayout-->
+<!--android:id="@+id/recycle_view_goal_ll_add_task"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginTop="15dp"-->
+<!--android:layout_marginBottom="15dp"-->
+<!--android:gravity="center_vertical"-->
+<!--android:orientation="horizontal"-->
+<!--app:layout_constraintBottom_toBottomOf="parent"-->
+<!--app:layout_constraintEnd_toEndOf="parent"-->
+<!--app:layout_constraintHorizontal_bias="0.51"-->
+<!--app:layout_constraintStart_toStartOf="parent"-->
+<!--app:layout_constraintTop_toTopOf="parent"-->
+<!--tools:visibility="gone">-->
+
+<!--<TextView-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:layout_weight="2"-->
+<!--    android:gravity="center_vertical"-->
+<!--    android:text="Name" />-->
+
+<!--<EditText-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:layout_weight="1"-->
+<!--    android:background="?android:attr/colorBackground"-->
+<!--    android:ems="10"-->
+<!--    android:inputType="textMultiLine|text"-->
+<!--    android:maxLines="2"-->
+<!--    android:singleLine="false" />-->
+
+<!--<ImageButton-->
+<!--    android:id="@+id/recycle_view_goal_ibtn_add_task_done"-->
+<!--    android:layout_width="30dp"-->
+<!--    android:layout_height="30dp"-->
+<!--    android:adjustViewBounds="true"-->
+<!--    android:background="@android:color/transparent"-->
+<!--    android:contentDescription="image"-->
+<!--    android:padding="5dp"-->
+<!--    android:scaleType="fitCenter"-->
+<!--    app:srcCompat="@android:drawable/checkbox_on_background" />-->
+
+<!--<ImageButton-->
+<!--    android:id="@+id/recycle_view_goal_ibtn_add_task_cancel"-->
+<!--    android:layout_width="30dp"-->
+<!--    android:layout_height="30dp"-->
+<!--    android:adjustViewBounds="true"-->
+<!--    android:background="@android:color/transparent"-->
+<!--    android:contentDescription="image"-->
+<!--    android:padding="5dp"-->
+<!--    android:scaleType="fitCenter"-->
+<!--    app:srcCompat="@android:drawable/ic_delete" />-->
+<!--</LinearLayout>-->
+
+<!--<ImageButton-->
+<!--android:id="@+id/recycle_view_goal_ibtn_task_add"-->
+<!--android:layout_width="50dp"-->
+
+<!--android:layout_height="50dp"-->
+<!--android:layout_gravity="center_horizontal"-->
+<!--android:layout_marginTop="15dp"-->
+<!--android:layout_marginRight="10dp"-->
+<!--android:adjustViewBounds="true"-->
+<!--android:background="@drawable/rounded_purple_border"-->
+<!--android:contentDescription="image"-->
+<!--android:padding="5dp"-->
+<!--android:scaleType="fitCenter"-->
+<!--app:srcCompat="@android:drawable/ic_menu_add" />-->

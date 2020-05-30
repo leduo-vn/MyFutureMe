@@ -19,6 +19,9 @@ public interface GoalDao {
     @Query("SELECT * FROM goals where user_id = :userId")
     LiveData<List<Goal>> loadGoals(int userId);
 
+    @Query("SELECT * FROM goals where goal_id = :goalId")
+    LiveData<Goal> loadGoal(int goalId);
+
     @Query("DELETE FROM goals WHERE goal_id = :goalId")
     void deleteGoal(int goalId);
 

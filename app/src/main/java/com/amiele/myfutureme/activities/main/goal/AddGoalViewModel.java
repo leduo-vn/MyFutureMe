@@ -53,10 +53,18 @@ public class AddGoalViewModel extends AndroidViewModel {
 
 
 
-    public void deleteGoal(int goalId)
+    public void deleteGoal()
     {
         mAppRepo.deleteGoal(goalId);
     }
+
+    public LiveData<Goal> getGoal()
+    {
+        return goal;
+    }
+
+    private static LiveData<Goal> goal;
+
 
     public static void addGoal(Goal goal)
     {
@@ -86,6 +94,7 @@ public class AddGoalViewModel extends AndroidViewModel {
     {
         tasks = mAppRepo.loadTasks(goalId);
         tags = mAppRepo.loadTags(goalId);
+        goal = mAppRepo.loadGoal(goalId);
     }
 
 

@@ -39,4 +39,6 @@ public class DateConverter {
         return GetDayOfWeekFromDate(date) + ", " + GetDayMonthYearFromDate(date);
     }
 
+
+
 }
