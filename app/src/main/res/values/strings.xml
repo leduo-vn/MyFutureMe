@@ -3,8 +3,15 @@
     <string name="title_activity_login">Login</string>
     <string name="title_activity_register">Register</string>
     <string name="title_activity_main">My Future Me</string>
+
+    <string name="label_username">Username</string>
     <string name="label_email">Email</string>
     <string name="label_password">Password</string>
+
+    <string name="hint_username">Amie</string>
+    <string name="hint_email">amie@gmail.com</string>
+    <string name="hint_password"></string>
+
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_login">Login</string>

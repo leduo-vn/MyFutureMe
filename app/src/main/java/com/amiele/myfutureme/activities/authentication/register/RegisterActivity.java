@@ -61,13 +61,9 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-
-
-
     private void DisplayToast(String text)
     {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
-
     }
 
 }

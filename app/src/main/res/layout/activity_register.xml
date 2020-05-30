@@ -15,6 +15,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:contentDescription="image"
+            android:maxHeight="200dp"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/logo" />
+
         <LinearLayout
             android:id="@+id/linear_layout_register_username"
             android:layout_width="match_parent"
@@ -25,14 +36,14 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/label_email" />
+                android:text="@string/label_username" />
 
             <AutoCompleteTextView
                 android:id="@+id/et_register_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="UserName"
+                android:hint="@string/hint_username"
                 android:imeOptions="actionNext"
                 android:inputType="text"
                 android:selectAllOnFocus="true" />
@@ -57,7 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="@string/prompt_email"
+                android:hint="@string/hint_email"
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
                 android:selectAllOnFocus="true" />
@@ -89,7 +100,7 @@
                     android:id="@+id/et_register_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/prompt_password"
+                    android:hint="@string/hint_password"
                     android:inputType="textPassword" />
 
             </com.google.android.material.textfield.TextInputLayout>

@@ -32,11 +32,6 @@
         <activity
             android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity
-            android:name=".activities.main.MainActivity"
-            android:label="@string/title_activity_main">
-
-        </activity>
 
         <meta-data
             android:name="preloaded_fonts"
