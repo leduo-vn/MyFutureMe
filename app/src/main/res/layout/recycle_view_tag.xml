@@ -27,7 +27,7 @@
             android:text="Tag Name" />
 
         <ImageButton
-            android:id="@+id/tag_recycle_view_delete"
+            android:id="@+id/tag_recycle_view_edit"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:adjustViewBounds="true"
@@ -35,7 +35,7 @@
             android:contentDescription="image"
             android:padding="5dp"
             android:scaleType="fitCenter"
-            app:srcCompat="@android:drawable/checkbox_on_background" />
+            app:srcCompat="@android:drawable/checkbox_off_background" />
 
     </LinearLayout>
 

@@ -119,7 +119,6 @@ public class GoalActivity extends AppCompatActivity {
         mTvQuote.setSelected(true);
 
         ArrayList<Goal> mGoalList = new ArrayList<>();
-        ArrayList<Task> mTasklist = new ArrayList<>();
 
         mGoalViewModel = new ViewModelProvider(this).get(GoalViewModel.class);
 
@@ -133,7 +132,7 @@ public class GoalActivity extends AppCompatActivity {
         // Set onClick for Adapter
         adapter.setOnItemClickListener(task -> {
             DisplayToast(task.getName());
-            GoToUpdateTaskActivity();
+            GoToUpdateTaskActivity(task);
         });
 
         mGoalViewModel.getUserResult().observe(this, new Observer<Boolean>() {
@@ -153,7 +152,7 @@ public class GoalActivity extends AppCompatActivity {
     }
 
 
-    private void GoToUpdateTaskActivity()
+    private void GoToUpdateTaskActivity(Task task)
     {
         Intent updateTaskActivity = new Intent(this, UpdateTaskActivity.class);
         startActivity(updateTaskActivity);

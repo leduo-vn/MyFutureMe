@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.amiele.myfutureme.AppRepo;
 import com.amiele.myfutureme.R;
 import com.amiele.myfutureme.database.entity.Goal;
+import com.amiele.myfutureme.database.entity.Tag;
 import com.amiele.myfutureme.database.entity.Task;
 import com.google.android.flexbox.FlexboxLayout;
 
@@ -137,17 +138,19 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
         });
 
 
-       for (int i = 0; i<15 ; i++)
-       {
+        if (holder.fblTag.getChildCount() > 0)
+            holder.fblTag.removeAllViews();
+        for (Tag tag: currentGoal.getTagList())
+        {
            TextView tv = new TextView(mActivity);
-           tv.setText("Friend " + i);
-           tv.setBackgroundColor(Color.GRAY);
-           tv.setBackground(mActivity.getDrawable(R.drawable.rounded_purple_border));
+           tv.setText(tag.getName());
+           tv.setBackgroundColor(tag.getColor());
+//           tv.setBackground(mActivity.getDrawable(R.drawable.rounded_purple_border));
            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
            params.setMargins(10,10,10,10);
            tv.setLayoutParams(params);
            holder.fblTag.addView(tv);
-       }
+        }
 
 
         holder.tvName.setText(currentGoal.getName());

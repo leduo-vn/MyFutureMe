@@ -59,6 +59,7 @@ public class Tag {
         this.name = tag.getName();
         this.color = tag.getColor();
         this.tagLibraryId = tag.getId();
+        this.isChosen = false;
     }
 
     @Ignore

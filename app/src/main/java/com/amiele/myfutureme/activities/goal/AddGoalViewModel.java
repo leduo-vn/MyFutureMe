@@ -15,6 +15,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.amiele.myfutureme.AppRepo;
 import com.amiele.myfutureme.database.entity.Goal;
+import com.amiele.myfutureme.database.entity.Tag;
 import com.amiele.myfutureme.database.entity.Task;
 import com.amiele.myfutureme.database.entity.User;
 
@@ -23,11 +24,23 @@ import java.util.List;
 public class AddGoalViewModel extends AndroidViewModel {
 
     private static AppRepo mAppRepo;
-    private LiveData<List<Goal>> goals;
 
-    private LiveData<List<Task>> tasks;
-    private Goal goal;
-    private User user;
+    private static LiveData<List<Task>> tasks;
+    private static LiveData<List<Tag>> tags;
+    private int userId;
+    private static int goalId;
+
+
+    public void setGoalId(int goalId)
+    {
+        this.goalId = goalId;
+    }
+
+    public void setUserId(int userId)
+    {
+        this.userId = userId;
+    }
+
 
 
     public AddGoalViewModel(@NonNull Application application) {
@@ -45,10 +58,7 @@ public class AddGoalViewModel extends AndroidViewModel {
         return goalIdResult;
     }
 
-    private static MutableLiveData<Boolean> updateUserStatusResult = new MutableLiveData<>();
-    public LiveData<Boolean> getUpdateUserStatusResult() {
-        return updateUserStatusResult;
-    }
+
 
     public void deleteGoal(int goalId)
     {
@@ -59,9 +69,13 @@ public class AddGoalViewModel extends AndroidViewModel {
     {
         new AsyncTask<Void, Void, Long>() {
 
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             protected Long doInBackground(Void... voids) {
-                return mAppRepo.addGoal(goal);
+                Long result = mAppRepo.addGoal(goal);
+                goalId=Math.toIntExact(result);
+                loadAllLoad();
+                return result;
                 //return null;
             }
 
@@ -69,7 +83,8 @@ public class AddGoalViewModel extends AndroidViewModel {
             @Override
             protected void onPostExecute(Long aLong) {
                 super.onPostExecute(aLong);
-                goalIdResult.setValue(Math.toIntExact(aLong));
+
+                goalIdResult.setValue(goalId);
             }
         }.execute();
        // return mAppRepo.addGoal(goal);
@@ -80,13 +95,25 @@ public class AddGoalViewModel extends AndroidViewModel {
     {
         mAppRepo.addAllTasks(taskList);
     }
-    public void loadAllLoad(int userId)
+    public static void loadAllLoad()
     {
-        goals = mAppRepo.loadGoals(userId);
+        tasks = mAppRepo.loadTasks(goalId);
+        tags = mAppRepo.loadTags(goalId);
     }
 
-    public LiveData<List<Goal>> getAllGoals()
+
+    public void addTask(Task task)
     {
-        return goals;
+        mAppRepo.addTask(task);
+    }
+
+    public LiveData<List<Tag>> getAllTags()
+    {
+        return tags;
+    }
+
+    public LiveData<List<Task>> getAllTasks()
+    {
+        return tasks;
     }
 }

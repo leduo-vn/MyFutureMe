@@ -15,6 +15,7 @@ import com.amiele.myfutureme.database.dao.TagLibraryDao;
 import com.amiele.myfutureme.database.dao.TaskDao;
 import com.amiele.myfutureme.database.dao.UserDao;
 import com.amiele.myfutureme.database.entity.Goal;
+import com.amiele.myfutureme.database.entity.Tag;
 import com.amiele.myfutureme.database.entity.TagLibrary;
 import com.amiele.myfutureme.database.entity.Task;
 import com.amiele.myfutureme.database.entity.User;
@@ -100,6 +101,12 @@ public class AppRepo {
 
     }
 
+    public void addTag(Tag tag) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            mTagDao.addTag(tag);
+        });
+    }
+
     public void addAllTasks(List<Task> taskList)
     {
         AppDatabase.databaseWriteExecutor.execute(() -> {
@@ -128,9 +135,17 @@ public class AppRepo {
         });
     }
 
-    public LiveData<List<TagLibrary>> loadAllLibraryTag()
+
+    public void deleteTag(int tagId)
     {
-        return mtagLibraryDao.loadTags();
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            mTagDao.deleteTag(tagId);
+        });
+    }
+
+    public LiveData<List<TagLibrary>> loadAllLibraryTag(int userId)
+    {
+        return mtagLibraryDao.loadTags(userId);
     }
 
     public void addLibraryTag(TagLibrary tag)
@@ -138,5 +153,15 @@ public class AppRepo {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             mtagLibraryDao.addTagLibrary(tag);
         });
+    }
+
+    public LiveData<List<Tag>> loadTags(int goalId)
+    {
+        return mTagDao.loadTags(goalId);
+    }
+
+    public LiveData<List<Tag>> loadTags(List<Integer> goalList)
+    {
+        return mTagDao.loadTags(goalList);
     }
 }

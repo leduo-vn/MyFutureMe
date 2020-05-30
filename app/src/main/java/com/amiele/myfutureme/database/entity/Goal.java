@@ -109,7 +109,14 @@ public class Goal {
         this.tagList = new ArrayList<>(goal.getTagList());
     }
 
-    public void addTask(Task task){ taskList.add(task);};
+    public void addTask(Task task){
+//        if (taskList == null) taskList = new ArrayList<>();
+        taskList.add(task);};
+
+    public void addTag(Tag tag){
+//        if (tagList == null) tagList = new ArrayList<>();
+        tagList.add(tag);
+    }
 
     public String getName() {
         return name;

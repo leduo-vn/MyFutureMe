@@ -25,7 +25,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
-@Database(entities = {User.class, Goal.class, Task.class, Tag.class, SubTask.class, TagLibrary.class},version = 11, exportSchema = false)
+@Database(entities = {User.class, Goal.class, Task.class, Tag.class, SubTask.class, TagLibrary.class},version = 13, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "app_db";

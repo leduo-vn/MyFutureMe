@@ -66,21 +66,45 @@ public class AddTagActivity extends AppCompatActivity {
         mRvTag.setLayoutManager(layoutManager);
         mRvTag.setAdapter(mAdapter);
 
+
+
+
         mIBtnColorPick.setOnClickListener(v -> OpenColorPicker());
 
         mLlTagAdd.setOnClickListener(v -> AddTag());
 
-        mAddTagViewModel = new ViewModelProvider(this).get(AddTagViewModel.class);
-        mAddTagViewModel.getAllTags().observe(this, new Observer<List<TagLibrary>>() {
-            @Override
-            public void onChanged(List<TagLibrary> tagLibraries) {
-                    ArrayList<Tag> tags = new ArrayList<>();
-                    for (TagLibrary tagLibrary:tagLibraries)
-                            tags.add(new Tag(tagLibrary));
 
+
+        mAddTagViewModel = new ViewModelProvider(this).get(AddTagViewModel.class);
+        mAddTagViewModel.setGoalId(Integer.parseInt(goalId));
+        mAddTagViewModel.getUserResult().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean)
+                    mAddTagViewModel.loadTags();
+
+            }
+        });
+
+        mAddTagViewModel.getAllTags().observe(this, new Observer<List<Tag>>() {
+            @Override
+            public void onChanged(List<Tag> tagList) {
+                    ArrayList<Tag> tags = new ArrayList<>(tagList);
                     mAdapter.setTagList(tags);
                     mAdapter.notifyDataSetChanged();
             }
+        });
+
+        mAdapter.setOnItemClickListener(tag -> {
+            if (tag.isChosen())
+            {
+                mAddTagViewModel.removeTag(tag);
+            }
+            else
+            {
+                mAddTagViewModel.addTag(tag);
+            }
+
         });
     }
 
@@ -184,10 +208,8 @@ public class AddTagActivity extends AppCompatActivity {
     {
         String name = mTvTagName.getText().toString();
         ColorDrawable color = (ColorDrawable) mTvTagName.getBackground();
-        mAddTagViewModel.addLibraryTag(new TagLibrary(name, color.getColor()));
-//        mTagList.add(new TagLibrary(name,color.getColor()));
-//        mAdapter.setTagList(mTagList);
-//        mAdapter.notifyDataSetChanged();
+        mAddTagViewModel.addLibraryTag(new TagLibrary(name, color.getColor(),mAddTagViewModel.getUserId()));
+
     }
 
     private  void DisplayToast(String text)

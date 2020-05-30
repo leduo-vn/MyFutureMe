@@ -18,8 +18,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amiele.myfutureme.R;
@@ -28,17 +31,19 @@ import com.amiele.myfutureme.database.entity.Tag;
 import com.amiele.myfutureme.database.entity.Task;
 import com.amiele.myfutureme.database.entity.User;
 import com.amiele.myfutureme.helpers.DateConverter;
+import com.google.android.flexbox.FlexboxLayout;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 
 public class AddGoalActivity extends AppCompatActivity {
     private ArrayList<Task> mTaskList;
     private ArrayList<Tag> mTagList;
     private AddGoalViewModel mGoalViewModel;
-    private int goalId;
+    private int goalId =-1;
 
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private TaskAdapter mAdapter;
@@ -71,9 +76,6 @@ public class AddGoalActivity extends AppCompatActivity {
         mTagList.add(new Tag("Job",Color.parseColor("#86EED1")));
 
         mTaskList = new ArrayList<>();
-//        mTaskList.add(new Task("Task 1"));
-//        mTaskList.add(new Task("Task 2"));
-//        mTaskList.add(new Task("Task 3"));
 
         mRvTask.setHasFixedSize(true);
 
@@ -102,6 +104,7 @@ public class AddGoalActivity extends AppCompatActivity {
         };
 
         mGoalViewModel = new ViewModelProvider(this).get(AddGoalViewModel.class);
+        mGoalViewModel.setUserId(Integer.parseInt(userId));
         Goal goal = new Goal(Integer.parseInt(userId),"Goal name","goal description","Sun-21 Apr 20", android.R.color.holo_blue_light);
         mGoalViewModel.addGoal(goal);
 
@@ -109,8 +112,44 @@ public class AddGoalActivity extends AppCompatActivity {
             @Override
             public void onChanged(Integer integer) {
                 goalId = integer;
+                getTag();
             }
         }) ;
+
+
+
+    }
+
+    private void getTag()
+    {
+        FlexboxLayout fbTag = findViewById(R.id.add_goal_fl_tag);
+
+
+        mGoalViewModel.getAllTags().observe(this, new Observer<List<Tag>>() {
+            @Override
+            public void onChanged(List<Tag> tags) {
+                if (fbTag.getChildCount() > 0)
+                    fbTag.removeAllViews();
+                for (Tag tag : tags) {
+                    TextView tv = new TextView(getApplication());
+                    tv.setText(tag.getName());
+                    tv.setBackgroundColor(tag.getColor());
+                    //tv.setBackground(mActivity.getDrawable(R.drawable.rounded_purple_border));
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    params.setMargins(10, 10, 10, 10);
+                    tv.setLayoutParams(params);
+                    fbTag.addView(tv);
+                }
+            }
+        });
+
+        mGoalViewModel.getAllTasks().observe(this, new Observer<List<Task>>() {
+            @Override
+            public void onChanged(List<Task> taskList) {
+                mAdapter.setTaskList(taskList);
+                mAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private void returnToParent()
@@ -119,18 +158,7 @@ public class AddGoalActivity extends AppCompatActivity {
         setResult(RESULT_OK,returnIntent);
         finish();
     }
-
-    private void AddTask()
-    {
-        if (mTaskList.size()!=0) {
-            for (Task task : mTaskList) {
-                task.setGoalId(goalId);
-            }
-            mGoalViewModel.addAllTasks(mTaskList);
-        }
-        returnToParent();
-
-    }
+    
 
     private void DeleteGoal()
     {
@@ -140,15 +168,17 @@ public class AddGoalActivity extends AppCompatActivity {
 
     public void onAddTaskClicked(View view)
     {
-        mTaskList.add(new Task("new task",50));
-        mAdapter.notifyDataSetChanged();
+        Task task = new Task("new task", 50);
+        task.setGoalId(goalId);
+        mGoalViewModel.addTask(task);//  mTaskList.add(new Task("new task",50));
+       // mAdapter.notifyDataSetChanged();
     }
     public static final int ADD_TAG_ACTIVITY_REQUEST_CODE = 1;
 
     public void onAddTagBtnClicked(View view)
     {
         Intent addTagActivity = new Intent(this, AddTagActivity.class);
-        addTagActivity.putExtra("goal_id",goalId);
+        addTagActivity.putExtra("goal_id",Integer.toString(goalId));
         startActivityForResult(addTagActivity,ADD_TAG_ACTIVITY_REQUEST_CODE);
     }
 
@@ -186,7 +216,8 @@ public class AddGoalActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_done:
-                AddTask();
+               // AddTaskandTag();
+                returnToParent();
                 Toast.makeText(this, "Done selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_cancel:

@@ -19,6 +19,6 @@ public interface TagLibraryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addTagLibrary(TagLibrary tagLibrary);
 
-    @Query("SELECT * FROM tag_library")
-    LiveData<List<TagLibrary>> loadTags();
+    @Query("SELECT * FROM tag_library WHERE user_id = :userId")
+    LiveData<List<TagLibrary>> loadTags(int userId);
 }

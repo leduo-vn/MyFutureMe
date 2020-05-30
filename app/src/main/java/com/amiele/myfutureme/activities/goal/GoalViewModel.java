@@ -15,6 +15,7 @@ import androidx.lifecycle.Transformations;
 
 import com.amiele.myfutureme.AppRepo;
 import com.amiele.myfutureme.database.entity.Goal;
+import com.amiele.myfutureme.database.entity.Tag;
 import com.amiele.myfutureme.database.entity.Task;
 import com.amiele.myfutureme.database.entity.User;
 
@@ -36,7 +37,6 @@ public class GoalViewModel extends AndroidViewModel {
     public GoalViewModel(@NonNull Application application) {
         super(application);
         mAppRepo = new AppRepo(application);
-
         loadUser();
 
     }
@@ -79,7 +79,9 @@ public class GoalViewModel extends AndroidViewModel {
 
     public LiveData<List<Goal>> getAllGoals()
     {
-        return goals;
+//        return goals;
+
+            return finalGoal;
     }
 
     public int getUserId()
@@ -93,6 +95,7 @@ public class GoalViewModel extends AndroidViewModel {
     }
 
     static ArrayList<Goal> goalList;
+    static MediatorLiveData<List<Goal>> finalGoal = new MediatorLiveData<>();
 
     public static void loadAllLoad(int userId)
     {
@@ -120,14 +123,24 @@ public class GoalViewModel extends AndroidViewModel {
            }
        });
 
-        LiveData<List<Goal>> finalGoal = Transformations.map(tasks, new Function<List<Task>, List<Goal>>() {
+        LiveData<List<Tag>> tags = Transformations.switchMap(goalIds, new Function<List<Integer>, LiveData<List<Tag>>>() {
             @Override
-            public List<Goal> apply(List<Task> input) {
-                ArrayList<Goal> goals = new ArrayList<>(goalList);
+            public LiveData<List<Tag>> apply(List<Integer> input) {
+                return mAppRepo.loadTags(input);
+            }
+        });
 
-                for (Task task:input)
+        finalGoal.addSource(tasks, new Observer<List<Task>>() {
+            @Override
+            public void onChanged(List<Task> taskList) {
+                for (Goal goal:goalList)
                 {
-                    for (Goal goal: goals)
+                    goal.setTaskList(new ArrayList<>());
+                }
+
+                for (Task task:taskList)
+                {
+                    for (Goal goal:goalList)
                     {
                         if (goal.getId() == task.getGoalId())
                         {
@@ -136,15 +149,55 @@ public class GoalViewModel extends AndroidViewModel {
                         }
                     }
                 }
-
-                return goals;
+                finalGoal.setValue(goalList);
             }
         });
-        goals = finalGoal;
+
+        finalGoal.addSource(tags, new Observer<List<Tag>>() {
+            @Override
+            public void onChanged(List<Tag> tags) {
+                for (Goal goal:goalList)
+                    goal.setTagList(new ArrayList<>());
+
+                for (Tag tag:tags)
+                {
+                    for (Goal goal:goalList)
+                    {
+                        if (goal.getId() == tag.getGoalId())
+                        {
+                            goal.addTag(tag);
+                            break;
+                        }
+                    }
+                }
+                finalGoal.setValue(goalList);
+            }
+        });
+
+//        LiveData<List<Goal>> finalGoal = Transformations.map(tasks, new Function<List<Task>, List<Goal>>() {
+//            @Override
+//            public List<Goal> apply(List<Task> input) {
+//                ArrayList<Goal> goals = new ArrayList<>(goalList);
+//
+//                for (Task task:input)
+//                {
+//                    for (Goal goal: goals)
+//                    {
+//                        if (goal.getId() == task.getGoalId())
+//                        {
+//                            goal.addTask(task);
+//                            break;
+//                        }
+//                    }
+//                }
+//
+//                return goals;
+//            }
+//        });
+//        goals = finalGoal;
 
     }
 
-    static MediatorLiveData<List<Goal>> finalGoal = new MediatorLiveData<>();
 
 
 
