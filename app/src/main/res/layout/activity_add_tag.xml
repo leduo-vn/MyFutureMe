@@ -38,7 +38,7 @@
                 android:layout_weight="1"
                 android:background="@color/white"
                 android:ems="10"
-                android:text="Tag name"
+                android:hint="@string/default_tag_name"
                 android:textSize="10sp" />
 
             <ImageButton

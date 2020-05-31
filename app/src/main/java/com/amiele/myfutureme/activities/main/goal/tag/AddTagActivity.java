@@ -32,7 +32,7 @@ import java.util.List;
 import petrov.kristiyan.colorpicker.ColorPicker;
 
 public class AddTagActivity extends AppCompatActivity {
-    private ArrayList<Tag> mTagList;
+
     private AddTagViewModel mAddTagViewModel;
 
     private TagAdapter mAdapter;
@@ -42,8 +42,6 @@ public class AddTagActivity extends AppCompatActivity {
     private LinearLayout mLlTagAdd;
     private ImageButton mIBtnColorPick;
 
-    private String goalId;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,47 +49,32 @@ public class AddTagActivity extends AppCompatActivity {
 
         InitializeView();
 
-        goalId = getIntent().getStringExtra("goal_id");
+        String goalId = getIntent().getStringExtra("goal_id");
 
-        mTagList = new ArrayList<>();
-//        mTagList.add(new TagLibrary("Friend",Color.parseColor("#EEDBAA")));
-//        mTagList.add(new TagLibrary("LifeStyle",Color.parseColor("#BDEEAA")));
-//        mTagList.add(new TagLibrary("Job",Color.parseColor("#86EED1")));
+        ArrayList<Tag> mTagList = new ArrayList<>();
 
         mRvTag.setHasFixedSize(true);
-
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mAdapter = new TagAdapter(mTagList);
         mRvTag.setLayoutManager(layoutManager);
         mRvTag.setAdapter(mAdapter);
 
-
-
-
         mIBtnColorPick.setOnClickListener(v -> OpenColorPicker());
 
         mLlTagAdd.setOnClickListener(v -> AddTag());
 
-
-
         mAddTagViewModel = new ViewModelProvider(this).get(AddTagViewModel.class);
         mAddTagViewModel.setGoalId(Integer.parseInt(goalId));
-        mAddTagViewModel.getUserResult().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                if (aBoolean)
-                    mAddTagViewModel.loadTags();
 
-            }
+        mAddTagViewModel.getUserResult().observe(this, aBoolean -> {
+            if (aBoolean)
+                mAddTagViewModel.loadTags();
         });
 
-        mAddTagViewModel.getAllTags().observe(this, new Observer<List<Tag>>() {
-            @Override
-            public void onChanged(List<Tag> tagList) {
-                    ArrayList<Tag> tags = new ArrayList<>(tagList);
-                    mAdapter.setTagList(tags);
-                    mAdapter.notifyDataSetChanged();
-            }
+        mAddTagViewModel.getAllTags().observe(this, tagList -> {
+                ArrayList<Tag> tags = new ArrayList<>(tagList);
+                mAdapter.setTagList(tags);
+                mAdapter.notifyDataSetChanged();
         });
 
         mAdapter.setOnItemClickListener(tag -> {
@@ -103,7 +86,6 @@ public class AddTagActivity extends AppCompatActivity {
             {
                 mAddTagViewModel.addTag(tag);
             }
-
         });
     }
 
@@ -150,7 +132,6 @@ public class AddTagActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId()==R.id.action_done)
         {
-            Toast.makeText(this, "Done selected", Toast.LENGTH_SHORT).show();
             Intent returnIntent= new Intent();
             setResult(RESULT_OK,returnIntent);
             finish();
@@ -158,7 +139,6 @@ public class AddTagActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     private void InitializeView()
     {
@@ -172,6 +152,7 @@ public class AddTagActivity extends AppCompatActivity {
     private void OpenColorPicker()
     {
         ColorPicker colorPicker = new ColorPicker(this);
+
         ArrayList<String> colorList = new ArrayList<>();
         colorList.add("#EEDBAA");
         colorList.add("#BDEEAA");
@@ -183,6 +164,7 @@ public class AddTagActivity extends AppCompatActivity {
         colorList.add("#D1C7E1");
         colorList.add("#FF8FAE");
         colorList.add("#ABD89A");
+
         colorPicker.setColors(colorList);
         colorPicker.setDefaultColorButton(Color.GRAY);
         colorPicker.setRoundColorButton(true);
@@ -200,7 +182,6 @@ public class AddTagActivity extends AppCompatActivity {
             }
         }).show();
 
-
     }
 
     private void AddTag()
@@ -208,7 +189,6 @@ public class AddTagActivity extends AppCompatActivity {
         String name = mTvTagName.getText().toString();
         ColorDrawable color = (ColorDrawable) mTvTagName.getBackground();
         mAddTagViewModel.addLibraryTag(new TagLibrary(name, color.getColor(),mAddTagViewModel.getUserId()));
-
     }
 
     private  void DisplayToast(String text)

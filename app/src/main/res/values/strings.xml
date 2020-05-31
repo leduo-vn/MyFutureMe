@@ -8,6 +8,19 @@
     <string name="label_email">Email</string>
     <string name="label_password">Password</string>
 
+    <string name="label_tag">Tag</string>
+    <string name="label_name">Name</string>
+    <string name="label_description">Description</string>
+    <string name="label_minute">Minute</string>
+
+    <string name="default_goal_name">Default Goal Name</string>
+    <string name="default_task_name">Default Task Name</string>
+    <string name="default_tag_name">Default Tag Name</string>
+    <string name="default_sub_task_name">Default Sub Task Name</string>
+    <string name="default_date">19 May 20</string>
+    <string name="default_dow">Sun</string>
+    <string name="default_minute">0</string>
+
     <string name="hint_username">Amie</string>
     <string name="hint_email">amie@gmail.com</string>
     <string name="hint_password"></string>

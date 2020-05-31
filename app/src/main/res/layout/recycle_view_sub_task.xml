@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:id="@+id/txt_et_sub_task_date"
+            android:id="@+id/sub_task_recycle_view_ll_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
@@ -26,41 +26,42 @@
                 android:id="@+id/sub_task_recycle_view_tv_dow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sun, 20/01"
+                android:layout_gravity="center"
+                android:text="@string/default_dow"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/sub_task_recycle_view_tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2020"
+                android:layout_gravity="center"
+                android:text="@string/default_date"
                 android:textSize="12sp" />
         </LinearLayout>
 
 
+        <TextView
+            android:id="@+id/sub_task_recycle_view_tv_minute"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:padding="5dp"
 
-            <TextView
-                android:id="@+id/sub_task_recycle_view_tv_minute"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/rounded_blue_button"
-                android:gravity="center"
-                android:padding="5dp"
-                android:layout_weight="2"
-
-                android:text="Hour" />
+            android:text="@string/default_minute" />
 
 
         <TextView
             android:id="@+id/sub_task_recycle_view_tv_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:text="SubTask Description" />
+            android:text="@string/default_sub_task_name" />
 
         <ImageButton
-            android:id="@+id/action_delete_sub_task"
+            android:id="@+id/sub_task_recycle_view_ibtn_delete"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
@@ -78,12 +79,11 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_marginBottom="13dp"
+        android:layout_marginTop="10dp"
         android:background="#9788BE"
-        app:layout_constraintTop_toBottomOf="@+id/sub_task_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-     />
+        app:layout_constraintTop_toBottomOf="@+id/sub_task_layout" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 <!--<LinearLayout-->

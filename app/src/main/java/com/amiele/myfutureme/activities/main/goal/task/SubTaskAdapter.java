@@ -1,73 +1,58 @@
 package com.amiele.myfutureme.activities.main.goal.task;
 
-import android.app.Activity;
-import android.app.DatePickerDialog;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ViewSwitcher;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.amiele.myfutureme.R;
 import com.amiele.myfutureme.database.entity.SubTask;
-import com.amiele.myfutureme.helpers.DateConverter;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 public class SubTaskAdapter  extends RecyclerView.Adapter<SubTaskAdapter.SubTaskViewHolder> {
     private ArrayList<SubTask> subTaskList;
-    private static SubTaskAdapter.OnItemClickListener listener= null;
-    Activity activity;
-//    private int mEditModePosition = -1;
+    private SubTaskAdapter.OnItemClickListener listener= null;
 
     public interface OnItemClickListener {
         void onItemClick(SubTask subTask, String action);
     }
 
-    public void setOnItemClickListener(SubTaskAdapter.OnItemClickListener listener) {
+    void setOnItemClickListener(SubTaskAdapter.OnItemClickListener listener) {
         this.listener = listener;
     }
 
+    static class SubTaskViewHolder extends RecyclerView.ViewHolder {
+        TextView tvDescription;
+        TextView tvDate;
+        TextView tvDow;
+        TextView tvMinute;
+        LinearLayout llDate;
+        ImageButton iBtnSubTaskDelete;
 
-    public static class SubTaskViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvDescription;
-        public TextView tvDate;
-        public TextView tvDow;
-        public TextView tvMinute;
-
-        public DatePickerDialog.OnDateSetListener mDateSetListener;
-        public LinearLayout llDate;
-        public ImageButton iBtnSubTaskDelete;
-
-        public  SubTaskViewHolder(View view) {
+        SubTaskViewHolder(View view) {
             super(view);
             tvDescription = itemView.findViewById(R.id.sub_task_recycle_view_tv_description);
             tvDate = itemView.findViewById(R.id.sub_task_recycle_view_tv_date);
             tvDow = itemView.findViewById(R.id.sub_task_recycle_view_tv_dow);
             tvMinute = itemView.findViewById(R.id.sub_task_recycle_view_tv_minute);
-
-            llDate = itemView.findViewById(R.id.txt_et_sub_task_date);
-            iBtnSubTaskDelete = itemView.findViewById(R.id.action_delete_sub_task);
+            llDate = itemView.findViewById(R.id.sub_task_recycle_view_ll_date);
+            iBtnSubTaskDelete = itemView.findViewById(R.id.sub_task_recycle_view_ibtn_delete);
         }
     }
 
-    public SubTaskAdapter(Activity activity ,ArrayList<SubTask> subTaskList) {
-        this.activity = activity;
+    SubTaskAdapter(ArrayList<SubTask> subTaskList) {
         this.subTaskList = subTaskList;
     }
 
-    public void setSubTaskList(ArrayList<SubTask> subTaskList)
+    void setSubTaskList(ArrayList<SubTask> subTaskList)
     {
         this.subTaskList = subTaskList;
     }
@@ -82,22 +67,16 @@ public class SubTaskAdapter  extends RecyclerView.Adapter<SubTaskAdapter.SubTask
     @Override
     public void onBindViewHolder(@NonNull SubTaskViewHolder holder, int position) {
         SubTask currentSubTask = subTaskList.get(position);
-        holder.tvDescription.setText(currentSubTask.getDescription());
 
+        holder.tvDescription.setText(currentSubTask.getDescription());
         holder.tvDow.setText(currentSubTask.getDate_DOW());
         holder.tvDate.setText(currentSubTask.getDate_Date());
         holder.tvMinute.setText(String.format(Locale.US,"%d",currentSubTask.getMinute()));
 
-
-        holder.iBtnSubTaskDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listener!=null)
-                    listener.onItemClick(currentSubTask, "DELETE");
-            }
+        holder.iBtnSubTaskDelete.setOnClickListener(v -> {
+            if (listener!=null)
+                listener.onItemClick(currentSubTask, "DELETE");
         });
-
-
     }
 
     /**

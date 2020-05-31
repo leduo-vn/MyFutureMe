@@ -19,16 +19,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp">
-
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Progress" />
-
 
             <SeekBar
                 android:id="@+id/update_task_seekBar"
@@ -43,6 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -51,7 +48,6 @@
             <ImageButton
                 android:id="@+id/update_task_ibtn_progress_update"
                 android:layout_width="30dp"
-
                 android:layout_height="30dp"
                 android:adjustViewBounds="true"
                 android:background="@android:color/transparent"
@@ -211,9 +207,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp">
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/update_task_ll_date_pick"
@@ -226,13 +220,15 @@
                     android:id="@+id/update_task_et_sub_task_dow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sunday" />
+                    android:layout_gravity="center"
+                    android:text="@string/default_dow" />
 
                 <TextView
                     android:id="@+id/update_task_et_sub_task_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="09 APR 20" />
+                    android:layout_gravity="center"
+                    android:text="@string/default_date" />
             </LinearLayout>
 
             <EditText
@@ -241,21 +237,21 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/rounded_blue_button"
                 android:gravity="center"
+                android:hint="@string/default_minute"
                 android:padding="5dp"
-                android:text="5"
                 android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/update_task_et_sub_task_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="@string/default_sub_task_name"
                 android:maxLines="3"
-                android:text="SubTask Description"
                 android:textSize="14sp" />
 
             <LinearLayout

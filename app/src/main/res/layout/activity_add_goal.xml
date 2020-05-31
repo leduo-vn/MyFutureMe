@@ -32,8 +32,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
@@ -90,8 +88,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
@@ -102,17 +98,18 @@
                     android:layout_weight="1"
                     app:alignContent="stretch"
                     app:alignItems="stretch"
-                    app:flexWrap="wrap">
+                    app:flexWrap="wrap"
+                    app:maxLine="2">
 
                 </com.google.android.flexbox.FlexboxLayout>
 
-<!--                <androidx.recyclerview.widget.RecyclerView-->
-<!--                    android:id="@+id/tag_recycler_view"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:clipToPadding="true"-->
-<!--                    android:scrollbars="horizontal|vertical" />-->
+                <!--                <androidx.recyclerview.widget.RecyclerView-->
+                <!--                    android:id="@+id/tag_recycler_view"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_weight="1"-->
+                <!--                    android:clipToPadding="true"-->
+                <!--                    android:scrollbars="horizontal|vertical" />-->
 
                 <ImageButton
                     android:id="@+id/action_add_tag"
@@ -126,33 +123,33 @@
                     android:scaleType="fitCenter"
                     app:srcCompat="@android:drawable/ic_menu_edit" />
 
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:gravity="center"-->
-<!--                    android:orientation="horizontal">-->
+                <!--                <LinearLayout-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:gravity="center"-->
+                <!--                    android:orientation="horizontal">-->
 
 
-<!--                    <EditText-->
-<!--                        android:id="@+id/txt_tag_name"-->
-<!--                        android:layout_width="100dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:ems="10"-->
-<!--                        android:text="Tag name"-->
-<!--                        android:textSize="10sp" />-->
+                <!--                    <EditText-->
+                <!--                        android:id="@+id/txt_tag_name"-->
+                <!--                        android:layout_width="100dp"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:ems="10"-->
+                <!--                        android:text="Tag name"-->
+                <!--                        android:textSize="10sp" />-->
 
-<!--                    <ImageButton-->
-<!--                        android:id="@+id/action_choose_tag_color"-->
-<!--                        android:layout_width="30dp"-->
-<!--                        android:layout_height="30dp"-->
-<!--                        android:adjustViewBounds="true"-->
-<!--                        android:background="@android:color/transparent"-->
-<!--                        android:contentDescription="image"-->
-<!--                        android:padding="5dp"-->
-<!--                        android:scaleType="fitCenter"-->
-<!--                        app:srcCompat="@android:drawable/ic_input_add" />-->
+                <!--                    <ImageButton-->
+                <!--                        android:id="@+id/action_choose_tag_color"-->
+                <!--                        android:layout_width="30dp"-->
+                <!--                        android:layout_height="30dp"-->
+                <!--                        android:adjustViewBounds="true"-->
+                <!--                        android:background="@android:color/transparent"-->
+                <!--                        android:contentDescription="image"-->
+                <!--                        android:padding="5dp"-->
+                <!--                        android:scaleType="fitCenter"-->
+                <!--                        app:srcCompat="@android:drawable/ic_input_add" />-->
 
-<!--                </LinearLayout>-->
+                <!--                </LinearLayout>-->
 
 
             </LinearLayout>
@@ -163,6 +160,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_weight="1"
             app:cardCornerRadius="5dp"
             app:cardElevation="5dp"
@@ -202,32 +200,34 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_weight="1">
-                    <ViewSwitcher
-                        android:id="@+id/add_goal_vs_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
                         android:layout_weight="1"
-                        android:inAnimation="@android:anim/slide_in_left">
+                        android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/add_goal_tv_name"
+                        <ViewSwitcher
+                            android:id="@+id/add_goal_vs_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1" />
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:inAnimation="@android:anim/slide_in_left">
 
-                        <EditText
-                            android:id="@+id/add_goal_et_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="?android:attr/colorBackground"
-                            android:ems="10"
-                            android:inputType="textMultiLine|text"
-                            android:maxLines="3"
-                            android:singleLine="false" />
-                    </ViewSwitcher>
+                            <TextView
+                                android:id="@+id/add_goal_tv_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1" />
+
+                            <EditText
+                                android:id="@+id/add_goal_et_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="?android:attr/colorBackground"
+                                android:ems="10"
+                                android:inputType="textMultiLine|text"
+                                android:maxLines="3"
+                                android:singleLine="false"
+                                android:textSize="14sp" />
+                        </ViewSwitcher>
 
                         <ImageButton
                             android:id="@+id/add_goal_ibtn_name_update"
@@ -258,18 +258,18 @@
                         android:layout_weight="2"
                         android:text="Due Day "
                         android:textStyle="bold" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
 
-                        <EditText
+                        <TextView
                             android:id="@+id/add_goal_et_goal_due_date"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="?android:attr/colorBackground"
                             android:focusable="false"
                             android:inputType="none" />
 
@@ -307,33 +307,34 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_weight="1">
-
-                    <ViewSwitcher
-                        android:id="@+id/add_goal_vs_description"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
                         android:layout_weight="1"
-                        android:inAnimation="@android:anim/slide_in_left">
+                        android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/add_goal_tv_description"
+                        <ViewSwitcher
+                            android:id="@+id/add_goal_vs_description"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1" />
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:inAnimation="@android:anim/slide_in_left">
 
-                        <EditText
-                            android:id="@+id/add_goal_et_description"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="?android:attr/colorBackground"
-                            android:ems="10"
-                            android:inputType="textMultiLine|text"
-                            android:maxLines="3"
-                            android:singleLine="false" />
-                    </ViewSwitcher>
+                            <TextView
+                                android:id="@+id/add_goal_tv_description"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1" />
+
+                            <EditText
+                                android:id="@+id/add_goal_et_description"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="?android:attr/colorBackground"
+                                android:ems="10"
+                                android:inputType="textMultiLine|text"
+                                android:maxLines="3"
+                                android:singleLine="false"
+                                android:textSize="14sp" />
+                        </ViewSwitcher>
 
                         <ImageButton
                             android:id="@+id/add_goal_ibtn_description_update"
@@ -378,9 +379,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp">
+            android:orientation="horizontal">
 
 
             <EditText

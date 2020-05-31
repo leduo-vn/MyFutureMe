@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.main.goal.tag.AddTagActivity"></activity>
+        <activity android:name=".activities.main.summary.SummaryActivity"></activity>
+        <activity android:name=".activities.main.goal.tag.AddTagActivity" />
         <activity android:name=".activities.main.goal.task.UpdateTaskActivity" />
         <activity android:name=".activities.main.motivation.MotivationActivity" />
         <activity android:name=".activities.main.goal.AddGoalActivity" />
@@ -22,7 +23,6 @@
         <activity
             android:name=".activities.authentication.login.LoginActivity"
             android:label="@string/title_activity_login">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

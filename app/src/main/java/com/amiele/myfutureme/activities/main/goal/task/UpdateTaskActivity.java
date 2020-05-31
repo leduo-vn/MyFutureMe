@@ -2,7 +2,6 @@ package com.amiele.myfutureme.activities.main.goal.task;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,21 +23,19 @@ import android.widget.ViewSwitcher;
 
 import com.amiele.myfutureme.R;
 import com.amiele.myfutureme.database.entity.SubTask;
-import com.amiele.myfutureme.database.entity.Task;
 import com.amiele.myfutureme.helpers.DateConverter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class UpdateTaskActivity extends AppCompatActivity {
 
-    private DatePickerDialog.OnDateSetListener mDateSetListener;
-    private SubTaskAdapter mAdapter;
-    int taskId;
     private UpdateTaskViewModel mUpdateTaskViewModel;
 
-
+    private SubTaskAdapter mAdapter;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
     private SeekBar mSeekBar;
     private TextView mTvSubTaskDow;
     private TextView mTvSubTaskDate;
@@ -53,10 +50,7 @@ public class UpdateTaskActivity extends AppCompatActivity {
     private TextView mTvTaskProgress;
     private ImageButton mIBtnTaskProgressUpdate;
     private RecyclerView mRvSubTask;
-
-    TextView mTvTime;
-
-    private Task mTask;
+    private TextView mTvTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,15 +58,16 @@ public class UpdateTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_update_task);
 
         InitializeView();
+        int taskId = Integer.parseInt(getIntent().getStringExtra("task_id"));
 
-        ArrayList<SubTask> subTask = new ArrayList<SubTask>();
-        taskId = Integer.parseInt(getIntent().getStringExtra("task_id"));
+
         mUpdateTaskViewModel = new ViewModelProvider(this).get(UpdateTaskViewModel.class);
         mUpdateTaskViewModel.setTaskId(taskId);
 
+        ArrayList<SubTask> subTask = new ArrayList<>();
         mRvSubTask.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        mAdapter = new SubTaskAdapter(this, subTask);
+        mAdapter = new SubTaskAdapter(subTask);
         mRvSubTask.setLayoutManager(layoutManager);
         mRvSubTask.setAdapter(mAdapter);
 
@@ -97,20 +92,15 @@ public class UpdateTaskActivity extends AppCompatActivity {
         };
 
 
-        mAdapter.setOnItemClickListener(new SubTaskAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(SubTask subTask, String action) {
-                if (action.equals("DELETE"))
-                    mUpdateTaskViewModel.deleteSubTask(subTask.getId());
-//                else if (action.equals("UPDATE"))
-//                    mUpdateTaskViewModel.updateSubTask(subTask);
-            }
+        mAdapter.setOnItemClickListener((subTask1, action) -> {
+            if (action.equals("DELETE"))
+                mUpdateTaskViewModel.deleteSubTask(subTask1.getId());
         });
 
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mTvTaskProgress.setText(Integer.toString(progress));
+                mTvTaskProgress.setText(String.format(Locale.US,"%d",progress));
                 mIBtnTaskProgressUpdate.setVisibility(View.VISIBLE);
             }
 
@@ -126,7 +116,6 @@ public class UpdateTaskActivity extends AppCompatActivity {
         });
 
         mIBtnTaskProgressUpdate.setOnClickListener(v -> {
-            //Store
             mUpdateTaskViewModel.updateProgress(mTvTaskProgress.getText().toString());
             mIBtnTaskProgressUpdate.setVisibility(View.INVISIBLE);
         });
@@ -146,29 +135,25 @@ public class UpdateTaskActivity extends AppCompatActivity {
         });
 
 
-
-
         mUpdateTaskViewModel.loadTask();
-        mUpdateTaskViewModel.getTask().observe(this, new Observer<Task>() {
-            @Override
-            public void onChanged(Task task) {
-                if (task!=null) {
-                    mEtTaskName.setText(task.getName());
-                    mTvTaskName.setText(task.getName());
-                    mTvTaskProgress.setText(Integer.toString(task.getProgress()));
-                    mSeekBar.setProgress(task.getProgress());
+        mUpdateTaskViewModel.getTask().observe(this, task -> {
+            if (task!=null) {
 
-                    mIBtnTaskProgressUpdate.setVisibility(View.INVISIBLE);
+                mEtTaskName.setText(task.getName());
+                mTvTaskName.setText(task.getName());
+                mTvTaskProgress.setText(String.format(Locale.US,"%d",task.getProgress()));
 
-                    int minute=0;
-                    if (task.getSubTasksList()!=null)
-                    for (SubTask subtask: task.getSubTasksList())
-                        minute += subtask.getMinute();
-                    mTvTime.setText(Integer.toString(minute));
+                mSeekBar.setProgress(task.getProgress());
+                mIBtnTaskProgressUpdate.setVisibility(View.INVISIBLE);
 
-                    mAdapter.setSubTaskList(task.getSubTasksList());
-                    mAdapter.notifyDataSetChanged();
-                }
+                int minute=0;
+                if (task.getSubTasksList()!=null)
+                for (SubTask subtask: task.getSubTasksList())
+                    minute += subtask.getMinute();
+                mTvTime.setText(String.format(Locale.US,"%d",minute));
+
+                mAdapter.setSubTaskList(task.getSubTasksList());
+                mAdapter.notifyDataSetChanged();
             }
         });
     }

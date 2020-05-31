@@ -15,9 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Database;
 
-import com.amiele.myfutureme.AppRepo;
 import com.amiele.myfutureme.R;
 import com.amiele.myfutureme.activities.main.goal.task.TaskAdapter;
 import com.amiele.myfutureme.database.entity.Goal;
@@ -32,58 +30,38 @@ import java.util.List;
 
 public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHolder> {
     private ArrayList<Goal> mGoalList;
-    private static OnItemClickListener mListener;
+    private OnItemClickListener mListener;
     private Activity mActivity;
     private int mExpandedPosition = -1;
 
-    public interface OnItemClickListener {
-        void onItemClick(Task position);
-
-        void onItemClick(Goal goal);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.mListener = listener;
-    }
-
-
-
     public static class WorkTaskViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvName;
-        public TextView tvDescription;
-        public TextView tvOverview;
-        public LinearLayout llDetail;
-        public ImageButton iBtnDetailExpand;
-        public RecyclerView rvTask;
-        public ImageButton iBtnEdit;
-        public FlexboxLayout fblTag;
-        public ProgressBar pbTime;
-        public ProgressBar pbWorkLoad;
+        TextView tvName;
+        TextView tvDescription;
+        LinearLayout llDetail;
+        ImageButton iBtnDetailExpand;
+        RecyclerView rvTask;
+        ImageButton iBtnEdit;
+        FlexboxLayout fblTag;
+        ProgressBar pbTime;
+        ProgressBar pbWorkLoad;
 
         public  WorkTaskViewHolder(View view) {
             super(view);
             tvName = itemView.findViewById(R.id.recycle_view_goal_tv_name);
             tvDescription = itemView.findViewById(R.id.recycle_view_goal_tv_description);
-            tvOverview = itemView.findViewById(R.id.recycle_view_goal_tv_overview);
             iBtnDetailExpand = itemView.findViewById(R.id.recycle_view_goal_ibtn_detail_expand);
             llDetail = itemView.findViewById(R.id.recycle_view_goal_ll_detail);
             rvTask = itemView. findViewById(R.id.recycle_view_goal_rv_task);
             fblTag = itemView.findViewById(R.id.recycle_view_goal_fl_tag);
-            iBtnEdit = itemView.findViewById(R.id.edit_icon);
-
-            pbTime = itemView.findViewById(R.id.time_progress_bar);
-            pbWorkLoad = itemView.findViewById(R.id.work_load_progress_bar);
+            iBtnEdit = itemView.findViewById(R.id.recycle_view_goal_iBtn_goal_update);
+            pbTime = itemView.findViewById(R.id.recycle_view_goal_pb_time_progres);
+            pbWorkLoad = itemView.findViewById(R.id.recycle_view_goal_pb_work_load_progres);
         }
     }
 
     public GoalAdapter(Activity activity, ArrayList<Goal> goalList) {
         this.mGoalList = goalList;
         this.mActivity = activity;
-    }
-
-    public void setGoalList(List<Goal> goals)
-    {
-        mGoalList = (ArrayList<Goal>) goals;
     }
 
     @NonNull
@@ -97,6 +75,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(@NonNull final WorkTaskViewHolder holder, final int position) {
+
         Goal currentGoal = mGoalList.get(position);
 
         holder.rvTask.setHasFixedSize(true);
@@ -109,11 +88,9 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
             @Override
             public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
                 int action = e.getAction();
-                switch (action) {
-                    case MotionEvent.ACTION_MOVE:
-                        rv.getParent().requestDisallowInterceptTouchEvent(true);
-                        break;
-                }
+                if (action == MotionEvent.ACTION_MOVE)
+                    rv.getParent().requestDisallowInterceptTouchEvent(true);
+
                 return false;
             }
 
@@ -128,32 +105,12 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
             }
         });
 
-        Date d = new Date();
-        String currentDate = DateConverter.ConvertFromDateToString(d);
-        long createDiff = DateConverter.getDaysDifferentFromStringDate(currentGoal.getDueDate(),currentGoal.getCreatedDate());
-        long currentDiff = DateConverter.getDaysDifferentFromStringDate(currentGoal.getDueDate(),currentDate);
 
-
-        int timeProgress;
-        if (createDiff==0) timeProgress =0;
-        else timeProgress = 100 - (int) (currentDiff *100/createDiff);
-
+        int timeProgress = CalculateTimeProgress(currentGoal.getDueDate(),currentGoal.getCreatedDate());
         holder.pbTime.setSecondaryProgress(timeProgress);
 
 
-        int workLoadProgress=100;
-        if (currentGoal.getTaskList()!=null)
-        {
-            int workDone = 0;
-            for (Task task:currentGoal.getTaskList())
-                workDone+=task.getProgress();
-
-            if (currentGoal.getTaskList().size()!=0) {
-                int fullProgress = currentGoal.getTaskList().size() *100;
-                workLoadProgress = (workDone *100 / fullProgress) ;
-            }
-        }
-
+        int workLoadProgress=CalculateWorkLoadProgress(currentGoal.getTaskList());
         holder.pbWorkLoad.setSecondaryProgress(workLoadProgress);
 
         if (holder.fblTag.getChildCount() > 0)
@@ -172,6 +129,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
 
         holder.tvName.setText(currentGoal.getName());
         holder.tvDescription.setText(currentGoal.getDescription());
+
         final boolean isGoalDetailsExpanded = position==mExpandedPosition;
         if (isGoalDetailsExpanded)
         {
@@ -205,6 +163,53 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
     public int getItemCount() {
         if (mGoalList==null) return 0;
             return mGoalList.size();
+    }
+
+    public void setGoalList(List<Goal> goals)
+    {
+        mGoalList = (ArrayList<Goal>) goals;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mListener = listener;
+    }
+
+    private int CalculateTimeProgress(String dueDate,String createdDate)
+    {
+        Date d = new Date();
+        String currentDate = DateConverter.ConvertFromDateToString(d);
+        long createDiff = DateConverter.getDaysDifferentFromStringDate(dueDate,createdDate);
+        long currentDiff = DateConverter.getDaysDifferentFromStringDate(dueDate,currentDate);
+
+        int timeProgress;
+        if (createDiff==0) timeProgress =0;
+        else timeProgress = 100 - (int) (currentDiff *100/createDiff);
+
+        return timeProgress;
+    }
+
+    private int CalculateWorkLoadProgress(ArrayList<Task> tasks)
+    {
+        int workLoadProgress = 100;
+        if (tasks!=null)
+        {
+            int workDone = 0;
+            for (Task task:tasks)
+                workDone+=task.getProgress();
+
+            if (tasks.size()!=0) {
+                int fullProgress = tasks.size() *100;
+                workLoadProgress = (workDone *100 / fullProgress) ;
+            }
+        }
+
+        return workLoadProgress;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Task position);
+
+        void onItemClick(Goal goal);
     }
 
 

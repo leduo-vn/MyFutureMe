@@ -20,7 +20,7 @@ import java.util.List;
 public class TagAdapter  extends RecyclerView.Adapter<TagAdapter.TagViewHolder> implements Filterable {
     private ArrayList<Tag> mTagListOriginal;
     private ArrayList<Tag> mTagList;
-    private static TagAdapter.OnItemClickListener listener= null;
+    private TagAdapter.OnItemClickListener listener= null;
 
     @Override
     public Filter getFilter() {
@@ -47,7 +47,6 @@ public class TagAdapter  extends RecyclerView.Adapter<TagAdapter.TagViewHolder> 
                     if (tag.getName().toLowerCase().trim().contains(pattern)) filteredTagList.add(tag);
                 }
             }
-
             filterResults.values = filteredTagList;
             return filterResults;
         }
@@ -60,23 +59,19 @@ public class TagAdapter  extends RecyclerView.Adapter<TagAdapter.TagViewHolder> 
         }
     };
 
-
-
     public interface OnItemClickListener {
         void onItemClick(Tag tag);
     }
 
-    public void setOnItemClickListener(TagAdapter.OnItemClickListener listener) {
+    void setOnItemClickListener(TagAdapter.OnItemClickListener listener) {
         this.listener = listener;
     }
 
+    static class TagViewHolder extends RecyclerView.ViewHolder {
+        TextView tvName;
+        ImageButton iBtnTagEdit;
 
-
-    public static class TagViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvName;
-        public ImageButton iBtnTagEdit;
-
-        public  TagViewHolder(View view) {
+        TagViewHolder(View view) {
             super(view);
 
             tvName = itemView.findViewById(R.id.tag_recycle_view_name);
@@ -84,12 +79,12 @@ public class TagAdapter  extends RecyclerView.Adapter<TagAdapter.TagViewHolder> 
         }
     }
 
-    public TagAdapter(ArrayList<Tag> tagList) {
+    TagAdapter(ArrayList<Tag> tagList) {
         mTagListOriginal = tagList;
         mTagList = new ArrayList<>(tagList);
     }
 
-    public void setTagList(ArrayList<Tag> tagList)
+    void setTagList(ArrayList<Tag> tagList)
     {
         mTagListOriginal = tagList;
         mTagList = new ArrayList<>(tagList);
@@ -106,8 +101,7 @@ public class TagAdapter  extends RecyclerView.Adapter<TagAdapter.TagViewHolder> 
     public void onBindViewHolder(@NonNull TagViewHolder holder, int position) {
         Tag currentTag = mTagList.get(position);
 
-       //set value
-        holder.tvName.setText(currentTag.getName());
+       holder.tvName.setText(currentTag.getName());
         holder.tvName.setBackgroundColor(currentTag.getColor());
 
         if (currentTag.isChosen())
@@ -116,7 +110,6 @@ public class TagAdapter  extends RecyclerView.Adapter<TagAdapter.TagViewHolder> 
         }
         else
             holder.iBtnTagEdit.setImageResource((android.R.drawable.checkbox_off_background));
-
 
         holder.iBtnTagEdit.setOnClickListener(v -> {
             if (listener!=null)

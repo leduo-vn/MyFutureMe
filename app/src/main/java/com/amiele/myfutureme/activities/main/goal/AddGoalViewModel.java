@@ -21,51 +21,39 @@ public class AddGoalViewModel extends AndroidViewModel {
 
     private static AppRepo mAppRepo;
 
-    private static LiveData<List<Task>> tasks;
-    private static LiveData<List<Tag>> tags;
-    private int userId;
+    private static LiveData<List<Task>> tasksLiveData;
+    private static LiveData<List<Tag>> tagsLiveData;
+    private static LiveData<Goal> goalLiveData;
+
+    private static MutableLiveData<Integer> goalIdResultMutableLiveData = new MutableLiveData<>();
+
     private static int goalId;
-
-
-    public void setGoalId(int goalId)
-    {
-        this.goalId = goalId;
-    }
-
-    public void setUserId(int userId)
-    {
-        this.userId = userId;
-    }
-
-
 
     public AddGoalViewModel(@NonNull Application application) {
         super(application);
         mAppRepo = new AppRepo(application);
-
-    }
-
-    private static MutableLiveData<Integer> goalIdResult = new MutableLiveData<>();
-    public LiveData<Integer> getGoalIdResult() {
-        return goalIdResult;
-    }
-
-
-
-    public void deleteGoal()
-    {
-        mAppRepo.deleteGoal(goalId);
     }
 
     public LiveData<Goal> getGoal()
     {
-        return goal;
+        return goalLiveData;
     }
 
-    private static LiveData<Goal> goal;
+    LiveData<List<Tag>> getAllTags()
+    {
+        return tagsLiveData;
+    }
 
+    LiveData<List<Task>> getAllTasks()
+    {
+        return tasksLiveData;
+    }
 
-    public static void addGoal(Goal goal)
+    LiveData<Integer> getGoalIdResult() {
+        return goalIdResultMutableLiveData;
+    }
+
+    static void addGoal(Goal goal)
     {
         new AsyncTask<Void, Void, Long>() {
 
@@ -82,48 +70,47 @@ public class AddGoalViewModel extends AndroidViewModel {
             @Override
             protected void onPostExecute(Long aLong) {
                 super.onPostExecute(aLong);
-
-                goalIdResult.setValue(goalId);
+                goalIdResultMutableLiveData.setValue(goalId);
             }
         }.execute();
 
     }
 
-    public static void loadAllLoad()
+    static void loadAllLoad()
     {
-        tasks = mAppRepo.loadTasks(goalId);
-        tags = mAppRepo.loadTags(goalId);
-        goal = mAppRepo.loadGoal(goalId);
+        tasksLiveData = mAppRepo.loadTasks(goalId);
+        tagsLiveData = mAppRepo.loadTags(goalId);
+        goalLiveData = mAppRepo.loadGoal(goalId);
     }
 
-    public void updateName(String name)
+    public void setGoalId(int goalId)
+    {
+        this.goalId = goalId;
+    }
+
+    void deleteGoal()
+    {
+        mAppRepo.deleteGoal(goalId);
+    }
+
+    void updateName(String name)
     {
         mAppRepo.updateGoalName(name,goalId);
     }
 
-    public void updateDescription(String description)
+    void updateDescription(String description)
     {
         mAppRepo.updateGoalDescription(description, goalId);
     }
 
-    public void updateDueDate(String dueDate)
+    void updateDueDate(String dueDate)
     {
         mAppRepo.updateGoalDueDate(dueDate,goalId);
     }
 
-
-    public void addTask(Task task)
+    void addTask(Task task)
     {
         mAppRepo.addTask(task);
     }
 
-    public LiveData<List<Tag>> getAllTags()
-    {
-        return tags;
-    }
-
-    public LiveData<List<Task>> getAllTasks()
-    {
-        return tasks;
-    }
 }

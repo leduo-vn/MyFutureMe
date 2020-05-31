@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="Task Name" />
+            android:text="@string/default_tag_name" />
 
         <ProgressBar
             android:id="@+id/recycle_view_pb_progress"

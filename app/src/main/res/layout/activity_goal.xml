@@ -28,7 +28,7 @@
             android:id="@+id/footer_layout"
             android:layout_width="match_parent"
             android:layout_height="90dp"
-            android:background="@drawable/purple_gradient"
+            android:background="@drawable/footer_motivation_gradient"
             android:gravity="center"
             android:orientation="horizontal"
             android:paddingLeft="10dp"
@@ -46,7 +46,7 @@
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:text="TextView"
-                android:textColor="?android:attr/colorBackground" />
+                android:textColor="#9788BE" />
 
             <Button
                 android:id="@+id/button"

@@ -19,8 +19,8 @@ import java.util.List;
 
 public class TaskAdapter  extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     private ArrayList<Task> mTaskList;
-    private static TaskAdapter.OnItemClickListener mListener = null;
-    private static GoalAdapter.OnItemClickListener mGoalListener = null;
+    private TaskAdapter.OnItemClickListener mListener;
+    private GoalAdapter.OnItemClickListener mGoalListener;
 
     public interface OnItemClickListener {
         void onItemClick(Task task);
@@ -30,19 +30,17 @@ public class TaskAdapter  extends RecyclerView.Adapter<TaskAdapter.TaskViewHolde
         this.mListener = listener;
     }
 
-    public static class TaskViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvName;
-        public ImageButton iBtnEdit;
-        public ProgressBar pbProgress;
+    static class TaskViewHolder extends RecyclerView.ViewHolder {
+        TextView tvName;
+        ImageButton iBtnEdit;
+        ProgressBar pbProgress;
 
-        public  TaskViewHolder(View view) {
+        TaskViewHolder(View view) {
             super(view);
             tvName = itemView.findViewById(R.id.recycle_view_task_tv_description);
             iBtnEdit = itemView.findViewById((R.id.recycle_view_task_ibtn_edit));
             pbProgress = itemView.findViewById(R.id.recycle_view_pb_progress);
-
         }
-
     }
 
     public TaskAdapter(ArrayList<Task> taskList) {
@@ -70,7 +68,6 @@ public class TaskAdapter  extends RecyclerView.Adapter<TaskAdapter.TaskViewHolde
         return new TaskAdapter.TaskViewHolder(view);
     }
 
-
     @Override
     public void onBindViewHolder(@NonNull TaskAdapter.TaskViewHolder holder, final int position) {
         Task currentTask = mTaskList.get(position);
@@ -79,11 +76,10 @@ public class TaskAdapter  extends RecyclerView.Adapter<TaskAdapter.TaskViewHolde
 
         // Set onClick Event
         holder.iBtnEdit.setOnClickListener(v -> {
-            if (currentTask!=null && mGoalListener !=null)
+            if (mGoalListener != null)
                     mGoalListener.onItemClick(currentTask);
-
             else
-                if (currentTask!=null && mListener !=null)
+                if (mListener != null)
                    mListener.onItemClick(currentTask);
         });
 

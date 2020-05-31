@@ -38,23 +38,22 @@ import java.util.Date;
 
 
 public class AddGoalActivity extends AppCompatActivity {
-    private ArrayList<Task> mTaskList;
-    private ArrayList<Tag> mTagList;
+
+    public static final int ADD_TAG_ACTIVITY_REQUEST_CODE = 1;
+    public static final int EDIT_TASK_ACTIVITY_REQUEST_CODE = 2;
     private AddGoalViewModel mGoalViewModel;
     private int goalId =-1;
     String userId;
     String action;
-    public static final int ADD_TAG_ACTIVITY_REQUEST_CODE = 1;
+
 
 
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private TaskAdapter mAdapter;
-    FlexboxLayout fbTag;
+    private FlexboxLayout fbTag;
     private RecyclerView mRvTask;
     private ImageButton mIBtnDatePick;
-    private EditText mEtGoalDueDate;
-
-
+    private TextView mEtGoalDueDate;
     private ViewSwitcher mVsGoalName;
     private TextView mTvGoalName;
     private EditText mEtGoalName;
@@ -64,59 +63,32 @@ public class AddGoalActivity extends AppCompatActivity {
     private ImageButton miBtnGoalNameUpdate;
     private ImageButton miBtnGoalDescriptionUpdate;
 
-
-    private void InitializeView()
-    {
-        mRvTask = findViewById(R.id.add_goal_rv_task);
-        mIBtnDatePick = findViewById(R.id.add_goal_ibtn_date_pick);
-        mEtGoalDueDate = findViewById(R.id.add_goal_et_goal_due_date);
-
-
-        fbTag = findViewById(R.id.add_goal_fl_tag);
-        mVsGoalName = findViewById(R.id.add_goal_vs_name);
-        mTvGoalName = findViewById(R.id.add_goal_tv_name);
-        mEtGoalName = findViewById(R.id.add_goal_et_name);
-        miBtnGoalNameUpdate = findViewById(R.id.add_goal_ibtn_name_update);
-
-        mVsGoalDescription = findViewById(R.id.add_goal_vs_description);
-        mTvGoalDescription =findViewById(R.id.add_goal_tv_description);
-        mEtGoalDescription = findViewById(R.id.add_goal_et_description);
-        miBtnGoalDescriptionUpdate = findViewById(R.id.add_goal_ibtn_description_update);
-
-
-    }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_goal);
 
-        action = getIntent().getStringExtra("action");
-
         InitializeView();
+
+        action = getIntent().getStringExtra("action");
         mGoalViewModel = new ViewModelProvider(this).get(AddGoalViewModel.class);
-        if (action.equals("ADD"))
+
+        if (action.equals(GoalActivity.GOAL_ACTION_ADD))
             InitializeAddView();
         else
-            if (action.equals("EDIT"))
-                InitialEditView();
+        if (action.equals(GoalActivity.GOAL_ACTION_EDIT))
+            InitialEditView();
 
-        mTagList = new ArrayList<>();
-        mTaskList = new ArrayList<>();
+        ArrayList<Task> mTaskList = new ArrayList<>();
 
         mRvTask.setHasFixedSize(true);
-
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mAdapter = new TaskAdapter(mTaskList);
         mRvTask.setLayoutManager(layoutManager);
         mRvTask.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener(task -> {
-            GoToUpdateTaskActivity(task);
-            DisplayToast(task.getName());
-                }
-       );
+        mAdapter.setOnItemClickListener(this::GoToUpdateTaskActivity
+        );
 
         mIBtnDatePick.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
@@ -134,7 +106,6 @@ public class AddGoalActivity extends AppCompatActivity {
             String stDate = DateConverter.ConvertFromDateToString(date);
             mGoalViewModel.updateDueDate(stDate);
         };
-
 
         miBtnGoalNameUpdate.setOnClickListener(arg0 -> {
             if (mVsGoalName.getCurrentView() != mEtGoalName){
@@ -159,8 +130,101 @@ public class AddGoalActivity extends AppCompatActivity {
                 mVsGoalDescription.showPrevious();
             }
         });
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == EDIT_TASK_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            DisplayToast("Task is updated");
+        }
+        else if (requestCode == ADD_TAG_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            DisplayToast("Tag is updated!");
+        }
+        else DisplayToast("Errors Occurred! Your changes may not be saved");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.add_goal_menu,menu);
+        if (action.equals("EDIT")) {
+            menu.findItem(R.id.action_cancel).setTitle("DELETE");
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_done:
+                finishActivity();
+                return true;
+            case R.id.action_cancel:
+                mGoalViewModel.deleteGoal();
+                finishActivity();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void onAddTaskClicked(View view)
+    {
+        EditText etTaskName = findViewById(R.id.add_goal_et_task_name);
+        Task task = new Task(etTaskName.getText().toString(), 0);
+        task.setGoalId(goalId);
+        mGoalViewModel.addTask(task);
+    }
+
+    public void onAddTagBtnClicked(View view)
+    {
+        Intent addTagActivity = new Intent(this, AddTagActivity.class);
+        addTagActivity.putExtra("goal_id",Integer.toString(goalId));
+        startActivityForResult(addTagActivity,ADD_TAG_ACTIVITY_REQUEST_CODE);
+    }
+
+    private void InitializeView()
+    {
+        mRvTask = findViewById(R.id.add_goal_rv_task);
+        mIBtnDatePick = findViewById(R.id.add_goal_ibtn_date_pick);
+        mEtGoalDueDate = findViewById(R.id.add_goal_et_goal_due_date);
+
+        fbTag = findViewById(R.id.add_goal_fl_tag);
+        mVsGoalName = findViewById(R.id.add_goal_vs_name);
+        mTvGoalName = findViewById(R.id.add_goal_tv_name);
+        mEtGoalName = findViewById(R.id.add_goal_et_name);
+        miBtnGoalNameUpdate = findViewById(R.id.add_goal_ibtn_name_update);
+
+        mVsGoalDescription = findViewById(R.id.add_goal_vs_description);
+        mTvGoalDescription =findViewById(R.id.add_goal_tv_description);
+        mEtGoalDescription = findViewById(R.id.add_goal_et_description);
+        miBtnGoalDescriptionUpdate = findViewById(R.id.add_goal_ibtn_description_update);
+
+    }
+
+    private void InitialEditView()
+    {
+        goalId = Integer.parseInt(getIntent().getStringExtra("goal_id"));
+        mGoalViewModel.setGoalId(goalId);
+        AddGoalViewModel.loadAllLoad();
+        DisplayGoal();
+    }
+
+    private void InitializeAddView()
+    {
+        userId = getIntent().getStringExtra("user_id");
+
+        Date d = new Date();
+        String currentDate = DateConverter.ConvertFromDateToString(d);
+        Goal goal = new Goal(Integer.parseInt(userId),"","",currentDate, currentDate, android.R.color.holo_blue_light);
+        AddGoalViewModel.addGoal(goal);
+
+        mGoalViewModel.getGoalIdResult().observe(this, integer -> {
+            goalId = integer;
+            DisplayGoal();
+        }) ;
     }
 
     private void GoToUpdateTaskActivity(Task task)
@@ -169,46 +233,6 @@ public class AddGoalActivity extends AppCompatActivity {
         updateTaskActivity.putExtra("task_id",Integer.toString(task.getId()));
         startActivityForResult(updateTaskActivity,EDIT_TASK_ACTIVITY_REQUEST_CODE);
     }
-    public static final int EDIT_TASK_ACTIVITY_REQUEST_CODE = 2;
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == EDIT_TASK_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            DisplayToast("edit task success!");
-        }
-        else if (requestCode == ADD_TAG_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            DisplayToast("add tag success!");
-        }
-        else DisplayToast("error");
-    }
-
-
-    private void InitialEditView()
-    {
-        goalId = Integer.parseInt(getIntent().getStringExtra("goal_id"));
-        mGoalViewModel.setGoalId(goalId);
-        mGoalViewModel.loadAllLoad();
-        DisplayGoal();
-    }
-
-    private void InitializeAddView()
-    {
-        userId = getIntent().getStringExtra("user_id");
-        mGoalViewModel.setUserId(Integer.parseInt(userId));
-        Date d = new Date();
-        String currentDate = DateConverter.ConvertFromDateToString(d);
-        Goal goal = new Goal(Integer.parseInt(userId),"Goal name","goal description","Sun-21 Apr 20", currentDate, android.R.color.holo_blue_light);
-        mGoalViewModel.addGoal(goal);
-
-        mGoalViewModel.getGoalIdResult().observe(this, integer -> {
-            goalId = integer;
-            DisplayGoal();
-        }) ;
-    }
-
-
 
     private void DisplayGoal()
     {
@@ -240,10 +264,6 @@ public class AddGoalActivity extends AppCompatActivity {
                 mTvGoalName.setText(goal.getName());
                 mTvGoalDescription.setText(goal.getDescription());
                 mEtGoalDueDate.setText(goal.getDueDate());
-                Date d = new Date();
-                Date date = DateConverter.GetDateFromString(goal.getDueDate());
-                DateConverter.getDaysDifferent(date,d);
-                DisplayToast(goal.getCreatedDate());
             }
         });
     }
@@ -255,64 +275,8 @@ public class AddGoalActivity extends AppCompatActivity {
         finish();
     }
 
-
-    private void DeleteGoal()
-    {
-        mGoalViewModel.deleteGoal();
-        finishActivity();
-    }
-
-    public void onAddTaskClicked(View view)
-    {
-        EditText etTaskName = findViewById(R.id.add_goal_et_task_name);
-        Task task = new Task(etTaskName.getText().toString(), 0);
-        task.setGoalId(goalId);
-        mGoalViewModel.addTask(task);
-    }
-
-
-    public void onAddTagBtnClicked(View view)
-    {
-        Intent addTagActivity = new Intent(this, AddTagActivity.class);
-        addTagActivity.putExtra("goal_id",Integer.toString(goalId));
-        startActivityForResult(addTagActivity,ADD_TAG_ACTIVITY_REQUEST_CODE);
-    }
-
-
-
     private  void DisplayToast(String text)
     {
         Toast.makeText(this,text,Toast.LENGTH_SHORT).show();
     }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.add_goal_menu,menu);
-        MenuItem cancelItem = menu.findItem(R.id.action_cancel);
-        if (action.equals("EDIT")) {
-            menu.findItem(R.id.action_cancel).setTitle("DELETE");
-
-        }
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_done:
-                finishActivity();
-                Toast.makeText(this, "Done selected", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.action_cancel:
-                DeleteGoal();
-                Toast.makeText(this, "Cancel selected", Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
 }

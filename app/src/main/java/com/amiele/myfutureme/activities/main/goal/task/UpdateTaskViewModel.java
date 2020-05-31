@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.Observer;
 
 import com.amiele.myfutureme.AppRepo;
 import com.amiele.myfutureme.database.entity.SubTask;
@@ -17,53 +16,47 @@ import java.util.List;
 
 public class UpdateTaskViewModel extends AndroidViewModel {
     private static AppRepo mAppRepo;
+
     private int taskId;
+    private static MediatorLiveData<Task> taskMediatorLiveData = new MediatorLiveData<>();
+    private static Task task = new Task();
 
     public UpdateTaskViewModel(@NonNull Application application) {
         super(application);
         mAppRepo = new AppRepo(application);
     }
 
-    public void setTaskId(int taskId)
+    public LiveData<Task> getTask() {return taskMediatorLiveData;}
+
+    void setTaskId(int taskId)
     {
         this.taskId = taskId;
     }
 
-    static MediatorLiveData<Task> mediatorLiveData = new MediatorLiveData<>();
-
-    static Task finalTask = new Task();
-
-    public LiveData<Task> getTask() {return mediatorLiveData;}
-    public void loadTask()
+    void loadTask()
     {
         LiveData<Task> taskLiveData = mAppRepo.loadTask(taskId);
 
         LiveData<List<SubTask>> subTasksLiveData = mAppRepo.loadSubTasks(taskId);
 
-        mediatorLiveData.addSource(taskLiveData, new Observer<Task>() {
-            @Override
-            public void onChanged(Task task) {
+        taskMediatorLiveData.addSource(taskLiveData, task -> {
 
-                finalTask.setTaskInfo(task);
-                mediatorLiveData.setValue(finalTask);
-            }
+            UpdateTaskViewModel.task.setTaskInfo(task);
+            taskMediatorLiveData.setValue(UpdateTaskViewModel.task);
         });
 
-        mediatorLiveData.addSource(subTasksLiveData, new Observer<List<SubTask>>() {
-            @Override
-            public void onChanged(List<SubTask> subTasks) {
-                finalTask.setSubTasksList((ArrayList<SubTask>) subTasks);
-                mediatorLiveData.setValue(finalTask);
-            }
+        taskMediatorLiveData.addSource(subTasksLiveData, subTasks -> {
+            task.setSubTasksList((ArrayList<SubTask>) subTasks);
+            taskMediatorLiveData.setValue(task);
         });
     }
 
-    public void updateName(String name)
+    void updateName(String name)
     {
         mAppRepo.updateTaskName(name,taskId);
     }
 
-    public void updateProgress(String progress)
+    void updateProgress(String progress)
     {
         int value = 0;
         if (progress.length()>0)
@@ -72,12 +65,12 @@ public class UpdateTaskViewModel extends AndroidViewModel {
         mAppRepo.updateTaskProgress(value,taskId);
     }
 
-    public void deleteSubTask(int subTaskId)
+    void deleteSubTask(int subTaskId)
     {
         mAppRepo.deleteSubTask(subTaskId);
     }
 
-    public void addSubTask(SubTask subTask)
+    void addSubTask(SubTask subTask)
     {
         subTask.setTaskId(taskId);
         mAppRepo.addSubTask(subTask);
