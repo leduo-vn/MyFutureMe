@@ -36,7 +36,7 @@ public class DateConverter {
     // Ex:Sun, 27 May 20
     public static String ConvertFromDateToString(Date date)
     {
-        return GetDayOfWeekFromDate(date) + ", " + GetDayMonthYearFromDate(date);
+        return GetDayOfWeekFromDate(date) + "-" + GetDayMonthYearFromDate(date);
     }
 
 

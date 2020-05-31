@@ -25,4 +25,12 @@ public interface GoalDao {
     @Query("DELETE FROM goals WHERE goal_id = :goalId")
     void deleteGoal(int goalId);
 
+    @Query("UPDATE goals SET name = :name  WHERE goal_id = :goalId")
+    void updateName(String name,int goalId);
+
+    @Query("UPDATE goals SET description = :description  WHERE goal_id = :goalId")
+    void updateDescription(String description,int goalId);
+
+    @Query("UPDATE goals SET due_date = :dueDate  WHERE goal_id = :goalId")
+    void updateDueDate(String dueDate,int goalId);
 }

@@ -104,26 +104,6 @@
                     app:alignItems="stretch"
                     app:flexWrap="wrap">
 
-                    <TextView
-                        android:id="@+id/textview1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="#8F1717"
-                        android:text="Friend" />
-
-                    <TextView
-                        android:id="@+id/textview2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="#2E2929"
-                        android:text="Friend" />
-
-                    <TextView
-                        android:id="@+id/textview3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="#C1B2B2"
-                        android:text="Friend" />
                 </com.google.android.flexbox.FlexboxLayout>
 
 <!--                <androidx.recyclerview.widget.RecyclerView-->
@@ -219,16 +199,47 @@
                         android:text="Name "
                         android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/txt_name"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_weight="1">
+                    <ViewSwitcher
+                        android:id="@+id/add_goal_vs_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
                         android:layout_weight="1"
-                        android:background="?android:attr/colorBackground"
-                        android:ems="10"
-                        android:inputType="textMultiLine|text"
-                        android:maxLines="1"
-                        android:singleLine="false" />
+                        android:inAnimation="@android:anim/slide_in_left">
+
+                        <TextView
+                            android:id="@+id/add_goal_tv_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <EditText
+                            android:id="@+id/add_goal_et_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="?android:attr/colorBackground"
+                            android:ems="10"
+                            android:inputType="textMultiLine|text"
+                            android:maxLines="3"
+                            android:singleLine="false" />
+                    </ViewSwitcher>
+
+                        <ImageButton
+                            android:id="@+id/add_goal_ibtn_name_update"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:adjustViewBounds="true"
+                            android:background="@android:color/transparent"
+                            android:contentDescription="image"
+                            android:padding="5dp"
+                            android:scaleType="fitCenter"
+                            app:srcCompat="@android:drawable/ic_menu_edit" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -293,16 +304,48 @@
                         android:text="Description "
                         android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/txt_description"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_weight="1">
+
+                    <ViewSwitcher
+                        android:id="@+id/add_goal_vs_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
                         android:layout_weight="1"
-                        android:background="?android:attr/colorBackground"
-                        android:ems="10"
-                        android:inputType="textMultiLine|text"
-                        android:maxLines="2"
-                        android:singleLine="false" />
+                        android:inAnimation="@android:anim/slide_in_left">
+
+                        <TextView
+                            android:id="@+id/add_goal_tv_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <EditText
+                            android:id="@+id/add_goal_et_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="?android:attr/colorBackground"
+                            android:ems="10"
+                            android:inputType="textMultiLine|text"
+                            android:maxLines="3"
+                            android:singleLine="false" />
+                    </ViewSwitcher>
+
+                        <ImageButton
+                            android:id="@+id/add_goal_ibtn_description_update"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:adjustViewBounds="true"
+                            android:background="@android:color/transparent"
+                            android:contentDescription="image"
+                            android:padding="5dp"
+                            android:scaleType="fitCenter"
+                            app:srcCompat="@android:drawable/ic_menu_edit" />
+                    </LinearLayout>
                 </LinearLayout>
 
 

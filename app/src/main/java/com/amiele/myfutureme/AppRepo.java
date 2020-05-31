@@ -100,6 +100,25 @@ public class AppRepo {
     {
         AppDatabase.databaseWriteExecutor.execute(() -> mGoalDao.deleteGoal(goalId));
     }
+
+    public void updateGoalName(String name, int goalId)
+    {
+        AppDatabase.databaseWriteExecutor.execute(() -> mGoalDao.updateName(name,goalId));
+
+    }
+
+    public void updateGoalDescription(String description, int goalId)
+    {
+        AppDatabase.databaseWriteExecutor.execute(() -> mGoalDao.updateDescription(description,goalId));
+
+    }
+
+    public void updateGoalDueDate(String dueDate, int goalId)
+    {
+        AppDatabase.databaseWriteExecutor.execute(() -> mGoalDao.updateDueDate(dueDate,goalId));
+
+    }
+
     //endregion goal
 
     //region tag
@@ -134,6 +153,11 @@ public class AppRepo {
         return mTaskDao.loadTask(taskId);
     }
 
+    public void updateTaskName(String name, int taskId)
+    {
+        AppDatabase.databaseWriteExecutor.execute(() -> mTaskDao.updateName(name,taskId));
+
+    }
     //endregion
 
     //region sub-task

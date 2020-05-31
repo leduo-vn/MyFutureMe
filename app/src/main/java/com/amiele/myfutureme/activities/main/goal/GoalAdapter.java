@@ -31,10 +31,11 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
     private static OnItemClickListener mListener;
     private Activity mActivity;
     private int mExpandedPosition = -1;
-//    private int mAddTaskExpandedPosition = -1;
 
     public interface OnItemClickListener {
         void onItemClick(Task position);
+
+        void onItemClick(Goal goal);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -50,10 +51,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
         public LinearLayout llDetail;
         public ImageButton iBtnDetailExpand;
         public RecyclerView rvTask;
-//        public ImageButton iBtnTaskAdd;
-//        public LinearLayout llAddTask;
-//        public ImageButton iBtnAddTaskCancel;
-//        public ImageButton iBtnAddTaskDone;
+        public ImageButton iBtnEdit;
         public FlexboxLayout fblTag;
 
         public  WorkTaskViewHolder(View view) {
@@ -64,12 +62,8 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
             iBtnDetailExpand = itemView.findViewById(R.id.recycle_view_goal_ibtn_detail_expand);
             llDetail = itemView.findViewById(R.id.recycle_view_goal_ll_detail);
             rvTask = itemView. findViewById(R.id.recycle_view_goal_rv_task);
-//            iBtnTaskAdd = itemView.findViewById(R.id.recycle_view_goal_ibtn_task_add);
-//            llAddTask = itemView.findViewById(R.id.recycle_view_goal_ll_add_task);
-//            iBtnAddTaskCancel = itemView.findViewById(R.id.recycle_view_goal_ibtn_add_task_cancel);
-//            iBtnAddTaskDone = itemView.findViewById(R.id.recycle_view_goal_ibtn_add_task_done);
-
             fblTag = itemView.findViewById(R.id.recycle_view_goal_fl_tag);
+            iBtnEdit = itemView.findViewById(R.id.edit_icon);
         }
     }
 
@@ -155,11 +149,15 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
         }
 
 
-        holder. itemView.setOnClickListener(v -> {
+        holder.itemView.setOnClickListener(v -> {
             mExpandedPosition = isGoalDetailsExpanded ? -1:position;
             notifyItemChanged(position);
         });
 
+        holder.iBtnEdit.setOnClickListener(v ->{
+            if (mListener!=null)
+                mListener.onItemClick(currentGoal);
+        });
 
     }
 

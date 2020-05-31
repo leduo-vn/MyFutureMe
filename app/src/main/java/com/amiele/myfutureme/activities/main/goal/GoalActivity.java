@@ -134,9 +134,18 @@ public class GoalActivity extends AppCompatActivity {
         mRvGoal.setAdapter(adapter);
 
         // Set onClick for Adapter
-        adapter.setOnItemClickListener(task -> {
-            DisplayToast(task.getName());
-            GoToUpdateTaskActivity(task);
+        adapter.setOnItemClickListener(new GoalAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Task task) {
+                DisplayToast(task.getName());
+                GoToUpdateTaskActivity(task);
+            }
+
+            @Override
+            public void onItemClick(Goal goal) {
+                DisplayToast(Integer.toString(goal.getId()));
+                GoToUpdateGoalActivity(goal);
+            }
         });
 
         mGoalViewModel.getUserResult().observe(this, aBoolean -> {
@@ -152,6 +161,15 @@ public class GoalActivity extends AppCompatActivity {
         } );
     }
 
+    private void GoToUpdateGoalActivity(Goal goal)
+    {
+        Intent  updateGoalActivity= new Intent(this, AddGoalActivity.class);
+        updateGoalActivity.putExtra("goal_id",Integer.toString(goal.getId()));
+        updateGoalActivity.putExtra("action",ACTION_EDIT);
+
+        startActivityForResult(updateGoalActivity,ACTIVITY_REQUEST_CODE);
+    }
+
     private void GoToUpdateTaskActivity(Task task)
     {
         Intent  updateTaskActivity= new Intent(this, UpdateTaskActivity.class);
@@ -163,6 +181,7 @@ public class GoalActivity extends AppCompatActivity {
     {
         Toast.makeText(this,text,Toast.LENGTH_SHORT).show();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();

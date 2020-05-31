@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import com.amiele.myfutureme.R;
 import com.amiele.myfutureme.activities.main.goal.tag.AddTagActivity;
@@ -51,18 +52,36 @@ public class AddGoalActivity extends AppCompatActivity {
     private RecyclerView mRvTask;
     private ImageButton mIBtnDatePick;
     private EditText mEtGoalDueDate;
-    EditText mEtGoalName;
-    EditText mEtGoalDescription;
+
+
+    private ViewSwitcher mVsGoalName;
+    private TextView mTvGoalName;
+    private EditText mEtGoalName;
+    private ViewSwitcher mVsGoalDescription;
+    private TextView mTvGoalDescription;
+    private EditText mEtGoalDescription;
+    private ImageButton miBtnGoalNameUpdate;
+    private ImageButton miBtnGoalDescriptionUpdate;
+
 
     private void InitializeView()
     {
         mRvTask = findViewById(R.id.add_goal_rv_task);
         mIBtnDatePick = findViewById(R.id.add_goal_ibtn_date_pick);
         mEtGoalDueDate = findViewById(R.id.add_goal_et_goal_due_date);
-        mEtGoalDescription = findViewById(R.id.txt_description);
-        mEtGoalName =findViewById(R.id.txt_name);
+
 
         fbTag = findViewById(R.id.add_goal_fl_tag);
+        mVsGoalName = findViewById(R.id.add_goal_vs_name);
+        mTvGoalName = findViewById(R.id.add_goal_tv_name);
+        mEtGoalName = findViewById(R.id.add_goal_et_name);
+        miBtnGoalNameUpdate = findViewById(R.id.add_goal_ibtn_name_update);
+
+        mVsGoalDescription = findViewById(R.id.add_goal_vs_description);
+        mTvGoalDescription =findViewById(R.id.add_goal_tv_description);
+        mEtGoalDescription = findViewById(R.id.add_goal_et_description);
+        miBtnGoalDescriptionUpdate = findViewById(R.id.add_goal_ibtn_description_update);
+
 
     }
 
@@ -72,13 +91,15 @@ public class AddGoalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_goal);
 
-        userId = getIntent().getStringExtra("user_id");
         action = getIntent().getStringExtra("action");
 
         InitializeView();
-
-        if (action== "ADD")
+        mGoalViewModel = new ViewModelProvider(this).get(AddGoalViewModel.class);
+        if (action.equals("ADD"))
             InitializeAddView();
+        else
+            if (action.equals("EDIT"))
+                InitialEditView();
 
         mTagList = new ArrayList<>();
         mTaskList = new ArrayList<>();
@@ -105,17 +126,56 @@ public class AddGoalActivity extends AppCompatActivity {
 
         mDateSetListener = (view, year, month, dayOfMonth) -> {
             Date date = DateConverter.ConvertFromYearMonthDayToDate(year,month,dayOfMonth);
-            String stDate = DateConverter.GetDayOfWeekFromDate(date)+"-" + DateConverter.GetDayMonthYearFromDate(date);
-            mEtGoalDueDate.setText(stDate);
+            String stDate = DateConverter.ConvertFromDateToString(date);
+            mGoalViewModel.updateDueDate(stDate);
         };
 
-        mGoalViewModel = new ViewModelProvider(this).get(AddGoalViewModel.class);
-        mGoalViewModel.setUserId(Integer.parseInt(userId));
 
+        miBtnGoalNameUpdate.setOnClickListener(arg0 -> {
+            if (mVsGoalName.getCurrentView() != mEtGoalName){
+                mVsGoalName.showNext();
+                miBtnGoalNameUpdate.setImageResource(android.R.drawable.checkbox_on_background);
+            } else if (mVsGoalName.getCurrentView() != mTvGoalName){
+                if (!mEtGoalName.getText().toString().equals(mTvGoalName.getText().toString()))
+                    mGoalViewModel.updateName(mEtGoalName.getText().toString());
+                miBtnGoalNameUpdate.setImageResource((android.R.drawable.ic_menu_edit));
+                mVsGoalName.showPrevious();
+            }
+        });
+
+        miBtnGoalDescriptionUpdate.setOnClickListener(arg0 -> {
+            if (mVsGoalDescription.getCurrentView() != mEtGoalDescription){
+                mVsGoalDescription.showNext();
+                miBtnGoalDescriptionUpdate.setImageResource(android.R.drawable.checkbox_on_background);
+            } else if (mVsGoalDescription.getCurrentView() != mTvGoalDescription){
+                if (!mEtGoalDescription.getText().toString().equals(mTvGoalDescription.getText().toString()))
+                    mGoalViewModel.updateDescription(mEtGoalDescription.getText().toString());
+                miBtnGoalDescriptionUpdate.setImageResource((android.R.drawable.ic_menu_edit));
+                mVsGoalDescription.showPrevious();
+            }
+        });
+
+
+
+
+
+
+
+    }
+
+    private void InitialEditView()
+    {
+        goalId = Integer.parseInt(getIntent().getStringExtra("goal_id"));
+        mGoalViewModel.setGoalId(goalId);
+        mGoalViewModel.loadAllLoad();
+        DisplayGoal();
     }
 
     private void InitializeAddView()
     {
+        userId = getIntent().getStringExtra("user_id");
+        mGoalViewModel.setUserId(Integer.parseInt(userId));
+
         Goal goal = new Goal(Integer.parseInt(userId),"Goal name","goal description","Sun-21 Apr 20", android.R.color.holo_blue_light);
         mGoalViewModel.addGoal(goal);
 
@@ -150,9 +210,14 @@ public class AddGoalActivity extends AppCompatActivity {
         });
 
         mGoalViewModel.getGoal().observe(this, goal -> {
-            mEtGoalName.setText(goal.getName());
-            mEtGoalDescription.setText(goal.getDescription());
-            mEtGoalDueDate.setText(goal.getDueDate());
+            if (goal!=null) {
+                mEtGoalName.setText(goal.getName());
+                mEtGoalDescription.setText(goal.getDescription());
+
+                mTvGoalName.setText(goal.getName());
+                mTvGoalDescription.setText(goal.getDescription());
+                mEtGoalDueDate.setText(goal.getDueDate());
+            }
         });
     }
 
@@ -206,6 +271,10 @@ public class AddGoalActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.add_goal_menu,menu);
+        MenuItem cancelItem = menu.findItem(R.id.action_cancel);
+        if (action.equals("EDIT")) cancelItem.setVisible(false);
+        else
+            cancelItem.setVisible(true);
         return true;
     }
 

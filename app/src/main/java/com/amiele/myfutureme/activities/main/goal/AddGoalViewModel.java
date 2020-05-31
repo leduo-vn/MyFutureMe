@@ -14,7 +14,6 @@ import com.amiele.myfutureme.AppRepo;
 import com.amiele.myfutureme.database.entity.Goal;
 import com.amiele.myfutureme.database.entity.Tag;
 import com.amiele.myfutureme.database.entity.Task;
-import com.amiele.myfutureme.database.entity.User;
 
 import java.util.List;
 
@@ -95,6 +94,21 @@ public class AddGoalViewModel extends AndroidViewModel {
         tasks = mAppRepo.loadTasks(goalId);
         tags = mAppRepo.loadTags(goalId);
         goal = mAppRepo.loadGoal(goalId);
+    }
+
+    public void updateName(String name)
+    {
+        mAppRepo.updateGoalName(name,goalId);
+    }
+
+    public void updateDescription(String description)
+    {
+        mAppRepo.updateGoalDescription(description, goalId);
+    }
+
+    public void updateDueDate(String dueDate)
+    {
+        mAppRepo.updateGoalDueDate(dueDate,goalId);
     }
 
 
