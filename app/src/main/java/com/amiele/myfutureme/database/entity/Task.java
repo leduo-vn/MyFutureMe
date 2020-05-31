@@ -99,6 +99,14 @@ public class Task {
         subTasksList.add(new SubTask(description,date,hour));
     }
 
+    public void setTaskInfo(Task task)
+    {
+        this.id = task.id;
+        this.name = task.name;
+        this.progress = task.progress;
+        this.goalId = task.goalId;
+    }
+
     public int getProgress() {
         return progress;
     }

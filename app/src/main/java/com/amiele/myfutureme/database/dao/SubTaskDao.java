@@ -20,4 +20,6 @@ public interface SubTaskDao {
     @Query("SELECT * FROM sub_tasks where task_id = :taskId")
     LiveData<List<SubTask>> loadSubTasks(int taskId);
 
+    @Query("DELETE FROM sub_tasks WHERE sub_task_id = :subTaskId")
+    void deleteSubTask(int subTaskId);
 }

@@ -24,4 +24,10 @@ public interface TaskDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addTask(Task task);
+
+    @Query("UPDATE tasks SET name = :name  WHERE task_id = :taskId")
+    void updateName(String name,int taskId);
+
+    @Query("UPDATE tasks SET progress = :progress  WHERE task_id = :taskId")
+    void updateProgress(int progress,int taskId);
 }

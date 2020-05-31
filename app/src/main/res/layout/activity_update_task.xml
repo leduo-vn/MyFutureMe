@@ -42,7 +42,11 @@
                 android:id="@+id/update_task_tv_progress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="" />
+                android:text="0" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="%" />
 
             <ImageButton
                 android:id="@+id/update_task_ibtn_progress_update"
@@ -118,8 +122,7 @@
                         android:id="@+id/update_task_tv_task_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Task Name" />
+                        android:layout_weight="1" />
 
                     <EditText
                         android:id="@+id/update_task_et_task_name"
@@ -132,21 +135,6 @@
                         android:singleLine="false" />
                 </ViewSwitcher>
 
-<!--                <TextView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:text="Task Name" />-->
-
-<!--                <EditText-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:background="?android:attr/colorBackground"-->
-<!--                    android:ems="10"-->
-<!--                    android:inputType="textMultiLine|text"-->
-<!--                    android:maxLines="1"-->
-<!--                    android:singleLine="false" />-->
 
                 <ImageButton
                     android:id="@+id/update_task_ibtn_task_name_update"
@@ -174,15 +162,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="Total hour"
+                    android:text="Time"
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/update_task_tv_task_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="?android:attr/colorBackground"
-                    android:text="20 hours" />
+                    android:layout_weight="1" />
 
                 <ImageButton
                     android:layout_width="30dp"

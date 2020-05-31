@@ -27,6 +27,7 @@ import com.amiele.myfutureme.database.entity.SubTask;
 import com.amiele.myfutureme.database.entity.Task;
 import com.amiele.myfutureme.helpers.DateConverter;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -53,6 +54,8 @@ public class UpdateTaskActivity extends AppCompatActivity {
     private ImageButton mIBtnTaskProgressUpdate;
     private RecyclerView mRvSubTask;
 
+    TextView mTvTime;
+
     private Task mTask;
 
     @Override
@@ -61,20 +64,15 @@ public class UpdateTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_update_task);
 
         InitializeView();
+
+        ArrayList<SubTask> subTask = new ArrayList<SubTask>();
         taskId = Integer.parseInt(getIntent().getStringExtra("task_id"));
-
-
-
-
-
-        mTask = new Task("Task Name");
-//        mTask.addSubTask("today is a good day","SUN-09 APR 20",2);
-//        mTask.addSubTask("i have worked out and talked with my friend","SUN-09 APR 20",3);
-
+        mUpdateTaskViewModel = new ViewModelProvider(this).get(UpdateTaskViewModel.class);
+        mUpdateTaskViewModel.setTaskId(taskId);
 
         mRvSubTask.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        mAdapter = new SubTaskAdapter(this, mTask.getSubTasksList());
+        mAdapter = new SubTaskAdapter(this, subTask);
         mRvSubTask.setLayoutManager(layoutManager);
         mRvSubTask.setAdapter(mAdapter);
 
@@ -98,10 +96,21 @@ public class UpdateTaskActivity extends AppCompatActivity {
             AddSubTask();
         };
 
+
+        mAdapter.setOnItemClickListener(new SubTaskAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(SubTask subTask, String action) {
+                if (action.equals("DELETE"))
+                    mUpdateTaskViewModel.deleteSubTask(subTask.getId());
+//                else if (action.equals("UPDATE"))
+//                    mUpdateTaskViewModel.updateSubTask(subTask);
+            }
+        });
+
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mTvTaskProgress.setText(getString(R.string.update_task_progress_value,progress));
+                mTvTaskProgress.setText(Integer.toString(progress));
                 mIBtnTaskProgressUpdate.setVisibility(View.VISIBLE);
             }
 
@@ -118,6 +127,7 @@ public class UpdateTaskActivity extends AppCompatActivity {
 
         mIBtnTaskProgressUpdate.setOnClickListener(v -> {
             //Store
+            mUpdateTaskViewModel.updateProgress(mTvTaskProgress.getText().toString());
             mIBtnTaskProgressUpdate.setVisibility(View.INVISIBLE);
         });
 
@@ -127,6 +137,9 @@ public class UpdateTaskActivity extends AppCompatActivity {
                 mVsTaskName.showNext();
                 mIBtnTaskNameUpdate.setImageResource(android.R.drawable.checkbox_on_background);
             } else if (mVsTaskName.getCurrentView() != mTvTaskName){
+                if (!mEtTaskName.getText().toString().equals(mTvTaskName.getText().toString()))
+                    mUpdateTaskViewModel.updateName(mEtTaskName.getText().toString());
+
                 mIBtnTaskNameUpdate.setImageResource((android.R.drawable.ic_menu_edit));
                 mVsTaskName.showPrevious();
             }
@@ -134,15 +147,28 @@ public class UpdateTaskActivity extends AppCompatActivity {
 
 
 
-        mUpdateTaskViewModel = new ViewModelProvider(this).get(UpdateTaskViewModel.class);
-        mUpdateTaskViewModel.setTaskId(taskId);
+
         mUpdateTaskViewModel.loadTask();
         mUpdateTaskViewModel.getTask().observe(this, new Observer<Task>() {
             @Override
             public void onChanged(Task task) {
-                mAdapter.setSubTaskList(task.getSubTasksList());
-                mAdapter.notifyDataSetChanged();
-                // update all view
+                if (task!=null) {
+                    mEtTaskName.setText(task.getName());
+                    mTvTaskName.setText(task.getName());
+                    mTvTaskProgress.setText(Integer.toString(task.getProgress()));
+                    mSeekBar.setProgress(task.getProgress());
+
+                    mIBtnTaskProgressUpdate.setVisibility(View.INVISIBLE);
+
+                    int minute=0;
+                    if (task.getSubTasksList()!=null)
+                    for (SubTask subtask: task.getSubTasksList())
+                        minute += subtask.getMinute();
+                    mTvTime.setText(Integer.toString(minute));
+
+                    mAdapter.setSubTaskList(task.getSubTasksList());
+                    mAdapter.notifyDataSetChanged();
+                }
             }
         });
     }
@@ -188,6 +214,7 @@ public class UpdateTaskActivity extends AppCompatActivity {
         mIBtnTaskProgressUpdate = findViewById(R.id.update_task_ibtn_progress_update);
         mLlSubTaskDatePick = findViewById(R.id.update_task_ll_date_pick);
         mRvSubTask = findViewById(R.id.update_task_rv_sub_task);
+        mTvTime = findViewById(R.id.update_task_tv_task_time);
     }
 
     private void AddSubTask()

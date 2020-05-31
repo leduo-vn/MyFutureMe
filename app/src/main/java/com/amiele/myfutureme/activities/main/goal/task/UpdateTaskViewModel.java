@@ -31,7 +31,7 @@ public class UpdateTaskViewModel extends AndroidViewModel {
 
     static MediatorLiveData<Task> mediatorLiveData = new MediatorLiveData<>();
 
-    static Task finalTask;
+    static Task finalTask = new Task();
 
     public LiveData<Task> getTask() {return mediatorLiveData;}
     public void loadTask()
@@ -43,7 +43,8 @@ public class UpdateTaskViewModel extends AndroidViewModel {
         mediatorLiveData.addSource(taskLiveData, new Observer<Task>() {
             @Override
             public void onChanged(Task task) {
-                finalTask = task;
+
+                finalTask.setTaskInfo(task);
                 mediatorLiveData.setValue(finalTask);
             }
         });
@@ -55,6 +56,25 @@ public class UpdateTaskViewModel extends AndroidViewModel {
                 mediatorLiveData.setValue(finalTask);
             }
         });
+    }
+
+    public void updateName(String name)
+    {
+        mAppRepo.updateTaskName(name,taskId);
+    }
+
+    public void updateProgress(String progress)
+    {
+        int value = 0;
+        if (progress.length()>0)
+            value = Integer.parseInt(progress);
+
+        mAppRepo.updateTaskProgress(value,taskId);
+    }
+
+    public void deleteSubTask(int subTaskId)
+    {
+        mAppRepo.deleteSubTask(subTaskId);
     }
 
     public void addSubTask(SubTask subTask)

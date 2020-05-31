@@ -40,5 +40,40 @@ public class DateConverter {
     }
 
 
+    public static Date GetDateFromString(String dateString)
+    {
+        SimpleDateFormat format = new SimpleDateFormat("EE-dd MMM yy", Locale.US);
+        Date date = null;
+        try {
+            date = format.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
+    public static long getDaysDifferent(Date first, Date second)
+    {
+        long differenceDates;
+        long difference = first.getTime() - second.getTime();
+        if (difference<0) differenceDates =0;
+        else
+         differenceDates = difference / (24 * 60 * 60 * 1000);
+
+        return differenceDates;
+    }
+
+    public static long getDaysDifferentFromStringDate(String endString, String startString)
+    {
+        Date first = GetDateFromString(endString);
+        Date second = GetDateFromString(startString);
+        long differenceDates;
+        long difference = first.getTime() - second.getTime();
+        if (difference<0) differenceDates =0;
+        else
+            differenceDates = difference / (24 * 60 * 60 * 1000);
+
+        return differenceDates;
+    }
 
 }

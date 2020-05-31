@@ -33,6 +33,16 @@ public class Goal {
     @ColumnInfo(name = "due_date")
     private String dueDate;
 
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    private String createdDate;
+
     private int color;
 
     public Goal()
@@ -87,13 +97,14 @@ public class Goal {
     }
 
     @Ignore
-    public Goal(int userId, String name, String description, String dueDate, int color)
+    public Goal(int userId, String name, String description, String dueDate, String createdDate, int color)
     {
         this.userId = userId;
         this.name= name;
         this.description =description;
         this.dueDate = dueDate;
         this.color = color;
+        this.createdDate = createdDate;
     }
 
     @Ignore
@@ -105,6 +116,7 @@ public class Goal {
         this.description = goal.getDescription();
         this.dueDate = goal.getDueDate();
         this.color = goal.color;
+        this.createdDate = goal.createdDate;
         this.taskList = new ArrayList<>(goal.getTaskList());
         this.tagList = new ArrayList<>(goal.getTagList());
     }

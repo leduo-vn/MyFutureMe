@@ -158,6 +158,12 @@ public class AppRepo {
         AppDatabase.databaseWriteExecutor.execute(() -> mTaskDao.updateName(name,taskId));
 
     }
+
+    public void updateTaskProgress(int progress, int taskId)
+    {
+        AppDatabase.databaseWriteExecutor.execute(() -> mTaskDao.updateProgress(progress,taskId));
+
+    }
     //endregion
 
     //region sub-task
@@ -170,6 +176,12 @@ public class AppRepo {
     public LiveData<List<SubTask>> loadSubTasks(int taskId)
     {
         return mSubTaskDao.loadSubTasks(taskId);
+    }
+
+    public void deleteSubTask(int subTaskId)
+    {
+        AppDatabase.databaseWriteExecutor.execute(() -> mSubTaskDao.deleteSubTask(subTaskId));
+
     }
 
     //endregion

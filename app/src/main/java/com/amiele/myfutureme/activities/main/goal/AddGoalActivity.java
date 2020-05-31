@@ -25,6 +25,7 @@ import android.widget.ViewSwitcher;
 import com.amiele.myfutureme.R;
 import com.amiele.myfutureme.activities.main.goal.tag.AddTagActivity;
 import com.amiele.myfutureme.activities.main.goal.task.TaskAdapter;
+import com.amiele.myfutureme.activities.main.goal.task.UpdateTaskActivity;
 import com.amiele.myfutureme.database.entity.Goal;
 import com.amiele.myfutureme.database.entity.Tag;
 import com.amiele.myfutureme.database.entity.Task;
@@ -111,7 +112,11 @@ public class AddGoalActivity extends AppCompatActivity {
         mRvTask.setLayoutManager(layoutManager);
         mRvTask.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener(task -> DisplayToast(task.getName()));
+        mAdapter.setOnItemClickListener(task -> {
+            GoToUpdateTaskActivity(task);
+            DisplayToast(task.getName());
+                }
+       );
 
         mIBtnDatePick.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
@@ -156,12 +161,29 @@ public class AddGoalActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
-
     }
+
+    private void GoToUpdateTaskActivity(Task task)
+    {
+        Intent  updateTaskActivity= new Intent(this, UpdateTaskActivity.class);
+        updateTaskActivity.putExtra("task_id",Integer.toString(task.getId()));
+        startActivityForResult(updateTaskActivity,EDIT_TASK_ACTIVITY_REQUEST_CODE);
+    }
+    public static final int EDIT_TASK_ACTIVITY_REQUEST_CODE = 2;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == EDIT_TASK_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            DisplayToast("edit task success!");
+        }
+        else if (requestCode == ADD_TAG_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            DisplayToast("add tag success!");
+        }
+        else DisplayToast("error");
+    }
+
 
     private void InitialEditView()
     {
@@ -175,8 +197,9 @@ public class AddGoalActivity extends AppCompatActivity {
     {
         userId = getIntent().getStringExtra("user_id");
         mGoalViewModel.setUserId(Integer.parseInt(userId));
-
-        Goal goal = new Goal(Integer.parseInt(userId),"Goal name","goal description","Sun-21 Apr 20", android.R.color.holo_blue_light);
+        Date d = new Date();
+        String currentDate = DateConverter.ConvertFromDateToString(d);
+        Goal goal = new Goal(Integer.parseInt(userId),"Goal name","goal description","Sun-21 Apr 20", currentDate, android.R.color.holo_blue_light);
         mGoalViewModel.addGoal(goal);
 
         mGoalViewModel.getGoalIdResult().observe(this, integer -> {
@@ -217,6 +240,10 @@ public class AddGoalActivity extends AppCompatActivity {
                 mTvGoalName.setText(goal.getName());
                 mTvGoalDescription.setText(goal.getDescription());
                 mEtGoalDueDate.setText(goal.getDueDate());
+                Date d = new Date();
+                Date date = DateConverter.GetDateFromString(goal.getDueDate());
+                DateConverter.getDaysDifferent(date,d);
+                DisplayToast(goal.getCreatedDate());
             }
         });
     }
@@ -237,7 +264,8 @@ public class AddGoalActivity extends AppCompatActivity {
 
     public void onAddTaskClicked(View view)
     {
-        Task task = new Task("new task", 50);
+        EditText etTaskName = findViewById(R.id.add_goal_et_task_name);
+        Task task = new Task(etTaskName.getText().toString(), 0);
         task.setGoalId(goalId);
         mGoalViewModel.addTask(task);
     }
@@ -250,16 +278,7 @@ public class AddGoalActivity extends AppCompatActivity {
         startActivityForResult(addTagActivity,ADD_TAG_ACTIVITY_REQUEST_CODE);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == ADD_TAG_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            DisplayToast("success!");
-        } else {
-            DisplayToast("error");
-        }
-    }
 
     private  void DisplayToast(String text)
     {
@@ -272,9 +291,11 @@ public class AddGoalActivity extends AppCompatActivity {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.add_goal_menu,menu);
         MenuItem cancelItem = menu.findItem(R.id.action_cancel);
-        if (action.equals("EDIT")) cancelItem.setVisible(false);
-        else
-            cancelItem.setVisible(true);
+        if (action.equals("EDIT")) {
+            menu.findItem(R.id.action_cancel).setTitle("DELETE");
+
+        }
+
         return true;
     }
 

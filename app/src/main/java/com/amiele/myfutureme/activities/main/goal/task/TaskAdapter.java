@@ -47,10 +47,13 @@ public class TaskAdapter  extends RecyclerView.Adapter<TaskAdapter.TaskViewHolde
 
     public TaskAdapter(ArrayList<Task> taskList) {
         mTaskList = taskList;
+        mListener = null;
+        mGoalListener =null;
     }
 
     public TaskAdapter(ArrayList<Task> taskList, GoalAdapter.OnItemClickListener goalListener)
     {
+        mListener = null;
         mTaskList = taskList;
         mGoalListener = goalListener;
     }
@@ -72,6 +75,7 @@ public class TaskAdapter  extends RecyclerView.Adapter<TaskAdapter.TaskViewHolde
     public void onBindViewHolder(@NonNull TaskAdapter.TaskViewHolder holder, final int position) {
         Task currentTask = mTaskList.get(position);
         holder.tvName.setText(currentTask.getName());
+        holder.pbProgress.setSecondaryProgress(currentTask.getProgress());
 
         // Set onClick Event
         holder.iBtnEdit.setOnClickListener(v -> {
