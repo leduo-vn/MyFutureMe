@@ -178,6 +178,11 @@ public class AppRepo {
         return mSubTaskDao.loadSubTasks(taskId);
     }
 
+    public LiveData<List<SubTask>> loadSubTasks(List<Integer> taskIds)
+    {
+        return mSubTaskDao.loadSubTasks(taskIds);
+    }
+
     public void deleteSubTask(int subTaskId)
     {
         AppDatabase.databaseWriteExecutor.execute(() -> mSubTaskDao.deleteSubTask(subTaskId));

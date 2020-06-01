@@ -103,6 +103,7 @@ public class GoalActivity extends AppCompatActivity {
                 return true;
             case R.id.action_summary:
                 Intent summaryActivity = new Intent(this, SummaryActivity.class);
+                summaryActivity.putExtra("user_id",Integer.toString(mGoalViewModel.getUserId()));
                 startActivity(summaryActivity);
                 return true;
             default:

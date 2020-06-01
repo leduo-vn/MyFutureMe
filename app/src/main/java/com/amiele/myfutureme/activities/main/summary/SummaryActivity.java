@@ -1,11 +1,15 @@
 package com.amiele.myfutureme.activities.main.summary;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.media.audiofx.AudioEffect;
 import android.os.Bundle;
 
 import com.amiele.myfutureme.R;
+import com.amiele.myfutureme.database.entity.SubTask;
+import com.amiele.myfutureme.helpers.DateConverter;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -22,43 +26,51 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class SummaryActivity extends AppCompatActivity {
+    private SummaryViewModel mSummaryViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary);
 
+        mSummaryViewModel = new ViewModelProvider(this).get(SummaryViewModel.class);
+        int userId = Integer.parseInt(getIntent().getStringExtra("user_id"));
+        mSummaryViewModel.setUserId(userId);
+        mSummaryViewModel.loadAllLoad();
+
+        mSummaryViewModel.getSubTaskLiveData().observe(this, new Observer<List<SubTask>>() {
+            @Override
+            public void onChanged(List<SubTask> subTasks) {
+                int[] time = new int[100];
+                String[] dateName = new String[100];
+                Date d = new Date();
+                String currentDate= DateConverter.ConvertFromDateToString(d);
+                for (SubTask subTask:subTasks) {
+                    long dateDiff = DateConverter.getDaysDifferentFromStringDate(currentDate, subTask.getDate());
+                    if (dateDiff >= 0 && dateDiff < 100) {
+                        time[(int) dateDiff] += subTask.getMinute();
+                        dateName[(int) dateDiff] = subTask.getDate();
+                    }
+                }
+                DisplayBarChart(time,dateName);
+            }
+        });
+
+
 
         String[] xAxisLables = new String[]{"abc","abd","ade","ere","ffd"};
 
         PieChart pieChart = findViewById(R.id.piechart);
-        BarChart barChart  = findViewById(R.id.barchart);
-
-        List<BarEntry> barEntries = new ArrayList<>();
-
-        for (int i = 0; i< 5; i++)
-            barEntries.add(new BarEntry(i, i*10));
 
 
 
-        barChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xAxisLables));
-        BarDataSet barDataSet = new BarDataSet(barEntries,"abc");
-        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
 
-        BarData barData = new BarData(barDataSet);
-        barData.setBarWidth(0.9f);
 
-        barChart.animateY(5000);
-        barChart.setData(barData);
-        barChart.setFitBars(true);
-        barChart.setVisibleXRangeMaximum(3);
-        Description description = new Description();
-        description.setText("abc per");
-        barChart.setDescription(description);
-        barChart.invalidate();
+
 
         // pie chart
 
@@ -90,5 +102,46 @@ public class SummaryActivity extends AppCompatActivity {
         description1.setText("abc per");
         pieChart.setDescription(description1);
         pieChart.invalidate();
+    }
+
+
+    private void DisplayBarChart(int[] time, String[] dateName)
+    {
+        BarChart barChart  = findViewById(R.id.barchart);
+        ArrayList<String> xAxisLabels = new ArrayList<>();
+        ArrayList<Integer> values = new ArrayList<>();
+        List<BarEntry> barEntries = new ArrayList<>();
+        boolean stored = false;
+        for (int i=99; i>=0;i--) {
+            if (time[i] > 0) stored = true;
+            if (stored) {
+                xAxisLabels.add(dateName[i]);
+                values.add(time[i]);
+            }
+        }
+
+        for (int i = 0; i< xAxisLabels.size();i++)
+        {
+            barEntries.add(new BarEntry(i, values.get(i)));
+
+        }
+
+
+        barChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xAxisLabels));
+        BarDataSet barDataSet = new BarDataSet(barEntries,"Date");
+        barDataSet.setColors(ColorTemplate.PASTEL_COLORS);
+
+        BarData barData = new BarData(barDataSet);
+        barData.setBarWidth(0.3f);
+
+        barChart.animateY(5000);
+        barChart.setData(barData);
+        barChart.setFitBars(true);
+
+        barChart.setVisibleXRangeMaximum(10);
+        Description description = new Description();
+        description.setText("Hour Per Date");
+        barChart.setDescription(description);
+        barChart.invalidate();
     }
 }

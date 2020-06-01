@@ -33,6 +33,17 @@ public class Goal {
     @ColumnInfo(name = "due_date")
     private String dueDate;
 
+    public int getMinute() {
+        return minute;
+    }
+
+    public void setMinute(int minute) {
+        this.minute = minute;
+    }
+
+    @Ignore
+    private int minute;
+
     public String getCreatedDate() {
         return createdDate;
     }
