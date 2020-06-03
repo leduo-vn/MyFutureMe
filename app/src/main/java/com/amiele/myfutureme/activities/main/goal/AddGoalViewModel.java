@@ -25,13 +25,14 @@ public class AddGoalViewModel extends AndroidViewModel {
     private static LiveData<List<Tag>> tagsLiveData;
     private static LiveData<Goal> goalLiveData;
 
-    private static MutableLiveData<Integer> goalIdResultMutableLiveData = new MutableLiveData<>();
+    private static MutableLiveData<Integer> goalIdResultMutableLiveData ;
 
     private static int goalId;
 
     public AddGoalViewModel(@NonNull Application application) {
         super(application);
         mAppRepo = new AppRepo(application);
+        goalIdResultMutableLiveData = new MutableLiveData<>();
     }
 
     public LiveData<Goal> getGoal()

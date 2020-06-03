@@ -239,6 +239,7 @@
                 android:layout_marginRight="10dp"
                 android:gravity="center"
                 android:hint="@string/default_minute"
+                android:inputType="number"
                 android:padding="5dp"
                 android:textSize="14sp" />
 

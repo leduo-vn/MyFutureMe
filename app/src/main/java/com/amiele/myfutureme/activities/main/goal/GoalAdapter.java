@@ -1,6 +1,8 @@
 package com.amiele.myfutureme.activities.main.goal;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -120,7 +122,8 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
            TextView tv = new TextView(mActivity);
            tv.setText(tag.getName());
            tv.setBackgroundColor(tag.getColor());
-//           tv.setBackground(mActivity.getDrawable(R.drawable.rounded_purple_border));
+           tv.setPadding(10,10,10,10);
+           tv.setTextColor(Color.WHITE);
            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
            params.setMargins(10,10,10,10);
            tv.setLayoutParams(params);

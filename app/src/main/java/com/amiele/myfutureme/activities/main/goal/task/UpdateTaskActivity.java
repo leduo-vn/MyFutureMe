@@ -207,7 +207,14 @@ public class UpdateTaskActivity extends AppCompatActivity {
 
     private void AddSubTask()
     {
-        SubTask subTask = new SubTask(mEtSubTaskDescription.getText().toString(), mTvSubTaskDow.getText().toString()+"-"+ mTvSubTaskDate.getText().toString(),Integer.parseInt(mEtSubTaskHour.getText().toString()));
+        String description = mEtSubTaskDescription.getText().toString() ;
+        String date = mTvSubTaskDow.getText().toString()+"-"+ mTvSubTaskDate.getText().toString();
+        int hour = 0;
+        if (mEtSubTaskHour.getText().toString().length()>0)
+        {
+            hour = Integer.parseInt(mEtSubTaskHour.getText().toString());
+        }
+        SubTask subTask = new SubTask(description, date, hour);
         mUpdateTaskViewModel.addSubTask(subTask);
     }
 }

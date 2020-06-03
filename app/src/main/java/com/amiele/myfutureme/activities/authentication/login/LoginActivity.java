@@ -66,6 +66,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
+                if (password.length()<4)
+                {
+                    passwordEditText.setError("Password need to be longer than 5");
+                    return;
+                }
                 mLoginViewModel.login(email,password);
 
             }
