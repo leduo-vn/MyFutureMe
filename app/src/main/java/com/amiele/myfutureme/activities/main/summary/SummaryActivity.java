@@ -11,6 +11,7 @@ import com.amiele.myfutureme.R;
 import com.amiele.myfutureme.database.entity.SubTask;
 import com.amiele.myfutureme.helpers.DateConverter;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
@@ -104,6 +105,30 @@ public class SummaryActivity extends AppCompatActivity {
         pieChart.invalidate();
     }
 
+    private void DisplayLineChart(int[]time , String[] dateName)
+    {
+        LineChart lineChart= findViewById(R.id.linechart);
+        lineChart.setTouchEnabled(true);
+        lineChart.setPinchZoom(true);
+        ArrayList<String> xAxisLabels = new ArrayList<>();
+        ArrayList<Integer> values = new ArrayList<>();
+        List<BarEntry> barEntries = new ArrayList<>();
+        boolean stored = false;
+        for (int i=99; i>=0;i--) {
+            if (time[i] > 0) stored = true;
+            if (stored) {
+                if (dateName[i]==null) xAxisLabels.add("");
+                else
+                    xAxisLabels.add(dateName[i]);
+                values.add(time[i]);
+            }
+        }
+
+        for (int i = 0; i< xAxisLabels.size();i++)
+        {
+            barEntries.add(new BarEntry(i, values.get(i)));
+        }
+    }
 
     private void DisplayBarChart(int[] time, String[] dateName)
     {
@@ -115,7 +140,9 @@ public class SummaryActivity extends AppCompatActivity {
         for (int i=99; i>=0;i--) {
             if (time[i] > 0) stored = true;
             if (stored) {
-                xAxisLabels.add(dateName[i]);
+                if (dateName[i]==null) xAxisLabels.add("");
+                else
+                    xAxisLabels.add(dateName[i]);
                 values.add(time[i]);
             }
         }
@@ -123,9 +150,7 @@ public class SummaryActivity extends AppCompatActivity {
         for (int i = 0; i< xAxisLabels.size();i++)
         {
             barEntries.add(new BarEntry(i, values.get(i)));
-
         }
-
 
         barChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xAxisLabels));
         BarDataSet barDataSet = new BarDataSet(barEntries,"Date");
