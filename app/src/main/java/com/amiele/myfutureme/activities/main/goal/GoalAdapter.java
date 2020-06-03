@@ -182,7 +182,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
         long currentDiff = DateConverter.getDaysDifferentFromStringDate(dueDate,currentDate);
 
         int timeProgress;
-        if (createDiff==0) timeProgress =0;
+        if (createDiff==0) timeProgress =100;
         else timeProgress = 100 - (int) (currentDiff *100/createDiff);
 
         return timeProgress;

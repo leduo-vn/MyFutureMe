@@ -33,25 +33,6 @@ public class Goal {
     @ColumnInfo(name = "due_date")
     private String dueDate;
 
-    public int getMinute() {
-        return minute;
-    }
-
-    public void setMinute(int minute) {
-        this.minute = minute;
-    }
-
-    @Ignore
-    private int minute;
-
-    public String getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(String createdDate) {
-        this.createdDate = createdDate;
-    }
-
     private String createdDate;
 
     private int color;
@@ -61,11 +42,39 @@ public class Goal {
     }
 
     @Ignore
+    private int minute;
+    @Ignore
     private ArrayList<Task> taskList = new ArrayList<>();
 
     @Ignore
     private ArrayList<Tag> tagList = new ArrayList<>();
 
+
+
+    @Ignore
+    public Goal(int userId, String name, String description, String dueDate, String createdDate, int color)
+    {
+        this.userId = userId;
+        this.name= name;
+        this.description =description;
+        this.dueDate = dueDate;
+        this.color = color;
+        this.createdDate = createdDate;
+    }
+
+    @Ignore
+    public Goal(Goal goal)
+    {
+        this.id = goal.getId();
+        this.userId = goal.getUserId();
+        this.name = goal.getName();
+        this.description = goal.getDescription();
+        this.dueDate = goal.getDueDate();
+        this.color = goal.color;
+        this.createdDate = goal.createdDate;
+        this.taskList = new ArrayList<>(goal.getTaskList());
+        this.tagList = new ArrayList<>(goal.getTagList());
+    }
     public int getId() {
         return id;
     }
@@ -98,49 +107,31 @@ public class Goal {
         this.dueDate = dueDate;
     }
 
-    @Ignore
-    public Goal(String name, String description)
-    {
-        this.name = name;
-        this.description = description;
-        taskList = new ArrayList<>();
-        tagList = new ArrayList<>();
+    public int getMinute() {
+        return minute;
     }
 
-    @Ignore
-    public Goal(int userId, String name, String description, String dueDate, String createdDate, int color)
-    {
-        this.userId = userId;
-        this.name= name;
-        this.description =description;
-        this.dueDate = dueDate;
-        this.color = color;
-        this.createdDate = createdDate;
+    public void setMinute(int minute) {
+        this.minute = minute;
     }
 
-    @Ignore
-    public Goal(Goal goal)
-    {
-        this.id = goal.getId();
-        this.userId = goal.getUserId();
-        this.name = goal.getName();
-        this.description = goal.getDescription();
-        this.dueDate = goal.getDueDate();
-        this.color = goal.color;
-        this.createdDate = goal.createdDate;
-        this.taskList = new ArrayList<>(goal.getTaskList());
-        this.tagList = new ArrayList<>(goal.getTagList());
-    }
+
+
 
     public void addTask(Task task){
-//        if (taskList == null) taskList = new ArrayList<>();
-        taskList.add(task);};
+        taskList.add(task);}
 
     public void addTag(Tag tag){
-//        if (tagList == null) tagList = new ArrayList<>();
         tagList.add(tag);
     }
 
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
     public String getName() {
         return name;
     }
@@ -174,7 +165,7 @@ public class Goal {
         return color;
     }
 
-    public void setColor(int Color) {
+    public void setColor(int color) {
         this.color = color;
     }
 }

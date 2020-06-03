@@ -27,6 +27,8 @@ public class Task {
 
     private int progress;
 
+    private int minute;
+
     @ColumnInfo(name = "goal_id")
     private int goalId;
 
@@ -44,6 +46,7 @@ public class Task {
         this.goalId = goalId;
         this.name = name;
         this.progress = progress;
+        this.minute = 0;
     }
 
 
@@ -52,6 +55,7 @@ public class Task {
     public Task( String name, int progress){
         this.name = name;
         this.progress = progress;
+        this.minute = 0;
     }
 
     @Ignore
@@ -59,6 +63,7 @@ public class Task {
         this.name = name;
         subTasksList = new ArrayList<>();
         progress = 0;
+        minute = 0;
     }
 
     public int getId() {
@@ -75,6 +80,14 @@ public class Task {
 
     public void setGoalId(int goalId) {
         this.goalId = goalId;
+    }
+
+    public int getMinute() {
+        return minute;
+    }
+
+    public void setMinute(int minute) {
+        this.minute = minute;
     }
 
     public ArrayList<SubTask> getSubTasksList() {
@@ -105,6 +118,7 @@ public class Task {
         this.name = task.name;
         this.progress = task.progress;
         this.goalId = task.goalId;
+        this.minute = task.minute;
     }
 
     public int getProgress() {

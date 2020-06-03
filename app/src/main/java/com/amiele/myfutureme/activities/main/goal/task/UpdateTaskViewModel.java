@@ -18,12 +18,13 @@ public class UpdateTaskViewModel extends AndroidViewModel {
     private static AppRepo mAppRepo;
 
     private int taskId;
-    private static MediatorLiveData<Task> taskMediatorLiveData = new MediatorLiveData<>();
+    private static MediatorLiveData<Task> taskMediatorLiveData ;
     private static Task task = new Task();
 
     public UpdateTaskViewModel(@NonNull Application application) {
         super(application);
         mAppRepo = new AppRepo(application);
+        taskMediatorLiveData = new MediatorLiveData<>();
     }
 
     public LiveData<Task> getTask() {return taskMediatorLiveData;}
@@ -54,6 +55,10 @@ public class UpdateTaskViewModel extends AndroidViewModel {
     void updateName(String name)
     {
         mAppRepo.updateTaskName(name,taskId);
+    }
+    void updateMinute(int minute)
+    {
+        mAppRepo.updateTaskMinute(minute,taskId);
     }
 
     void updateProgress(String progress)

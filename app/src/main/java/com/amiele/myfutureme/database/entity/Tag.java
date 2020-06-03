@@ -25,8 +25,6 @@ public class Tag {
     @ColumnInfo(name = "tag_id")
     private int id;
 
-
-
     @ColumnInfo(name = "tag_library_id")
     private int tagLibraryId;
 
@@ -37,20 +35,11 @@ public class Tag {
     @ColumnInfo(name = "goal_id")
     private int goalId;
 
-    public boolean isChosen() {
-        return isChosen;
-    }
-
-    public void setChosen(boolean chosen) {
-        isChosen = chosen;
-    }
-
     @Ignore
     private boolean isChosen;
 
     public Tag()
     {
-
     }
 
     @Ignore
@@ -67,6 +56,14 @@ public class Tag {
     {
         this.name = name;
         this.color = color;
+    }
+
+    public boolean isChosen() {
+        return isChosen;
+    }
+
+    public void setChosen(boolean chosen) {
+        isChosen = chosen;
     }
 
     public int getTagLibraryId() {

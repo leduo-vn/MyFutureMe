@@ -159,6 +159,12 @@ public class AppRepo {
 
     }
 
+    public void updateTaskMinute(int minute, int taskId)
+    {
+        AppDatabase.databaseWriteExecutor.execute(() -> mTaskDao.updateMinute(minute,taskId));
+
+    }
+
     public void updateTaskProgress(int progress, int taskId)
     {
         AppDatabase.databaseWriteExecutor.execute(() -> mTaskDao.updateProgress(progress,taskId));

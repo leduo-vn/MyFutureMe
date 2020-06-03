@@ -43,6 +43,14 @@ import androidx.room.PrimaryKey;
         date ="";
     }
 
+    @Ignore
+    public SubTask(String description, String date, int minute)
+    {
+        this.description = description;
+        this.date = date;
+        this.minute = minute;
+    }
+
     public int getId() {
         return id;
     }
@@ -75,13 +83,6 @@ import androidx.room.PrimaryKey;
         this.date = date;
     }
 
-    @Ignore
-    public SubTask(String description, String date, int minute)
-    {
-        this.description = description;
-        this.date = date;
-        this.minute = minute;
-    }
 
     public String getDescription() {
         return description;

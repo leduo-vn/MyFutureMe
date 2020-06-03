@@ -30,4 +30,7 @@ public interface TaskDao {
 
     @Query("UPDATE tasks SET progress = :progress  WHERE task_id = :taskId")
     void updateProgress(int progress,int taskId);
+
+    @Query("UPDATE tasks SET minute = :minute  WHERE task_id = :taskId")
+    void updateMinute(int minute,int taskId);
 }

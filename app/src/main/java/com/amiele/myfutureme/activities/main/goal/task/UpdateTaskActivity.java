@@ -88,7 +88,6 @@ public class UpdateTaskActivity extends AppCompatActivity {
             Date date = DateConverter.ConvertFromYearMonthDayToDate(year,month,dayOfMonth);
             mTvSubTaskDow.setText(DateConverter.GetDayOfWeekFromDate(date));
             mTvSubTaskDate.setText(DateConverter.GetDayMonthYearFromDate(date));
-            AddSubTask();
         };
 
 
@@ -151,9 +150,13 @@ public class UpdateTaskActivity extends AppCompatActivity {
                 for (SubTask subtask: task.getSubTasksList())
                     minute += subtask.getMinute();
                 mTvTime.setText(String.format(Locale.US,"%d",minute));
-
                 mAdapter.setSubTaskList(task.getSubTasksList());
                 mAdapter.notifyDataSetChanged();
+                if (minute != task.getMinute())
+                {
+                    mUpdateTaskViewModel.updateMinute(minute);
+                }
+
             }
         });
     }

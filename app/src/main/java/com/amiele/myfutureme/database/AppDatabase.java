@@ -24,7 +24,7 @@ import com.amiele.myfutureme.database.entity.User;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class, Goal.class, Task.class, Tag.class, SubTask.class, TagLibrary.class},version = 14, exportSchema = false)
+@Database(entities = {User.class, Goal.class, Task.class, Tag.class, SubTask.class, TagLibrary.class},version = 15, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "app_db";
