@@ -46,14 +46,14 @@
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:text="TextView"
-                android:textColor="#9788BE" />
+                android:textColor="#4B3E71" />
 
             <Button
                 android:id="@+id/button"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_marginLeft="20dp"
-                android:background="@drawable/rounded_blue_button"
+                android:background="@drawable/rounded_purple_button"
                 android:onClick="onAddWorkTaskClicked"
                 android:text="Add"
                 android:textColor="#FFFFFF" />

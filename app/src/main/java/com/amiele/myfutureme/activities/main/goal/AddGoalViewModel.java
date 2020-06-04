@@ -10,7 +10,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.amiele.myfutureme.AppRepo;
+import com.amiele.myfutureme.database.AppRepo;
 import com.amiele.myfutureme.database.entity.Goal;
 import com.amiele.myfutureme.database.entity.Tag;
 import com.amiele.myfutureme.database.entity.Task;

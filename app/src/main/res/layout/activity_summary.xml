@@ -23,28 +23,98 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/barchart"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30px"
+                android:layout_marginBottom="30px"
+                android:orientation="vertical"
+                android:padding="30px">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="30dp"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="@string/summary_time_per_tag"
+                    android:textColor="#4B3E71" />
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/barchart"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp">
 
 
-            </com.github.mikephil.charting.charts.BarChart>
+                </com.github.mikephil.charting.charts.BarChart>
+            </LinearLayout>
 
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/piechart"
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="300dp">
+                android:layout_height="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#9788BE" />
 
-            </com.github.mikephil.charting.charts.PieChart>
-
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/linechart"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:orientation="vertical"
+                android:padding="30px">
 
-            </com.github.mikephil.charting.charts.LineChart>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="30dp"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="@string/summary_time_per_goal"
+                    android:textColor="#4B3E71" />
 
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/piechart"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp">
+
+                </com.github.mikephil.charting.charts.PieChart>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#9788BE" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:orientation="vertical"
+                android:padding="30px">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="30px"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="@string/summary_time_per_day"
+                    android:textColor="#4B3E71" />
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/linechart"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp">
+
+                </com.github.mikephil.charting.charts.LineChart>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

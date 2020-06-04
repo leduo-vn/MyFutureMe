@@ -18,4 +18,7 @@ public interface TagLibraryDao {
 
     @Query("SELECT * FROM tag_library WHERE user_id = :userId")
     LiveData<List<TagLibrary>> loadTags(int userId);
+
+    @Query("DELETE FROM tag_library WHERE tag_library_id = :tagLibraryId")
+    void deleteTagLibrary(int tagLibraryId);
 }

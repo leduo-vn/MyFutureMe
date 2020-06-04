@@ -1,4 +1,4 @@
-package com.amiele.myfutureme;
+package com.amiele.myfutureme.database;
 
 import android.app.Application;
 
@@ -169,6 +169,11 @@ public class AppRepo {
     {
         AppDatabase.databaseWriteExecutor.execute(() -> mTaskDao.updateProgress(progress,taskId));
 
+    }
+
+    public void deleteTask(int taskId)
+    {
+        AppDatabase.databaseWriteExecutor.execute(() -> mTaskDao.deleteTask(taskId));
     }
     //endregion
 

@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.amiele.myfutureme.AppRepo;
+import com.amiele.myfutureme.database.AppRepo;
 import com.amiele.myfutureme.database.entity.Tag;
 import com.amiele.myfutureme.database.entity.TagLibrary;
 import com.amiele.myfutureme.database.entity.User;
@@ -24,12 +24,14 @@ public class AddTagViewModel extends AndroidViewModel {
     private static int goalId;
     private static List<Tag> tagList;
     private static List<TagLibrary> tagLibraryList;
-    private static MediatorLiveData<List<Tag>> tagListMediatorLiveData = new MediatorLiveData<>();
-    private static MutableLiveData<Boolean> userResultMutableLiveData = new MutableLiveData<>();
+    private static MediatorLiveData<List<Tag>> tagListMediatorLiveData;
+    private static MutableLiveData<Boolean> userResultMutableLiveData;
 
     public AddTagViewModel(@NonNull Application application) {
         super(application);
         mAppRepo = new AppRepo(application);
+        tagListMediatorLiveData = new MediatorLiveData<>();
+        userResultMutableLiveData = new MutableLiveData<>();
         loadUser();
     }
 

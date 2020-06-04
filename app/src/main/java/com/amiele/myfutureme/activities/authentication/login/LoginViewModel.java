@@ -2,15 +2,13 @@ package com.amiele.myfutureme.activities.authentication.login;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.amiele.myfutureme.AppRepo;
-import com.amiele.myfutureme.R;
+import com.amiele.myfutureme.database.AppRepo;
 import com.amiele.myfutureme.database.entity.User;
 
 public class LoginViewModel extends AndroidViewModel {

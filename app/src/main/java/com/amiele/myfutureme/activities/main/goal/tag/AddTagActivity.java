@@ -188,8 +188,13 @@ public class AddTagActivity extends AppCompatActivity {
     private void AddTag()
     {
         String name = mTvTagName.getText().toString();
+        if (name.trim().length()==0) {
+            DisplayToast("Please type the tag name");
+            return;
+        }
         ColorDrawable color = (ColorDrawable) mTvTagName.getBackground();
         mAddTagViewModel.addLibraryTag(new TagLibrary(name, color.getColor(),mAddTagViewModel.getUserId()));
+        mTvTagName.setText("");
     }
 
     private  void DisplayToast(String text)

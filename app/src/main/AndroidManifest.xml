@@ -11,12 +11,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.main.summary.SummaryActivity"></activity>
-        <activity android:name=".activities.main.goal.tag.AddTagActivity" />
-        <activity android:name=".activities.main.goal.task.UpdateTaskActivity" />
-        <activity android:name=".activities.main.motivation.MotivationActivity" />
-        <activity android:name=".activities.main.goal.AddGoalActivity" />
-        <activity android:name=".activities.main.goal.GoalActivity" />
+        <activity
+            android:name=".activities.main.summary.SummaryActivity"
+            android:label="@string/title_activity_summary"></activity>
+        <activity
+            android:name=".activities.main.goal.tag.AddTagActivity"
+            android:label="@string/title_activity_tag_update"/>
+        <activity
+            android:name=".activities.main.goal.task.UpdateTaskActivity"
+            android:label="@string/title_activity_task_update"/>
+        <activity android:name=".activities.main.motivation.MotivationActivity"
+            />
+        <activity android:name=".activities.main.goal.AddGoalActivity"
+            android:label="@string/title_activity_add_goal"/>
+        <activity
+            android:name=".activities.main.goal.GoalActivity"
+            android:label="@string/title_activity_main"/>
         <activity
             android:name=".activities.authentication.register.RegisterActivity"
             android:label="@string/title_activity_register" />
@@ -29,9 +39,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.login.LoginActivity"
-            android:label="@string/title_activity_login" />
+
 
         <meta-data
             android:name="preloaded_fonts"

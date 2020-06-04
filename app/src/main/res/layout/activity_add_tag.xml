@@ -26,6 +26,7 @@
             android:id="@+id/add_tag_ll_add_tag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/purple_gradient"
             android:gravity="center"
             android:orientation="horizontal"
             android:padding="10dp">
@@ -50,7 +51,7 @@
                 android:contentDescription="image"
                 android:padding="5dp"
                 android:scaleType="fitCenter"
-                app:srcCompat="@android:drawable/ic_input_add" />
+                app:srcCompat="@drawable/color_picker_button" />
 
             <LinearLayout
                 android:id="@+id/add_tag_ll_tag_add"
@@ -69,7 +70,7 @@
                     android:contentDescription="image"
                     android:padding="5dp"
                     android:scaleType="fitCenter"
-                    app:srcCompat="@android:drawable/arrow_down_float" />
+                    app:srcCompat="@drawable/add_button" />
 
                 <TextView
                     android:layout_width="match_parent"

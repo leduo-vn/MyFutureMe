@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -176,6 +177,7 @@ public class AddGoalActivity extends AppCompatActivity {
         Task task = new Task(etTaskName.getText().toString(), 0);
         task.setGoalId(goalId);
         mGoalViewModel.addTask(task);
+        etTaskName.setText("");
     }
 
     public void onAddTagBtnClicked(View view)
@@ -206,6 +208,7 @@ public class AddGoalActivity extends AppCompatActivity {
 
     private void InitialEditView()
     {
+        setTitle(R.string.title_activity_edit_goal);
         goalId = Integer.parseInt(getIntent().getStringExtra("goal_id"));
         mGoalViewModel.setGoalId(goalId);
         AddGoalViewModel.loadAllLoad();
@@ -243,7 +246,8 @@ public class AddGoalActivity extends AppCompatActivity {
                 TextView tv = new TextView(getApplication());
                 tv.setText(tag.getName());
                 tv.setBackgroundColor(tag.getColor());
-                //tv.setBackground(mActivity.getDrawable(R.drawable.rounded_purple_border));
+                tv.setPadding(10,10,10,10);
+                tv.setTextColor(Color.WHITE);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.setMargins(10, 10, 10, 10);
                 tv.setLayoutParams(params);

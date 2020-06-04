@@ -172,20 +172,23 @@ public class UpdateTaskActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_done:
-                Toast.makeText(this, "Done selected", Toast.LENGTH_SHORT).show();
-                Intent returnIntent= new Intent();
-                setResult(RESULT_OK,returnIntent);
-                finish();
+                FinishActivity();
                 return true;
             case R.id.action_delete:
-                Toast.makeText(this, "Delete selected", Toast.LENGTH_SHORT).show();
+                mUpdateTaskViewModel.deleteTask();
+                FinishActivity();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-
+    private void FinishActivity()
+    {
+        Intent returnIntent= new Intent();
+        setResult(RESULT_OK,returnIntent);
+        finish();
+    }
     private void InitializeView()
     {
         mTvSubTaskDow = findViewById(R.id.update_task_et_sub_task_dow);
@@ -216,5 +219,7 @@ public class UpdateTaskActivity extends AppCompatActivity {
         }
         SubTask subTask = new SubTask(description, date, hour);
         mUpdateTaskViewModel.addSubTask(subTask);
+        mEtSubTaskDescription.setText("");
+        mEtSubTaskHour.setText("");
     }
 }

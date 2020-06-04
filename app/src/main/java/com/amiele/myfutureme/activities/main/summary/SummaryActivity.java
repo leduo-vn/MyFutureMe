@@ -1,12 +1,17 @@
 package com.amiele.myfutureme.activities.main.summary;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.audiofx.AudioEffect;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.amiele.myfutureme.R;
 import com.amiele.myfutureme.database.entity.Goal;
@@ -67,7 +72,6 @@ public class SummaryActivity extends AppCompatActivity {
                         dateName[(int) dateDiff] = subTask.getDate();
                     }
                 }
-               // DisplayBarChart(time,dateName);
                 DisplayLineChart(time,dateName);
             }
         });
@@ -118,6 +122,23 @@ public class SummaryActivity extends AppCompatActivity {
             }
         });
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.summary_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_done:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void DisplayPieChart(ArrayList<Integer> goalTimes, ArrayList<String> goalNames)

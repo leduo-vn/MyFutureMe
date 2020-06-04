@@ -181,7 +181,7 @@
                             android:adjustViewBounds="true"
                             android:background="@android:color/transparent"
                             android:contentDescription="image"
-                            android:padding="5dp"
+                            android:padding="3px"
                             android:scaleType="fitCenter"
                             app:srcCompat="@android:drawable/ic_menu_edit" />
                     </LinearLayout>
@@ -226,7 +226,7 @@
                             android:adjustViewBounds="true"
                             android:background="@android:color/transparent"
                             android:contentDescription="image"
-                            android:padding="5dp"
+                            android:padding="3px"
                             android:scaleType="fitCenter"
                             app:srcCompat="@android:drawable/ic_menu_my_calendar" />
                     </LinearLayout>
@@ -288,7 +288,7 @@
                             android:adjustViewBounds="true"
                             android:background="@android:color/transparent"
                             android:contentDescription="image"
-                            android:padding="5dp"
+                            android:padding="3px"
                             android:scaleType="fitCenter"
                             app:srcCompat="@android:drawable/ic_menu_edit" />
                     </LinearLayout>
@@ -356,7 +356,7 @@
                     android:contentDescription="image"
                     android:padding="5dp"
                     android:scaleType="fitCenter"
-                    app:srcCompat="@android:drawable/arrow_down_float" />
+                    app:srcCompat="@drawable/add_button" />
 
                 <TextView
                     android:layout_width="match_parent"

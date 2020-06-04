@@ -7,10 +7,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.Transformations;
 
-import com.amiele.myfutureme.AppRepo;
+import com.amiele.myfutureme.database.AppRepo;
 import com.amiele.myfutureme.database.entity.Goal;
 import com.amiele.myfutureme.database.entity.SubTask;
 import com.amiele.myfutureme.database.entity.Tag;
@@ -22,15 +21,16 @@ import java.util.List;
 public class SummaryViewModel extends AndroidViewModel {
     private static AppRepo mAppRepo;
     private static ArrayList<Goal> goalList;
-    private static MediatorLiveData<List<Goal>> goalMediatorLiveData = new MediatorLiveData<>();
-    MediatorLiveData<List<Task>> taskMediatorLiveData  = new MediatorLiveData<>();
+    private static MediatorLiveData<List<Goal>> goalMediatorLiveData;
+    MediatorLiveData<List<Task>> taskMediatorLiveData;
 
     private int userId;
 
     public SummaryViewModel(@NonNull Application application) {
         super(application);
         mAppRepo = new AppRepo(application);
-
+        goalMediatorLiveData = new MediatorLiveData<>();
+        taskMediatorLiveData  = new MediatorLiveData<>();
     }
 
     public void setUserId(int userId)

@@ -39,6 +39,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
     public static class WorkTaskViewHolder extends RecyclerView.ViewHolder {
         TextView tvName;
         TextView tvDescription;
+        TextView tvDueDate;
         LinearLayout llDetail;
         ImageButton iBtnDetailExpand;
         RecyclerView rvTask;
@@ -51,6 +52,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
             super(view);
             tvName = itemView.findViewById(R.id.recycle_view_goal_tv_name);
             tvDescription = itemView.findViewById(R.id.recycle_view_goal_tv_description);
+            tvDueDate = itemView.findViewById(R.id.recycle_view_goal_tv_due_date);
             iBtnDetailExpand = itemView.findViewById(R.id.recycle_view_goal_ibtn_detail_expand);
             llDetail = itemView.findViewById(R.id.recycle_view_goal_ll_detail);
             rvTask = itemView. findViewById(R.id.recycle_view_goal_rv_task);
@@ -132,6 +134,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
 
         holder.tvName.setText(currentGoal.getName());
         holder.tvDescription.setText(currentGoal.getDescription());
+        holder.tvDueDate.setText(currentGoal.getDueDate());
 
         final boolean isGoalDetailsExpanded = position==mExpandedPosition;
         if (isGoalDetailsExpanded)
@@ -147,6 +150,11 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
 
 
         holder.itemView.setOnClickListener(v -> {
+            mExpandedPosition = isGoalDetailsExpanded ? -1:position;
+            notifyItemChanged(position);
+        });
+
+        holder.iBtnDetailExpand.setOnClickListener(v->{
             mExpandedPosition = isGoalDetailsExpanded ? -1:position;
             notifyItemChanged(position);
         });

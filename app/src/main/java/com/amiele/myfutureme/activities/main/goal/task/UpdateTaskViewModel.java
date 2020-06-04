@@ -7,7 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
-import com.amiele.myfutureme.AppRepo;
+import com.amiele.myfutureme.database.AppRepo;
 import com.amiele.myfutureme.database.entity.SubTask;
 import com.amiele.myfutureme.database.entity.Task;
 
@@ -41,14 +41,17 @@ public class UpdateTaskViewModel extends AndroidViewModel {
         LiveData<List<SubTask>> subTasksLiveData = mAppRepo.loadSubTasks(taskId);
 
         taskMediatorLiveData.addSource(taskLiveData, task -> {
-
-            UpdateTaskViewModel.task.setTaskInfo(task);
-            taskMediatorLiveData.setValue(UpdateTaskViewModel.task);
+            if (task!=null) {
+                UpdateTaskViewModel.task.setTaskInfo(task);
+                taskMediatorLiveData.setValue(UpdateTaskViewModel.task);
+            }
         });
 
         taskMediatorLiveData.addSource(subTasksLiveData, subTasks -> {
-            task.setSubTasksList((ArrayList<SubTask>) subTasks);
-            taskMediatorLiveData.setValue(task);
+            if (subTasks!=null) {
+                task.setSubTasksList((ArrayList<SubTask>) subTasks);
+                taskMediatorLiveData.setValue(task);
+            }
         });
     }
 
@@ -73,6 +76,11 @@ public class UpdateTaskViewModel extends AndroidViewModel {
     void deleteSubTask(int subTaskId)
     {
         mAppRepo.deleteSubTask(subTaskId);
+    }
+
+    void deleteTask()
+    {
+        mAppRepo.deleteTask(taskId);
     }
 
     void addSubTask(SubTask subTask)

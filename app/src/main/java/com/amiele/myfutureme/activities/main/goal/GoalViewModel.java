@@ -10,7 +10,7 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
-import com.amiele.myfutureme.AppRepo;
+import com.amiele.myfutureme.database.AppRepo;
 import com.amiele.myfutureme.database.entity.Goal;
 import com.amiele.myfutureme.database.entity.Tag;
 import com.amiele.myfutureme.database.entity.Task;
@@ -24,17 +24,19 @@ public class GoalViewModel extends AndroidViewModel {
     private static AppRepo mAppRepo;
     private static User user;
     private static ArrayList<Goal> goalList;
-    private static MediatorLiveData<List<Goal>> goalMediatorLiveData = new MediatorLiveData<>();
-    private static MutableLiveData<Boolean> userResulMutableLiveData = new MutableLiveData<>();
+    private static MediatorLiveData<List<Goal>> goalMediatorLiveData;
+    private static MutableLiveData<Boolean> userResultMutableLiveData;
 
     public GoalViewModel(@NonNull Application application) {
         super(application);
         mAppRepo = new AppRepo(application);
+        goalMediatorLiveData = new MediatorLiveData<>();
+        userResultMutableLiveData = new MutableLiveData<>();
         loadUser();
     }
 
     LiveData<Boolean> getUserResult() {
-        return userResulMutableLiveData;
+        return userResultMutableLiveData;
     }
 
     LiveData<List<Goal>> getAllGoals() { return goalMediatorLiveData; }
@@ -56,7 +58,7 @@ public class GoalViewModel extends AndroidViewModel {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                userResulMutableLiveData.setValue(true);
+                userResultMutableLiveData.setValue(true);
             }
         }.execute();
     }
