@@ -1,7 +1,8 @@
 # My Future Me
 
-##Student Name: Duong Thuy Dung Le (Amie Le)
-##Student Id: 218086814
+## Student Name: Duong Thuy Dung Le (Amie Le)
+
+## Student Id: 218086814
 
 
 The application is created for the assessment 2 of SIT305.
@@ -38,4 +39,5 @@ In addition, the app could generate a summary of the progress using graphs. Ther
 
 ## Acknowledgments
 ColorPicker from https://github.com/kristiyanP/colorpicker
+
 MPAndroid for the chart https://github.com/PhilJay/MPAndroidChart
