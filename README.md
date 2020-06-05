@@ -36,7 +36,7 @@ In addition, the app could generate a summary of the progress using graphs. Ther
 ## Testing
 * SAMSUNG_E5 : physical device (my phone specifically!! XD)
 * Pixel XL API 27: virtual device 
-* Note: For the best use ofthe application, please use at vertical mode
+* Note: For the best use of the application, please use at portrait. There is not prior testing for the landscape mode
 
 ## Acknowledgments
 ColorPicker from https://github.com/kristiyanP/colorpicker
