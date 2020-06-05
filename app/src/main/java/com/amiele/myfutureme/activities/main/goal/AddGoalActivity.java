@@ -36,8 +36,14 @@ import com.google.android.flexbox.FlexboxLayout;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
-
+/**
+ * The Activity serves as Add and Edit purpose
+ * If it is ADD mode, it will create a new goal and letthe user to edit information.
+ *  If the user cancel the job, the goal is deleted
+ * If it is EDIT mode, it will get information of the goal using the goal_id received from the parent activity
+ */
 public class AddGoalActivity extends AppCompatActivity {
 
     public static final int ADD_TAG_ACTIVITY_REQUEST_CODE = 1;
@@ -46,8 +52,6 @@ public class AddGoalActivity extends AppCompatActivity {
     private int goalId =-1;
     String userId;
     String action;
-
-
 
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private TaskAdapter mAdapter;
@@ -71,6 +75,9 @@ public class AddGoalActivity extends AppCompatActivity {
 
         InitializeView();
 
+        // Get action pass from the Goal Activity
+        // if action is add then add the new goal and get the new id
+        // if action is edit, get goal information based on the id
         action = getIntent().getStringExtra("action");
         mGoalViewModel = new ViewModelProvider(this).get(AddGoalViewModel.class);
 
@@ -81,16 +88,18 @@ public class AddGoalActivity extends AppCompatActivity {
             InitialEditView();
 
         ArrayList<Task> mTaskList = new ArrayList<>();
-
+        //Set adapter and layout for the task recycle view
         mRvTask.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mAdapter = new TaskAdapter(mTaskList);
         mRvTask.setLayoutManager(layoutManager);
         mRvTask.setAdapter(mAdapter);
 
+        // if any task is chosen to be edit -> go the update task activity
         mAdapter.setOnItemClickListener(this::GoToUpdateTaskActivity
         );
 
+        // set onClick for the Date picker
         mIBtnDatePick.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
@@ -102,12 +111,14 @@ public class AddGoalActivity extends AppCompatActivity {
             datePickerDialog.show();
         });
 
+        // Update view with chosen date
         mDateSetListener = (view, year, month, dayOfMonth) -> {
             Date date = DateConverter.ConvertFromYearMonthDayToDate(year,month,dayOfMonth);
             String stDate = DateConverter.ConvertFromDateToString(date);
             mGoalViewModel.updateDueDate(stDate);
         };
 
+        // set listener to switch from edit text to text view mode and vice versa for Goal name
         miBtnGoalNameUpdate.setOnClickListener(arg0 -> {
             if (mVsGoalName.getCurrentView() != mEtGoalName){
                 mVsGoalName.showNext();
@@ -120,6 +131,7 @@ public class AddGoalActivity extends AppCompatActivity {
             }
         });
 
+        // set listener to switch from edit text to text view mode and vice versa for Goal Description
         miBtnGoalDescriptionUpdate.setOnClickListener(arg0 -> {
             if (mVsGoalDescription.getCurrentView() != mEtGoalDescription){
                 mVsGoalDescription.showNext();
@@ -171,15 +183,18 @@ public class AddGoalActivity extends AppCompatActivity {
         }
     }
 
+    // Get information fro the view and create a new task
     public void onAddTaskClicked(View view)
     {
         EditText etTaskName = findViewById(R.id.add_goal_et_task_name);
         Task task = new Task(etTaskName.getText().toString(), 0);
         task.setGoalId(goalId);
         mGoalViewModel.addTask(task);
+        // reset the view text
         etTaskName.setText("");
     }
 
+    // Pass the goal Id for the Add Tag Activity
     public void onAddTagBtnClicked(View view)
     {
         Intent addTagActivity = new Intent(this, AddTagActivity.class);
@@ -206,15 +221,20 @@ public class AddGoalActivity extends AppCompatActivity {
 
     }
 
+    // Initialize edit mode
+    // By load the information of the goal using its goal_id received from the Goal Activity
     private void InitialEditView()
     {
         setTitle(R.string.title_activity_edit_goal);
-        goalId = Integer.parseInt(getIntent().getStringExtra("goal_id"));
+        goalId = Integer.parseInt(Objects.requireNonNull(getIntent().getStringExtra("goal_id")));
         mGoalViewModel.setGoalId(goalId);
         AddGoalViewModel.loadAllLoad();
         DisplayGoal();
     }
 
+    // Initialize add view
+    // Create new goal and let the user to edit information
+    // if user cancel the add, the goal will be deleted
     private void InitializeAddView()
     {
         userId = getIntent().getStringExtra("user_id");
@@ -230,6 +250,7 @@ public class AddGoalActivity extends AppCompatActivity {
         }) ;
     }
 
+    // Pass the task_id to the UpdateTask Activity and start the Activity
     private void GoToUpdateTaskActivity(Task task)
     {
         Intent  updateTaskActivity= new Intent(this, UpdateTaskActivity.class);
@@ -237,8 +258,10 @@ public class AddGoalActivity extends AppCompatActivity {
         startActivityForResult(updateTaskActivity,EDIT_TASK_ACTIVITY_REQUEST_CODE);
     }
 
+    // Display goal to view
     private void DisplayGoal()
     {
+        // Observe the tags of goal and display them to the view
         mGoalViewModel.getAllTags().observe(this, tags -> {
             if (fbTag.getChildCount() > 0)
                 fbTag.removeAllViews();
@@ -255,11 +278,13 @@ public class AddGoalActivity extends AppCompatActivity {
             }
         });
 
+        // Observe all tasks and display them using recycle view
         mGoalViewModel.getAllTasks().observe(this, taskList -> {
             mAdapter.setTaskList(taskList);
             mAdapter.notifyDataSetChanged();
         });
 
+        // observe basic information about the goal such as name, description, duedate
         mGoalViewModel.getGoal().observe(this, goal -> {
             if (goal!=null) {
                 mEtGoalName.setText(goal.getName());

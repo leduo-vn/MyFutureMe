@@ -17,6 +17,9 @@ import com.amiele.myfutureme.database.entity.Task;
 
 import java.util.List;
 
+/**
+ * Add Goal View Model is used to handle the actions between Add Goal View and Database
+ */
 public class AddGoalViewModel extends AndroidViewModel {
 
     private static AppRepo mAppRepo;
@@ -35,25 +38,30 @@ public class AddGoalViewModel extends AndroidViewModel {
         goalIdResultMutableLiveData = new MutableLiveData<>();
     }
 
+    // Live Data to observe the goal information from database
     public LiveData<Goal> getGoal()
     {
         return goalLiveData;
     }
 
+    // Live data to observe tags information from database
     LiveData<List<Tag>> getAllTags()
     {
         return tagsLiveData;
     }
 
+    // Live data to observe tasks information from database
     LiveData<List<Task>> getAllTasks()
     {
         return tasksLiveData;
     }
 
+    //Live data to observe the result of get goal Id when create a new goal
     LiveData<Integer> getGoalIdResult() {
         return goalIdResultMutableLiveData;
     }
 
+    // Async task to add new goal and assign the id
     static void addGoal(Goal goal)
     {
         new AsyncTask<Void, Void, Long>() {
@@ -77,6 +85,7 @@ public class AddGoalViewModel extends AndroidViewModel {
 
     }
 
+    // Load tasks, tags, and goal from database using goalId
     static void loadAllLoad()
     {
         tasksLiveData = mAppRepo.loadTasks(goalId);

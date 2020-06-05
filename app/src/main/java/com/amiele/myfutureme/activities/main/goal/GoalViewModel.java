@@ -19,6 +19,9 @@ import com.amiele.myfutureme.database.entity.User;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Goal View Model is used to handle the actions between Goal View and Database
+ */
 public class GoalViewModel extends AndroidViewModel {
 
     private static AppRepo mAppRepo;
@@ -35,17 +38,21 @@ public class GoalViewModel extends AndroidViewModel {
         loadUser();
     }
 
+    // Live data to observe the load signed user
     LiveData<Boolean> getUserResult() {
         return userResultMutableLiveData;
     }
 
+    // Live data to observe the goals
     LiveData<List<Goal>> getAllGoals() { return goalMediatorLiveData; }
 
+    // If user signout - modify the status inside the database
     static void updateSignedInUserToSignedOut()
     {
         mAppRepo.UpdateUserSignInStatus(user.getId(),false);
     }
 
+    // Load signed in user
     private static void loadUser() {
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -68,6 +75,7 @@ public class GoalViewModel extends AndroidViewModel {
         return user.getId();
     }
 
+    // Load all information of the goals and their related tasks
     private static void loadAllLoad(int userId)
     {
        LiveData<List<Integer>> goalIds = Transformations.map(mAppRepo.loadGoals(userId), input -> {
@@ -83,9 +91,10 @@ public class GoalViewModel extends AndroidViewModel {
 
        LiveData<List<Task>> tasks = Transformations.switchMap(goalIds, input -> mAppRepo.loadTasks(input));
 
-        LiveData<List<Tag>> tags = Transformations.switchMap(goalIds, input -> mAppRepo.loadTags(input));
+       LiveData<List<Tag>> tags = Transformations.switchMap(goalIds, input -> mAppRepo.loadTags(input));
 
-        goalMediatorLiveData.addSource(tasks, taskList -> {
+       //if there is any update of tasks, Assign goals with new task lists
+       goalMediatorLiveData.addSource(tasks, taskList -> {
             for (Goal goal:goalList)
             {
                 goal.setTaskList(new ArrayList<>());
@@ -105,6 +114,7 @@ public class GoalViewModel extends AndroidViewModel {
             goalMediatorLiveData.setValue(goalList);
         });
 
+       // if there is any update with tags, Assign goals with new tag list
         goalMediatorLiveData.addSource(tags, tags1 -> {
             for (Goal goal:goalList)
                 goal.setTagList(new ArrayList<>());

@@ -32,6 +32,12 @@ import java.util.List;
 
 import petrov.kristiyan.colorpicker.ColorPicker;
 
+/**
+ * The activity is used for user to add tags to the goal
+ * User could search and filter the tags using name to speed up the progress
+ * Tags are assigned by user, user could choose name and background color based on his/her preference
+ * The color picker used for the choosing background color is obtained from the third party https://github.com/kristiyanP/colorpicker
+ */
 public class AddTagActivity extends AppCompatActivity {
 
     private AddTagViewModel mAddTagViewModel;
@@ -54,6 +60,7 @@ public class AddTagActivity extends AppCompatActivity {
 
         ArrayList<Tag> mTagList = new ArrayList<>();
 
+        // Set adapter and layout for the tag recycle view
         mRvTag.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mAdapter = new TagAdapter(mTagList);
@@ -65,19 +72,23 @@ public class AddTagActivity extends AppCompatActivity {
         mLlTagAdd.setOnClickListener(v -> AddTag());
 
         mAddTagViewModel = new ViewModelProvider(this).get(AddTagViewModel.class);
+        assert goalId != null;
         mAddTagViewModel.setGoalId(Integer.parseInt(goalId));
 
+        // If receive the user id then load tags based on the user id
         mAddTagViewModel.getUserResult().observe(this, aBoolean -> {
             if (aBoolean)
                 mAddTagViewModel.loadTags();
         });
 
+        // Observe all tags from database and display using recycle view
         mAddTagViewModel.getAllTags().observe(this, tagList -> {
                 ArrayList<Tag> tags = new ArrayList<>(tagList);
                 mAdapter.setTagList(tags);
                 mAdapter.notifyDataSetChanged();
         });
 
+        // Assign tag or remove tags from goal
         mAdapter.setOnItemClickListener(tag -> {
             if (tag.isChosen())
             {
@@ -90,6 +101,8 @@ public class AddTagActivity extends AppCompatActivity {
         });
     }
 
+    // Enable the search view
+    // If search is in place  the DONE button and the add tags feature are set INVISIBLE
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -150,6 +163,8 @@ public class AddTagActivity extends AppCompatActivity {
         mLlTagAdd = findViewById(R.id.add_tag_ll_tag_add);
     }
 
+    // Color Picker to choose the background for tag
+    // Using third party https://github.com/kristiyanP/colorpicker
     private void OpenColorPicker()
     {
         ColorPicker colorPicker = new ColorPicker(this);
@@ -174,7 +189,6 @@ public class AddTagActivity extends AppCompatActivity {
             @Override
             public void onChooseColor(int position,int color) {
                 mTvTagName.setBackgroundColor(color);
-                DisplayToast(Integer.toString(color));
             }
 
             @Override
@@ -185,6 +199,9 @@ public class AddTagActivity extends AppCompatActivity {
 
     }
 
+    // When user clicks add tag, get information from the view
+    // Tag name is required
+    // Create tag and add to the tag library
     private void AddTag()
     {
         String name = mTvTagName.getText().toString();

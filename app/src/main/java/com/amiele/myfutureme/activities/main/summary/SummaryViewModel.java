@@ -22,28 +22,31 @@ public class SummaryViewModel extends AndroidViewModel {
     private static AppRepo mAppRepo;
     private static ArrayList<Goal> goalList;
     private static MediatorLiveData<List<Goal>> goalMediatorLiveData;
-    MediatorLiveData<List<Task>> taskMediatorLiveData;
-
+    private LiveData<List<SubTask>> subTasks;
     private int userId;
 
     public SummaryViewModel(@NonNull Application application) {
         super(application);
         mAppRepo = new AppRepo(application);
         goalMediatorLiveData = new MediatorLiveData<>();
-        taskMediatorLiveData  = new MediatorLiveData<>();
+        subTasks = new MutableLiveData<>();
         goalList = new ArrayList<>();
     }
+    // MediatorLiveData to observe change from goal and the task
+    MediatorLiveData<List<Goal>> getGoalMediatorLiveData() {return goalMediatorLiveData;}
+
+    // Live data to observe change from subtask
+    LiveData<List<SubTask>> getSubTaskLiveData() {return subTasks;}
 
     public void setUserId(int userId)
     {
         this.userId = userId;
     }
-    LiveData<List<SubTask>> subTasks = new MutableLiveData<>();
 
-    public MediatorLiveData<List<Goal>> getGoalMediatorLiveData() {return goalMediatorLiveData;}
-    public LiveData<List<SubTask>> getSubTaskLiveData() {return subTasks;}
-    public void loadAllLoad()
+    // Load tasks, sub-tasks ad goals to  prepare for the summary
+    void loadAllLoad()
     {
+        // Loag goals and get all goal Ids
         LiveData<List<Integer>> goalIds = Transformations.map(mAppRepo.loadGoals(userId), input -> {
             ArrayList<Integer> goalIds1 = new ArrayList<>();
             for (Goal goal:input)
@@ -55,8 +58,10 @@ public class SummaryViewModel extends AndroidViewModel {
             return goalIds1;
         });
 
+        //Load task based on list of goal Ids
         LiveData<List<Task>> tasks = Transformations.switchMap(goalIds, input -> mAppRepo.loadTasks(input));
 
+        // Load Subtask based on list of task
         subTasks = Transformations.switchMap(tasks, input -> {
             ArrayList<Integer> taskIds = new ArrayList<>();
 //            for (Goal goal:goalList)
@@ -71,8 +76,10 @@ public class SummaryViewModel extends AndroidViewModel {
             return mAppRepo.loadSubTasks(taskIds);
         });
 
+        // Load tags based on list of goal Ids
         LiveData<List<Tag>> tags = Transformations.switchMap(goalIds, input -> mAppRepo.loadTags(input));
 
+        // Add goal information
         goalMediatorLiveData.addSource(tags, tags1 -> {
             for (Goal goal:goalList)
                 goal.setTagList(new ArrayList<>());
@@ -103,6 +110,7 @@ public class SummaryViewModel extends AndroidViewModel {
 //            goalMediatorLiveData.setValue(goalList);
 //        });
 
+        // Add tasks information
         goalMediatorLiveData.addSource(tasks, taskList -> {
             for (Goal goal:goalList)
                 goal.setTaskList(new ArrayList<>());

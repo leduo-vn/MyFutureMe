@@ -2,7 +2,6 @@ package com.amiele.myfutureme.activities.main.goal;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -36,7 +35,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
     private Activity mActivity;
     private int mExpandedPosition = -1;
 
-    public static class WorkTaskViewHolder extends RecyclerView.ViewHolder {
+    static class WorkTaskViewHolder extends RecyclerView.ViewHolder {
         TextView tvName;
         TextView tvDescription;
         TextView tvDueDate;
@@ -48,7 +47,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
         ProgressBar pbTime;
         ProgressBar pbWorkLoad;
 
-        public  WorkTaskViewHolder(View view) {
+        WorkTaskViewHolder(View view) {
             super(view);
             tvName = itemView.findViewById(R.id.recycle_view_goal_tv_name);
             tvDescription = itemView.findViewById(R.id.recycle_view_goal_tv_description);
@@ -63,7 +62,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
         }
     }
 
-    public GoalAdapter(Activity activity, ArrayList<Goal> goalList) {
+    GoalAdapter(Activity activity, ArrayList<Goal> goalList) {
         this.mGoalList = goalList;
         this.mActivity = activity;
     }
@@ -79,15 +78,17 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(@NonNull final WorkTaskViewHolder holder, final int position) {
-
+        // get current goal
         Goal currentGoal = mGoalList.get(position);
 
+        // Set adapter and layout for task recycle view
         holder.rvTask.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mActivity);
         final TaskAdapter adapter = new TaskAdapter(currentGoal.getTaskList(), mListener);
         holder.rvTask.setLayoutManager(layoutManager);
         holder.rvTask.setAdapter(adapter);
 
+        // Enable the scroll inside the task recycle view
         holder.rvTask.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
@@ -109,14 +110,15 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
             }
         });
 
-
+        // calculate the time left towards the due date and set for the progress bar
         int timeProgress = CalculateTimeProgress(currentGoal.getDueDate(),currentGoal.getCreatedDate());
         holder.pbTime.setSecondaryProgress(timeProgress);
 
-
+        // Calculate the workload ad set for the progress bar
         int workLoadProgress=CalculateWorkLoadProgress(currentGoal.getTaskList());
         holder.pbWorkLoad.setSecondaryProgress(workLoadProgress);
 
+        // Display the tag lists
         if (holder.fblTag.getChildCount() > 0)
             holder.fblTag.removeAllViews();
         for (Tag tag: currentGoal.getTagList())
@@ -132,10 +134,14 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
            holder.fblTag.addView(tv);
         }
 
+        //Set name, description and due date for goal
         holder.tvName.setText(currentGoal.getName());
         holder.tvDescription.setText(currentGoal.getDescription());
-        holder.tvDueDate.setText(currentGoal.getDueDate());
+        String date = currentGoal.getCreatedDate() + " -> " + currentGoal.getDueDate();
+        holder.tvDueDate.setText(date);
 
+        // If expandable mode is enabled then show detail of the goal
+        // if not, disappear the detail of the goal
         final boolean isGoalDetailsExpanded = position==mExpandedPosition;
         if (isGoalDetailsExpanded)
         {
@@ -176,29 +182,34 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.WorkTaskViewHo
             return mGoalList.size();
     }
 
-    public void setGoalList(List<Goal> goals)
+    void setGoalList(List<Goal> goals)
     {
         mGoalList = (ArrayList<Goal>) goals;
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
+    void setOnItemClickListener(OnItemClickListener listener) {
         this.mListener = listener;
     }
 
+    // Calculate the time progress
     private int CalculateTimeProgress(String dueDate,String createdDate)
     {
         Date d = new Date();
         String currentDate = DateConverter.ConvertFromDateToString(d);
+        // the number of day between the created goal date and the due date
         long createDiff = DateConverter.getDaysDifferentFromStringDate(dueDate,createdDate);
+        // the number of day between the current date and due date
         long currentDiff = DateConverter.getDaysDifferentFromStringDate(dueDate,currentDate);
 
         int timeProgress;
+        // get the percentage to calculate the progress
         if (createDiff==0) timeProgress =100;
         else timeProgress = 100 - (int) (currentDiff *100/createDiff);
 
         return timeProgress;
     }
 
+    // Calculate the workload by get all the workload from the task
     private int CalculateWorkLoadProgress(ArrayList<Task> tasks)
     {
         int workLoadProgress = 100;

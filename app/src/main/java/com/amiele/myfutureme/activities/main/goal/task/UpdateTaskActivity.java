@@ -18,7 +18,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.amiele.myfutureme.R;
@@ -29,7 +28,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
+/**
+ * The activity is used to update the information about task
+ * User could update the description, progress
+ * User could update sub-tasks and date and working time towards each sub-task
+ */
 public class UpdateTaskActivity extends AppCompatActivity {
 
     private UpdateTaskViewModel mUpdateTaskViewModel;
@@ -58,12 +63,13 @@ public class UpdateTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_update_task);
 
         InitializeView();
-        int taskId = Integer.parseInt(getIntent().getStringExtra("task_id"));
+        int taskId = Integer.parseInt(Objects.requireNonNull(getIntent().getStringExtra("task_id")));
 
 
         mUpdateTaskViewModel = new ViewModelProvider(this).get(UpdateTaskViewModel.class);
         mUpdateTaskViewModel.setTaskId(taskId);
 
+        // Set adapter and layout for the subtask recycle view
         ArrayList<SubTask> subTask = new ArrayList<>();
         mRvSubTask.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -71,8 +77,10 @@ public class UpdateTaskActivity extends AppCompatActivity {
         mRvSubTask.setLayoutManager(layoutManager);
         mRvSubTask.setAdapter(mAdapter);
 
+        // set onCLick listerner to add new subtask
         mLlSubTaskAdd.setOnClickListener(v -> AddSubTask());
 
+        // set Onclick listener to active the date picker
         mLlSubTaskDatePick.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
@@ -84,18 +92,20 @@ public class UpdateTaskActivity extends AppCompatActivity {
             datePickerDialog.show();
         });
 
+        // Display the date to the view
         mDateSetListener = (view, year, month, dayOfMonth) -> {
             Date date = DateConverter.ConvertFromYearMonthDayToDate(year,month,dayOfMonth);
             mTvSubTaskDow.setText(DateConverter.GetDayOfWeekFromDate(date));
             mTvSubTaskDate.setText(DateConverter.GetDayMonthYearFromDate(date));
         };
 
-
+        // Execute the delete subtask s
         mAdapter.setOnItemClickListener((subTask1, action) -> {
             if (action.equals("DELETE"))
                 mUpdateTaskViewModel.deleteSubTask(subTask1.getId());
         });
 
+        // Change the value of the text view to show the seekbar progress
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -114,12 +124,13 @@ public class UpdateTaskActivity extends AppCompatActivity {
             }
         });
 
+        // Update progress of seek bar as the progress of task
         mIBtnTaskProgressUpdate.setOnClickListener(v -> {
             mUpdateTaskViewModel.updateProgress(mTvTaskProgress.getText().toString());
             mIBtnTaskProgressUpdate.setVisibility(View.INVISIBLE);
         });
 
-
+        // set listener to switch from edit text to text view mode and vice versa for Goal name
         mIBtnTaskNameUpdate.setOnClickListener(arg0 -> {
             if (mVsTaskName.getCurrentView() != mEtTaskName){
                 mVsTaskName.showNext();
@@ -133,18 +144,21 @@ public class UpdateTaskActivity extends AppCompatActivity {
             }
         });
 
-
+        // load and observe the task information from the database
+        // display the task infromation and tis subtasks
         mUpdateTaskViewModel.loadTask();
         mUpdateTaskViewModel.getTask().observe(this, task -> {
             if (task!=null) {
-
+                // task name
                 mEtTaskName.setText(task.getName());
                 mTvTaskName.setText(task.getName());
                 mTvTaskProgress.setText(String.format(Locale.US,"%d",task.getProgress()));
 
+                //task progress
                 mSeekBar.setProgress(task.getProgress());
                 mIBtnTaskProgressUpdate.setVisibility(View.INVISIBLE);
 
+                // Calculate the total time contributed towards the task
                 int minute=0;
                 if (task.getSubTasksList()!=null)
                 for (SubTask subtask: task.getSubTasksList())
@@ -152,6 +166,8 @@ public class UpdateTaskActivity extends AppCompatActivity {
                 mTvTime.setText(String.format(Locale.US,"%d",minute));
                 mAdapter.setSubTaskList(task.getSubTasksList());
                 mAdapter.notifyDataSetChanged();
+
+                // update the task database with the time
                 if (minute != task.getMinute())
                 {
                     mUpdateTaskViewModel.updateMinute(minute);
@@ -208,6 +224,7 @@ public class UpdateTaskActivity extends AppCompatActivity {
         mTvTime = findViewById(R.id.update_task_tv_task_time);
     }
 
+    //get information from the view to add sub-task(name, time, date)
     private void AddSubTask()
     {
         String description = mEtSubTaskDescription.getText().toString() ;

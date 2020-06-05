@@ -68,11 +68,13 @@ public class SubTaskAdapter  extends RecyclerView.Adapter<SubTaskAdapter.SubTask
     public void onBindViewHolder(@NonNull SubTaskViewHolder holder, int position) {
         SubTask currentSubTask = subTaskList.get(position);
 
+        // Assign description, date, time for subtask
         holder.tvDescription.setText(currentSubTask.getDescription());
         holder.tvDow.setText(currentSubTask.getDate_DOW());
         holder.tvDate.setText(currentSubTask.getDate_Date());
         holder.tvMinute.setText(String.format(Locale.US,"%d",currentSubTask.getMinute()));
 
+        // If clicks the delete button, the pass the request for the activity to remove the subtask
         holder.iBtnSubTaskDelete.setOnClickListener(v -> {
             if (listener!=null)
                 listener.onItemClick(currentSubTask, "DELETE");

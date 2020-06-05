@@ -22,11 +22,13 @@ public class TagAdapter  extends RecyclerView.Adapter<TagAdapter.TagViewHolder> 
     private ArrayList<Tag> mTagList;
     private TagAdapter.OnItemClickListener listener= null;
 
+
     @Override
     public Filter getFilter() {
         return tagListFilter;
     }
 
+    // Filter the tag based on the name
     private Filter tagListFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -101,9 +103,11 @@ public class TagAdapter  extends RecyclerView.Adapter<TagAdapter.TagViewHolder> 
     public void onBindViewHolder(@NonNull TagViewHolder holder, int position) {
         Tag currentTag = mTagList.get(position);
 
+        // set tag name and background color
        holder.tvName.setText(currentTag.getName());
         holder.tvName.setBackgroundColor(currentTag.getColor());
 
+        // appear suitable check box or un-check box based on the status of the tag
         if (currentTag.isChosen())
         {
             holder.iBtnTagEdit.setImageResource(android.R.drawable.checkbox_on_background);

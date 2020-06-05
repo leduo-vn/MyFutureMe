@@ -17,6 +17,7 @@
     <string name="label_name">Name</string>
     <string name="label_description">Description</string>
     <string name="label_due_date">Due Date</string>
+    <string name="label_date">Date</string>
     <string name="label_minute">Minute</string>
 
     <string name="default_goal_name">Default Goal Name</string>

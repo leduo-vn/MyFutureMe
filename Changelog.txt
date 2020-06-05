@@ -6,3 +6,79 @@ Create the project
 First commit to Github
 Create overall structure (folders: activities, data, helpers, models)
 Add the simple login, register and main activity
+
+05/14/2020
+Add new UIs for the application (Work activity)
+
+05/16/2020
+End of week - Project is set up - add on Main page and work page
+5% of the project
+
+05/19/2020
+Create drawable file which has rounded border
+Refactor from To-do to Work Activity
+Update the dependencies and version for the application
+Add on Link from Main Activity to WorkActivity
+
+05/20/2020
+Add nested project bar for Work
+Add recycle View to show all work
+Add Task activity
+Clean up the code in the end of the day
+
+05/22/2020
+Create Add work Activity
+Add customize drawable buttons with border
+
+05/24/2020
+Add feature to get API and return the motivation quote
+Clean up the code
+Add permission for Internet
+
+05/24/2020
+End of the week
+Main UIs and fucntions are finished -> 50% of the project
+
+05/25/2020
+Modify the design of AddWork and Task
+Add on listener for the Work Recycle View
+
+05/26/2020
+Add features on all pages
+Create fake data as there is not database yet
+
+05/27/2020
+Add on AddTag feature for the Work
+Add filter for the tag recycle view
+Set up room database
+Clean up the code to preapre for add database
+Change from Work -> Goal
+Re-organizethe folder and structure
+
+05/28/2020
+Add entities and Daos files
+
+05/29/2020
+Add feature to keep logged in for user
+
+05/30/2020
+Connect database with Goal, task, tag
+
+05/31/2020
+Add livedata for variable to observe the changes from database
+clean up the code
+
+05/31/2020
+End Week -> database is added 85% of project
+
+06/01/2020
+Add summary activity to show Charts (Pie, Bar, Line)
+
+06/02-04/2020
+Fix UI
+
+06/05/2020
+Comment the code
+
+
+

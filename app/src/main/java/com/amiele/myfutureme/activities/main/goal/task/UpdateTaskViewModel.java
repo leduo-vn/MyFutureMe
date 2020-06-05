@@ -14,6 +14,9 @@ import com.amiele.myfutureme.database.entity.Task;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Update Task View Model is used to handle the actions between Update Task View and Database
+ */
 public class UpdateTaskViewModel extends AndroidViewModel {
     private static AppRepo mAppRepo;
 
@@ -27,6 +30,7 @@ public class UpdateTaskViewModel extends AndroidViewModel {
         taskMediatorLiveData = new MediatorLiveData<>();
     }
 
+    //Live data to observe tasks from database
     public LiveData<Task> getTask() {return taskMediatorLiveData;}
 
     void setTaskId(int taskId)
@@ -34,6 +38,7 @@ public class UpdateTaskViewModel extends AndroidViewModel {
         this.taskId = taskId;
     }
 
+    // Load task information and its sub-tasks from database
     void loadTask()
     {
         LiveData<Task> taskLiveData = mAppRepo.loadTask(taskId);

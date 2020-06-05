@@ -34,6 +34,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * The main activity shows the list of goals using recycle view
+ * Eac goal would include: name, description, tags, tasks, time left from due date and the current progress of work
+ */
 public class GoalActivity extends AppCompatActivity {
     public static final String GOAL_ACTION_ADD = "ADD";
     public static final String GOAL_ACTION_EDIT = "EDIT";
@@ -45,14 +49,13 @@ public class GoalActivity extends AppCompatActivity {
     private Quote mQuote;
     private GoalAdapter mAdapter;
     private TextView mTvQuote;
-    private RecyclerView mRvGoal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal);
 
-        mRvGoal = findViewById(R.id.goal_rv_goal);
+        RecyclerView mRvGoal = findViewById(R.id.goal_rv_goal);
         mTvQuote = findViewById(R.id.goal_tv_quote);
         ArrayList<Goal> mGoalList = new ArrayList<>();
 
@@ -61,7 +64,7 @@ public class GoalActivity extends AppCompatActivity {
 
         mGoalViewModel = new ViewModelProvider(this).get(GoalViewModel.class);
 
-
+        // Set apdater and layout for the goal recycle view
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mAdapter = new GoalAdapter(this, mGoalList);
         mRvGoal.setLayoutManager(layoutManager);
@@ -70,18 +73,20 @@ public class GoalActivity extends AppCompatActivity {
 
         // Set onClick for Adapter
         mAdapter.setOnItemClickListener(new GoalAdapter.OnItemClickListener() {
+            // direct to update task if user clicks on update task
             @Override
             public void onItemClick(Task task) {
                 GoToUpdateTaskActivity(task);
             }
 
+            // direct to update goal if  user clicks on update goal
             @Override
             public void onItemClick(Goal goal) {
                 GoToUpdateGoalActivity(goal);
             }
         });
 
-
+        // Observe  user id to load related goals information
         mGoalViewModel.getUserResult().observe(this, aBoolean -> {
             if (aBoolean) GetGoals();
         });
@@ -135,6 +140,9 @@ public class GoalActivity extends AppCompatActivity {
         startActivityForResult(addGoalActivity, GOAL_ACTIVITY_REQUEST_CODE);
     }
 
+    /**
+     * The method would call to get the quote from APi
+     */
     private void DisplayQuoteContentFromAPI()
     {
         Retrofit retrofit = new Retrofit.Builder()
@@ -171,6 +179,7 @@ public class GoalActivity extends AppCompatActivity {
 
     }
 
+    // Observe the goal lists to update the interface
     private void GetGoals()
     {
         mGoalViewModel.getAllGoals().observe(this, goals -> {

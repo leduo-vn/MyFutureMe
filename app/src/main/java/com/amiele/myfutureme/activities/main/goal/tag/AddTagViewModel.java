@@ -17,6 +17,9 @@ import com.amiele.myfutureme.database.entity.User;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Add Tag View Model is used to handle the actions between AddTag View and Database
+ */
 public class AddTagViewModel extends AndroidViewModel {
     private static AppRepo mAppRepo;
 
@@ -35,6 +38,7 @@ public class AddTagViewModel extends AndroidViewModel {
         loadUser();
     }
 
+    //Live data to observe tags received from database
     LiveData<List<Tag>> getAllTags()
     {
         return tagListMediatorLiveData;
@@ -64,11 +68,14 @@ public class AddTagViewModel extends AndroidViewModel {
         this.goalId = goalId;
     }
 
-
+    // Live data to observe user id of signed user from database
     LiveData<Boolean> getUserResult() {
         return userResultMutableLiveData;
     }
 
+    // Load all tags
+    // Load tag library based on user id
+    // Assign tags which specific goals
     static void loadTags()
     {
         LiveData<List<TagLibrary>> taskLibraryLiveDataList = mAppRepo.loadAllLibraryTag(user.getId());

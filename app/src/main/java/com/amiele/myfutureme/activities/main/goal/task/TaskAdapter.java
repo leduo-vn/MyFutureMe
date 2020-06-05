@@ -71,6 +71,7 @@ public class TaskAdapter  extends RecyclerView.Adapter<TaskAdapter.TaskViewHolde
     @Override
     public void onBindViewHolder(@NonNull TaskAdapter.TaskViewHolder holder, final int position) {
         Task currentTask = mTaskList.get(position);
+        // Assign task name and progress
         holder.tvName.setText(currentTask.getName());
         holder.pbProgress.setSecondaryProgress(currentTask.getProgress());
 
