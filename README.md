@@ -15,8 +15,9 @@ The knowledge has applied for the program included:
 - Android Development
 
 ## Include
-* Full Source Code of the game
-* The video running the application (Youtube Link: https://youtu.be/Af7XLAeFP9k )
+* Full Source Code of the application
+* Project proposal document
+* Youtube Link: https://youtu.be/Af7XLAeFP9k 
 
 ## Overview
 My Future Me is the goal tracker application that would help you to manage your goal and the current progress towards the goal.
