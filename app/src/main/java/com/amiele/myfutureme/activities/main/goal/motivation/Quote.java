@@ -1,23 +1,10 @@
-package com.amiele.myfutureme.activities.main.motivation;
+package com.amiele.myfutureme.activities.main.goal.motivation;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
 public class Quote {
-
-//    @SerializedName("text")
-//    private String content;
-//
-//    private String author;
-//
-//    public String getContent() {
-//        return content;
-//    }
-//
-//    public String getAuthor() {
-//        return author;
-//    }
 
     @SerializedName("qotd_date")
     private String date;

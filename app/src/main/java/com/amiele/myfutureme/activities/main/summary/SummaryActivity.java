@@ -116,7 +116,6 @@ public class SummaryActivity extends AppCompatActivity {
                         }
                     }
                 }
-
                 DisplayBarChart(tagTimes, tagNames);
                 DisplayPieChart(goalTimes,goalNames);
             }
@@ -252,5 +251,6 @@ public class SummaryActivity extends AppCompatActivity {
         description.setText("Hour Per Tag");
         barChart.setDescription(description);
         barChart.invalidate();
+        barChart.refreshDrawableState();
     }
 }

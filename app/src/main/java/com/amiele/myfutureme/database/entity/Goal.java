@@ -49,8 +49,6 @@ public class Goal {
     @Ignore
     private ArrayList<Tag> tagList = new ArrayList<>();
 
-
-
     @Ignore
     public Goal(int userId, String name, String description, String dueDate, String createdDate, int color)
     {
@@ -115,9 +113,6 @@ public class Goal {
         this.minute = minute;
     }
 
-
-
-
     public void addTask(Task task){
         taskList.add(task);}
 
@@ -146,11 +141,6 @@ public class Goal {
 
     public void setTaskList(ArrayList<Task> taskList) {
         this.taskList = taskList;
-    }
-
-    public void addTask(String name)
-    {
-        taskList.add(new Task(name));
     }
 
     public ArrayList<Tag> getTagList() {

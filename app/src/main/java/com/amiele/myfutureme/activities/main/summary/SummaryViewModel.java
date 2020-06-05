@@ -31,6 +31,7 @@ public class SummaryViewModel extends AndroidViewModel {
         mAppRepo = new AppRepo(application);
         goalMediatorLiveData = new MediatorLiveData<>();
         taskMediatorLiveData  = new MediatorLiveData<>();
+        goalList = new ArrayList<>();
     }
 
     public void setUserId(int userId)
@@ -54,20 +55,18 @@ public class SummaryViewModel extends AndroidViewModel {
             return goalIds1;
         });
 
-        LiveData<List<Task>> tasks = Transformations.switchMap(goalIds, input ->{
-            return mAppRepo.loadTasks(input);
-        } );
+        LiveData<List<Task>> tasks = Transformations.switchMap(goalIds, input -> mAppRepo.loadTasks(input));
 
         subTasks = Transformations.switchMap(tasks, input -> {
             ArrayList<Integer> taskIds = new ArrayList<>();
-            for (Goal goal:goalList)
-                    goal.setTaskList(new ArrayList<>());
+//            for (Goal goal:goalList)
+//                    goal.setTaskList(new ArrayList<>());
             for (Task task:input)
             {
                 taskIds.add(task.getId());
-                for (Goal goal: goalList)
-                    if (goal.getId() == task.getGoalId())
-                        goal.addTask(task);
+//                for (Goal goal: goalList)
+//                    if (goal.getId() == task.getGoalId())
+//                        goal.addTask(task);
             }
             return mAppRepo.loadSubTasks(taskIds);
         });
@@ -92,14 +91,28 @@ public class SummaryViewModel extends AndroidViewModel {
             goalMediatorLiveData.setValue(goalList);
         });
 
-        goalMediatorLiveData.addSource(subTasks, subTaskList -> {
-            for (Goal goal:goalList) {
-                goal.setMinute(0);
-                if (goal.getTaskList() != null)
-                    for (Task task : goal.getTaskList())
-                        for (SubTask subTask:subTaskList)
-                            if (subTask.getTaskId()== task.getId())
-                                    goal.setMinute(goal.getMinute()+subTask.getMinute());
+//        goalMediatorLiveData.addSource(subTasks, subTaskList -> {
+//            for (Goal goal:goalList) {
+//                goal.setMinute(0);
+//                if (goal.getTaskList() != null)
+//                    for (Task task : goal.getTaskList())
+//                        for (SubTask subTask:subTaskList)
+//                            if (subTask.getTaskId()== task.getId())
+//                                    goal.setMinute(goal.getMinute()+subTask.getMinute());
+//            }
+//            goalMediatorLiveData.setValue(goalList);
+//        });
+
+        goalMediatorLiveData.addSource(tasks, taskList -> {
+            for (Goal goal:goalList)
+                goal.setTaskList(new ArrayList<>());
+            for (Task task:taskList)
+            {
+                for (Goal goal: goalList)
+                    if (goal.getId() == task.getGoalId()) {
+                        goal.addTask(task);
+                        break;
+                    }
             }
             goalMediatorLiveData.setValue(goalList);
         });

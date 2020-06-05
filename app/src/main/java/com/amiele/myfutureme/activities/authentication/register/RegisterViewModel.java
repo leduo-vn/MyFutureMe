@@ -11,23 +11,33 @@ import androidx.lifecycle.MutableLiveData;
 import com.amiele.myfutureme.database.AppRepo;
 import com.amiele.myfutureme.database.entity.User;
 
+/**
+ * Register View Model is used to handle the actions between Register View and Database
+ */
 public class RegisterViewModel extends AndroidViewModel {
 
     private static AppRepo mAppRepo;
     private static User user;
+    private static MutableLiveData<String> registerResult;
 
     public RegisterViewModel(@NonNull Application application) {
         super(application);
         mAppRepo = new AppRepo(application);
-
+        registerResult = new MutableLiveData<>();
     }
 
-    private static MutableLiveData<String> registerResult = new MutableLiveData<>();
-    public LiveData<String> getRegisterResult() {
+    /**
+     * @return livedata to identify the result of register
+     */
+    LiveData<String> getRegisterResult() {
         return registerResult;
     }
 
-    public static void register(User newUser) {
+    /**
+     * Async task to register the user
+     * @param newUser : information of the new user
+     */
+    static void register(User newUser) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
@@ -48,17 +58,5 @@ public class RegisterViewModel extends AndroidViewModel {
         }.execute();
 
     }
-
-
-    public void addUser(User user)
-   {
-        mAppRepo.addUser(user);
-   }
-
-    public LiveData<User> getUser(String email) {
-        LiveData<User> user = mAppRepo.getUserByEmail(email);
-        return user;
-    }
-
 
 }

@@ -1,6 +1,4 @@
-package com.amiele.myfutureme.activities.main.motivation;
-
-import com.amiele.myfutureme.activities.main.motivation.Quote;
+package com.amiele.myfutureme.activities.main.goal.motivation;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

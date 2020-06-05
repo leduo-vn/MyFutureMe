@@ -11,10 +11,15 @@ import androidx.lifecycle.MutableLiveData;
 import com.amiele.myfutureme.database.AppRepo;
 import com.amiele.myfutureme.database.entity.User;
 
+/**
+ * Login View Model is used to handle the actions between Login View and Database
+ */
 public class LoginViewModel extends AndroidViewModel {
 
     private static AppRepo mAppRepo;
     private static User user;
+    private static MutableLiveData<String> loginResult ;
+    private static MutableLiveData<String> loggedResult ;
 
     public LoginViewModel(@NonNull Application application) {
         super(application);
@@ -24,22 +29,29 @@ public class LoginViewModel extends AndroidViewModel {
         loadSignedUser();
     }
 
-    private static MutableLiveData<String> loginResult ;
-    public LiveData<String> getLoginResult() {
+    /**
+     * @return LiveData to identify whether login is successful or not
+     */
+    LiveData<String> getLoginResult() {
         return loginResult;
     }
 
-    private static MutableLiveData<String> loggedResult ;
-    public LiveData<String> getLoggedResult() {
+    /**
+     * @return LiveData to identify whether user is logged
+     */
+    LiveData<String> getLoggedResult() {
         return loggedResult;
     }
 
+    /**
+     * Async task to load signed user
+     * If signed user existed means the user is already logged in so we could direct the user to main activity
+     */
     private static void loadSignedUser() {
         new AsyncTask<Void, Void, User>() {
             @Override
             protected User doInBackground(Void... voids) {
-                User user = mAppRepo.getSignedInUser();
-                return user;
+                return mAppRepo.getSignedInUser();
             }
 
             @Override
@@ -53,7 +65,12 @@ public class LoginViewModel extends AndroidViewModel {
         }.execute();
     }
 
-    public static void login(String email,String password) {
+    /**
+     * Async task for login user
+     * @param email login email
+     * @param password login password
+     */
+    static void login(String email, String password) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {

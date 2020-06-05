@@ -20,7 +20,7 @@
         <activity
             android:name=".activities.main.goal.task.UpdateTaskActivity"
             android:label="@string/title_activity_task_update"/>
-        <activity android:name=".activities.main.motivation.MotivationActivity"
+        <activity android:name=".activities.main.goal.motivation.MotivationActivity"
             />
         <activity android:name=".activities.main.goal.AddGoalActivity"
             android:label="@string/title_activity_add_goal"/>
